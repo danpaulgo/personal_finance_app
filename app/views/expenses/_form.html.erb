@@ -1,0 +1,12 @@
+<%= form_for @expense do |f| %>
+  <%= f.label :type, "Name" %>
+  <%= f.text_field :type %>
+  <br>
+  <%= f.label :amount %>
+  <%= f.number_field:amount, step: :any %>
+  <br>
+  <%= f.label :frequency %>
+  <%= f.select :frequency, ['Weekly', 'Bi-weekly', 'Monthly', 'Quarterly', 'Yearly']%>
+  <br>
+  <%= f.submit yield(:button) %>
+<% end %>

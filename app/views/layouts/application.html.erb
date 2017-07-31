@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PersonalFinanceApp</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% flash.each do |message_type, message| %>
+      <!-- <div class="alert alert-<%= message_type %>">
+        <%= message %> 
+      </div> -->
+      <ul>
+        <li><%= message_type.capitalize %>: <%= message %></li>
+      </ul>
+      <% end %>
+    <% flash.clear %>
+    <%= yield %>
+  </body>
+</html>

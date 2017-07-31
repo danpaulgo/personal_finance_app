@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  value: 1
+  estimated_value: false
+  payoff_date: 1
+  estimated_payoff: false
+
+two:
+  type: 
+  value: 1
+  estimated_value: false
+  payoff_date: 1
+  estimated_payoff: false

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  amount: 1.5
+  frequency: MyString
+
+two:
+  type: 
+  amount: 1.5
+  frequency: MyString
