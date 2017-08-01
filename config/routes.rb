@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
 
   root to: 'users#show'
-  get 'sessions/new', as: 'login'
-  post 'sessions', to: 'sessions#create'
-  delete 'sessions', to: 'sessions#destroy', as: 'logout'
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 
-  resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
+  # get ':username', to: 'users#show', as: 'user_path'
+  resources :users, only: [:new, :create, :edit, :update, :destroy] do
 
     USER_RESOURCES = [:incomes, :assets, :credits, :debts, :expenses]
 

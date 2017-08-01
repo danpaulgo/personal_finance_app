@@ -2,13 +2,14 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  has_many :incomes
   has_many :expenses
-  has_many :liabilities
-  has_many :liquid_assets
-  has_many :non_liquid_assets
-  has_many :people
+  has_many :debts
+  has_many :assets
+  has_many :credits
 
   validates :name, :username, :password, presence: true
+  validates :username, uniqueness: true
 
   def to_s
     self.name
