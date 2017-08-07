@@ -1,0 +1,36 @@
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Amount</th>
+    <% if $new_resource.methods.include?(:frequency) %>
+      <th>Frequency</th>
+    <% end %>
+    <% if $new_resource.methods.include?(:interest) %>
+      <th>Interest Rate</th>
+    <% end %>
+    <% if $new_resource.methods.include?(:liquid) %>
+      <th>Liquid?</th>
+    <% end %>
+    <% if $new_resource.methods.include?(:description) %>
+      <th>Description</th>
+    <% end %>
+  </tr>
+  <% @all.each do |a| %>
+    <tr>
+      <td><%= a.name %></td>
+      <td>$<%= a.amount %></td>
+      <% if a.methods.include?(:frequency) %>
+         <td><%= a.frequency %></td>
+      <% end %>
+      <% if a.methods.include?(:interest) %>
+         <td><%= a.interest %>%</td>
+      <% end %>
+      <% if a.methods.include?(:liquid) %>
+         <td><%= liquid?(a) %></td>
+      <% end %>
+      <% if a.methods.include?(:description) %>
+         <td><%=  %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

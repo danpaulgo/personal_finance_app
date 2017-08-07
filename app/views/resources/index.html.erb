@@ -1,0 +1,21 @@
+
+<h1><%= $resource_plural.capitalize %></h1>
+<table>
+  <% table_columns = input_fields($new_resource) %>
+  <tr>
+  <% table_columns.each do |col| %>
+    <th><%= col.capitalize %></th>
+  <% end %>
+  </tr>
+  <% @all.each do |resource| %>
+    <tr>
+    <% table_columns.each do |column| %>
+      <td><%= prep_data(resource, column) %></td>
+    <% end %>
+    </tr>
+  <% end %>
+</table>
+
+
+
+

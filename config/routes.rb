@@ -6,19 +6,18 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
 
   # get ':username', to: 'users#show', as: 'user_path'
-  resources :users, only: [:new, :create, :edit, :update, :destroy] do
+  resources :users, only: [:new, :create, :edit, :update, :destroy] 
 
-    USER_RESOURCES = [:incomes, :assets, :credits, :debts, :expenses]
+  USER_RESOURCES = [:incomes, :assets, :credits, :debts, :expenses]
 
-    USER_RESOURCES.each do |r|
-      resources r, only: [:index, :new, :create, :edit, :update, :destroy]
-    end
-
+  USER_RESOURCES.each do |r|
+    resources r, only: [:index, :new, :create, :edit, :update, :destroy]
   end
 
-  get 'users/:id/future_net_worth', to: 'future_net_worth#new', as: 'future_net_worth_form'
 
-  post 'users/:id/future_net_worth', to: 'future_net_worth#show', as: 'future_net_worth'
+  get 'future_net_worth', to: 'future_net_worth#new', as: 'future_net_worth_form'
+
+  post 'future_net_worth', to: 'future_net_worth#show', as: 'future_net_worth'
 
   # resources :expenses, only: [:index, :new, :create, :edit, :update, :delete]
   # get 'users/:id/incomes', to: 'users#incomes', as: :incomes

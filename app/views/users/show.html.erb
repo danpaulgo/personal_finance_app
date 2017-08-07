@@ -1,12 +1,12 @@
 <h1><%= @user %></h1>
 <h3><%= @user.username %></h3>
 <h4>Assets</h4>
-<p><%= link_to "Incomes", user_incomes_path(@user) %></p>
-<p><%= link_to "Assets", user_assets_path(@user) %></p>
-<p><%= link_to "Credits", user_credits_path(@user) %></p>
+<p><%= link_to "Incomes", incomes_path %></p>
+<p><%= link_to "Assets", assets_path %></p>
+<p><%= link_to "Credits", credits_path %></p>
 <h4>Liabilities</h4>
-<p><%= link_to "Debt", user_debts_path(@user) %></p>
-<p><%= link_to "Expenses", user_expenses_path(@user) %></p>
+<p><%= link_to "Debt", debts_path %></p>
+<p><%= link_to "Expenses", expenses_path %></p>
 <h4>Net Worth</h4>
 <p><%= link_to "Calculate Future Net Worth", future_net_worth_form_path(@user) %>
 <p>Liquid Net Worth: <%= liquid_net_worth(@user) %></p>
