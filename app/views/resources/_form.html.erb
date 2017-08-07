@@ -1,0 +1,18 @@
+<%= form_for @page_resource do |f| %>
+  <% input_fields(@page_resource).each do |attribute| %>
+    <% if attribute != "liquid" %>
+      <%= form_field(f, attribute) %>
+      <br>
+    <% end %>
+  <% end %>
+  <% if @page_resource.attributes.include?("liquid") %>
+    <%= f.label "Liquid?" %>
+    <br>
+    <%= f.label :liquid, "No", value: "false" %>
+    <%= f.radio_button :liquid, false %>
+    <%= f.label :liquid, "Yes", value: "true" %>
+    <%= f.radio_button :liquid, true %>
+    <br>
+  <% end %>
+  <%= f.submit "Add #{@page_resource.class}" %>
+<% end %>

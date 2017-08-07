@@ -1,6 +1,6 @@
 module ResourcesHelper
 
-  PERMITTED_INPUT = ["name", "amount", "frequency", "interest", "description"]
+  PERMITTED_INPUT = ["name", "amount", "frequency", "interest", "description", "liquid"]
 
   def input_fields(resource)
     input_fields = []
@@ -29,11 +29,11 @@ module ResourcesHelper
   def form_field(f, attribute)
     frequency_selections = ["Daily", "Weekly", "Monthly", "Yearly"]
     if attribute == "amount" 
-      f.number_field :amount, placeholder: "Amount (USD)", step: :any
+      f.number_field :amount, placeholder: "Amount (USD)", step: '0.01', value: (f.object.amount.nil? ? nil : ('%.2f' % f.object.amount))
     elsif attribute == "interest"
-      f.number_field :amount, placeholder: "Interest Rate (%)", step: :any
+      f.number_field :amount, placeholder: "Interest Rate (%)", step: :any, value: (f.object.amount.nil? ? nil : ('%.2f' % f.object.amount))
     elsif attribute == "frequency"
-      f.select(:frequency, options_for_select(frequency_selections), include_blank: "Select Frequency")
+      f.select(:frequency, options_for_select(frequency_selections, selected: f.object.frequency), include_blank: "Select Frequency")
     elsif attribute == "description"
        f.text_area attribute.to_sym, placeholder: attribute.capitalize
     else
@@ -43,6 +43,7 @@ module ResourcesHelper
 
     private
       
+    # Preps data to be displayed on index page
     def liquid_output(object)
       object.liquid == true ? "Yes" : "No"
     end
@@ -53,6 +54,16 @@ module ResourcesHelper
 
     def interest_output(object)
       object.interest.to_s + "%"
+    end
+
+    # Preps form fields for specific attributes
+    def form_amount(f)
+    end
+
+    def form_interest(f)
+    end
+
+    def form_frequency(f)
     end
 
 end

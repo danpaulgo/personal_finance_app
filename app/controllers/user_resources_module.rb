@@ -6,7 +6,7 @@ module UserResources
   end
 
   def new
-    @new = $new_resource
+    @page_resource = $new_resource
     render 'resources/new.html.erb'
   end
 
@@ -19,7 +19,8 @@ module UserResources
   end
 
   def edit
-    @current = @resource.constantize.find_by(id: params[:id])
+    @page_resource = $resource.constantize.find_by(id: params[:id])
+    render 'resources/edit.html.erb'
   end
 
   private

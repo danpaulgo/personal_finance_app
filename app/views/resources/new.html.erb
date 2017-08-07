@@ -1,8 +1,2 @@
-<h1>New <%= @new.class %></h1>
-<%= form_for @new do |f| %>
-  <% input_fields(@new).each do |attribute| %>
-    <%= form_field(f, attribute) %>
-    <br>
-  <% end %>
-  <%= f.submit "Add #{@new.class}" %>
-<% end %>
+<h1>New <%= @page_resource.class %></h1>
+<%= render 'resources/form' %>
