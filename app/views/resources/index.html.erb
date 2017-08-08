@@ -12,9 +12,12 @@
     <% table_columns.each do |column| %>
       <td><%= prep_data(resource, column) %></td>
     <% end %>
+    <td><%= link_to "edit", "/#{$resource_plural}/#{resource.id}/edit" %></td>
+    <td><%= link_to "delete", "/#{$resource_plural}/#{resource.id}", method: :delete, data:{confirm: "Are you sure you would like to delete this item?"} %></td>
     </tr>
   <% end %>
 </table>
+<%= link_to "Add #{$resource}", "/#{$resource_plural}/new" %>
 
 
 

@@ -51,4 +51,7 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  
+  # Changes the rails built in "/assets" path to "/assetz" so that we may post to the "assets" resourcs
+  config.assets.prefix = '/assetz'
 end

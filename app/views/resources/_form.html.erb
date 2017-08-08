@@ -8,11 +8,11 @@
   <% if @page_resource.attributes.include?("liquid") %>
     <%= f.label "Liquid?" %>
     <br>
-    <%= f.label :liquid, "No", value: "false" %>
-    <%= f.radio_button :liquid, false %>
     <%= f.label :liquid, "Yes", value: "true" %>
     <%= f.radio_button :liquid, true %>
+    <%= f.label :liquid, "No", value: "false" %>
+    <%= f.radio_button :liquid, false %>
     <br>
   <% end %>
-  <%= f.submit "Add #{@page_resource.class}" %>
+  <%= f.submit yield(:button_text) %>
 <% end %>

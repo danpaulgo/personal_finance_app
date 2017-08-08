@@ -11,23 +11,40 @@ module UserResources
   end
 
   def create
-    binding.pry
-    @current = $resource.constantize.new(resource_params)
-    @current.user_id = current_user.id
-    redirect_to "/#{$resource_plural}" if @current.save
-    binding.pry
+    @page_resource = $resource.constantize.new(resource_params)
+    @page_resource.user_id = current_user.id
+    if @page_resource.save
+      flash[:success] = "#{$resource} saved"
+      redirect_to "/#{$resource_plural}" 
+    end
   end
 
   def edit
-    @page_resource = $resource.constantize.find_by(id: params[:id])
     render 'resources/edit.html.erb'
   end
 
-  private
+  def update
+    @page_resource.update_attributes(resource_params)
+    if @page_resource.save
+      flash[:success] = "#{$resource} updated"
+      redirect_to "/#{$resource_plural}" 
+    end
+  end
+
+  def destroy
+    if @page_resource.destroy
+      flash[:success] = "#{$resource} deleted"
+      redirect_to "/#{$resource_plural}"
+    end
+  end
+
+  # private :resource_params
 
     def resource_params
-      params.require($resource.downcase.to_sym).permit($new_resource.attributes.keys.map{|k| k.to_sym})
+      params.require($resource.downcase.to_sym).permit(input_fields($new_resource).map{|pi| pi.to_sym})
       # MAY WORK WITHOUT ".to_sym" METHOD
     end
+
+  # private :resource_params
 
 end

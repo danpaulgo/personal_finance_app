@@ -88,4 +88,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Changes the rails built in "/assets" path to "/assetz" so that we may post to the "assets" resourcs
+  config.assets.prefix = '/assetz'
+end
 end

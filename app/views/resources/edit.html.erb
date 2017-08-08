@@ -1,2 +1,3 @@
 <h1>Edit <%= @page_resource.class %></h1>
+<% provide(:button_text, "Update #{$resource}") %>
 <%= render 'resources/form' %>
