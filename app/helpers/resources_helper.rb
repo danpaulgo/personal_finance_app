@@ -1,13 +1,12 @@
 module ResourcesHelper
 
-  $permitted_input = ["name", "amount", "frequency", "interest", "description", "liquid"]
-
   def input_fields(resource)
+    permitted_input = ["name", "amount", "frequency", "interest", "description", "liquid"]
     input_fields = []
     resource.attributes.keys.each do |key|
       input_fields.push(key) unless key == "id" || key == "created_at" || key== "updated_at" || key == "user_id" 
     end
-    $permitted_input & input_fields
+    permitted_input & input_fields
   end
 
   def prep_data(object, column)
@@ -70,7 +69,7 @@ module ResourcesHelper
     end
 
     def form_description(f)
-      f.text_area attribute.to_sym, placeholder: attribute.capitalize
+      f.text_area :description, placeholder: "Description"
     end
 
 end
