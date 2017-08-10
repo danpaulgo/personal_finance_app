@@ -2,7 +2,7 @@ class UserResourcesController < ApplicationController
   # require_relative 'user_resources_module.rb'
   # include UserResources
   include SessionsHelper
-  include ResourcesHelper
+  include UserResourcesHelper
 
   before_action :access_granted
   before_action :correct_user, only: [:edit, :update, :destroy]

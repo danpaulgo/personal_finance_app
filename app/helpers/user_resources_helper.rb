@@ -1,4 +1,4 @@
-module ResourcesHelper
+module UserResourcesHelper
 
   def input_fields(resource)
     permitted_input = ["name", "amount", "frequency", "interest", "description", "liquid"]
@@ -20,10 +20,6 @@ module ResourcesHelper
       object[column]
     end
   end
-
-  # def form_lavel(attribute)
-  #   f.label attribute.to_sym+":"
-  # end
 
   def form_field(f, attribute)
     if attribute == "amount" 
