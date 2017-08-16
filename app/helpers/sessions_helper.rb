@@ -5,7 +5,7 @@ module SessionsHelper
   end
 
   def current_user
-    User.find_by(id: session[:id])
+    User.find_by(id: session[:id]) if session
   end
 
 end

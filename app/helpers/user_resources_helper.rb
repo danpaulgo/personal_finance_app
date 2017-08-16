@@ -1,7 +1,7 @@
 module UserResourcesHelper
 
   def input_fields(resource)
-    permitted_input = ["name", "amount", "frequency", "interest", "description", "liquid"]
+    permitted_input = ["name", "amount", "frequency", "interest", "description", "liquid", "compound_frequency"]
     input_fields = []
     resource.attributes.keys.each do |key|
       input_fields.push(key) unless key == "id" || key == "created_at" || key== "updated_at" || key == "user_id" 
@@ -9,6 +9,7 @@ module UserResourcesHelper
     permitted_input & input_fields
   end
 
+  # Uses below functions to prepares data to be presented in table on index page by taking data from an object and placing it in a certain column
   def prep_data(object, column)
     if column == "liquid"
       liquid_output(object)
@@ -16,6 +17,8 @@ module UserResourcesHelper
       amount_output(object)
     elsif column == "interest"
       interest_output(object)
+    elsif object[column].blank?
+      "N/a"
     else
       object[column]
     end
@@ -26,6 +29,8 @@ module UserResourcesHelper
       form_amount(f)
     elsif attribute == "interest"
       form_interest(f)
+    elsif attribute == "compound_frequency"
+      form_compound_frequency(f)
     elsif attribute == "frequency"
       form_frequency(f)
     elsif attribute == "description"
@@ -35,9 +40,14 @@ module UserResourcesHelper
     end
   end
 
+  def nil_to_zero(resource)
+    resource.amount = 0 if resource.amount == nil
+    resource.interest = 0 if resource.interest == nil  
+  end
+
   private
       
-    # Preps data to be displayed on index page
+    # Preps individual pieces of data to be displayed on index page
     def liquid_output(object)
       object.liquid == true ? "Yes" : "No"
     end
@@ -47,7 +57,7 @@ module UserResourcesHelper
     end
 
     def interest_output(object)
-      object.interest.nil? ? "0%" : object.interest.to_s + "%"
+      object.interest.nil? ? "0.0%" : object.interest.to_s + "%"
     end
 
     # Preps form fields for specific attributes
@@ -59,8 +69,13 @@ module UserResourcesHelper
       f.number_field :interest, placeholder: "Interest Rate (%)", step: :any
     end
 
-    def form_frequency(f)
+    def form_compound_frequency(f)
       frequency_selections = ["Daily", "Weekly", "Monthly", "Yearly"]
+      f.select(:compound_frequency, options_for_select(frequency_selections, selected: f.object.compound_frequency), include_blank: "Compound Frequency")
+    end
+
+    def form_frequency(f)
+      frequency_selections = ["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"]
       f.select(:frequency, options_for_select(frequency_selections, selected: f.object.frequency), include_blank: "Select Frequency")
     end
 

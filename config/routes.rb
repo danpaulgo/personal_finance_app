@@ -14,10 +14,11 @@ Rails.application.routes.draw do
     resources r, only: [:index, :new, :create, :edit, :update, :destroy]
   end
 
+  resources :future_net_worths, only: [:create]
 
-  get 'future_net_worth', to: 'future_net_worth#new', as: 'future_net_worth_form'
-
-  post 'future_net_worth', to: 'future_net_worth#show', as: 'future_net_worth'
+  # Redirects invalid urls to root path
+  get ':invalid', to: 'sessions#invalid'
+  get ':invalid/:invalid', to: 'sessions#invalid'
 
   # resources :expenses, only: [:index, :new, :create, :edit, :update, :delete]
   # get 'users/:id/incomes', to: 'users#incomes', as: :incomes

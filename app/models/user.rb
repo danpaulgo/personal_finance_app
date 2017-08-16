@@ -11,6 +11,10 @@ class User < ApplicationRecord
   validates :name, :username, :password, presence: true
   validates :username, uniqueness: true
 
+  include UsersHelper
+
+  attr_accessor :future_net_worth
+
   def to_s
     self.name
   end

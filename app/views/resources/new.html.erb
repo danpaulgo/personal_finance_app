@@ -1,3 +1,4 @@
+<%= render 'resources/errors', object: @page_resource %>
 <h1>New <%= @page_resource.class %></h1>
 <% provide(:button_text, "Add #{$resource}") %>
 <%= render 'resources/form' %>

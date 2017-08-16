@@ -19,5 +19,10 @@
       <% end %>
     <% flash.clear %>
     <%= yield %>
+    <footer>
+      <% if logged_in? %>
+        <%= link_to "Home", root_path %> | <%= link_to "Log Out", logout_path, method: :delete %>
+      <% end %>
+    </footer>
   </body>
 </html>

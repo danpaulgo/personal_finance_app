@@ -26,9 +26,12 @@ class UserResourcesController < ApplicationController
   def create
     @page_resource = $resource.constantize.new(resource_params)
     @page_resource.user_id = current_user.id
+    nil_to_zero(@page_resource)
     if @page_resource.save
       flash[:success] = "#{$resource} saved"
       redirect_to "/#{$resource_plural}" 
+    else
+      render 'resources/new'
     end
   end
 
@@ -38,9 +41,12 @@ class UserResourcesController < ApplicationController
 
   def update
     @page_resource.update_attributes(resource_params)
+    nil_to_zero(@page_resource)
     if @page_resource.save
       flash[:success] = "#{$resource} updated"
       redirect_to "/#{$resource_plural}" 
+    else
+      render 'resources/edit'
     end
   end
 
