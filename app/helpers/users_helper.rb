@@ -1,16 +1,17 @@
 module UsersHelper
 
-  def net_worth(user, type = "total")
+  def net_worth(type = "total")
     # binding.pry
-    net_worth = user.send("resource_total", "assets", type) +
-    user.send("resource_total", "credits", type) -
-    user.send("resource_total", "debts", type)
+    net_worth = self.send("resource_total", "assets", type) +
+    self.send("resource_total", "credits", type) -
+    self.send("resource_total", "debts", type)
     # binding.pry
     Money.new((net_worth*100),"USD").format
   end
 
-  def calculate_future_net_worth(user, date)
-    binding.pry
+  def calculate_future_net_worth(date)
+    # Add up credits, assets with interest, and income. Subtract debts with interest and expenses
+    @user.future_net_worth = total
   end
 
   # private
@@ -44,13 +45,50 @@ module UsersHelper
       redirect_to root_path
     end
 
-    def asset_future_value(asset, date)
+    def future_value(resource, date)
       date_in_future?(date)
-      days_until = date.to_date - Time.now.to_date
+      if resource.interest == 0.0
+        resource.amount
+      else
+        days_until = date.to_date - Time.now.to_date
+        self.compound(resource, days_until)
+      end
     end
 
-    def debt_future_value(debt, date)
-
+    def compound(asset, time_length)
+      principal = asset.amount
+      rate = asset.interest/100
+      number_of_periods = 0
+      case asset.compound_frequency
+      when "Daily"
+        number_of_periods = 365
+      when "Weekly"
+        number_of_periods = 52
+      when "Monthly"
+        number_of_periods = 12
+      when "Yearly"
+        number_of_periods = 1
+      end
+      exponent = number_of_periods * (time_length/365)
+      principal*(1+(rate/number_of_periods))**exponent
     end
+
+    # def compound_daily(asset, time_length)
+    #   new_value = asset.amount
+    #   time_length.times do
+    #     new_value += (new_value * (asset.interest/100/365.25))
+    #   end
+    #   new_value
+    # end
+
+    # def compound_weekly(asset, time_length)
+    #   new_value = asset.amount
+    #   remainder = (time_length%30.4375).round
+    #   # binding.pry
+    #   (time_length/30.4375).floor.times do
+    #     new_value += (new_value * (asset.interest/100/12))
+    #   end
+    #   new_value += (new_value * (asset.interest/100/12/remainder))
+    # end
   
 end
