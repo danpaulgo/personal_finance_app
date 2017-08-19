@@ -9,69 +9,98 @@ module UsersHelper
     Money.new((net_worth*100),"USD").format
   end
 
-  def calculate_future_net_worth(date)
-    # Add up credits, assets with interest, and income. Subtract debts with interest and expenses
-    @user.future_net_worth = total
-  end
-
-  # private
-
-    # def resource_total(resource_string)
-    #   all = self.send(resource_string)
-    #   total = 0.0
-    #   all.each do |resource|
-    #     total += resource.amount
-    #   end
-    #   total
-    # end
-
-    def resource_total(resource_string, type = "total")
-      all = self.send(resource_string)
-      total = 0.0
-      all.each do |resource|
-        if type == "liquid"
-          if !(resource.methods.include?(:liquid) && resource.liquid == false)
-            total += resource.amount
-          end
-        else
+  def resource_total(resource_string, type = "total")
+    all = self.send(resource_string)
+    total = 0.0
+    all.each do |resource|
+      if type == "liquid"
+        if !(resource.methods.include?(:liquid) && resource.liquid == false)
           total += resource.amount
         end
-      end
-      total
-    end
-
-    def date_in_future?(date)
-      flash[:error] = "Must enter valid date in future"
-      redirect_to root_path
-    end
-
-    def future_value(resource, date)
-      date_in_future?(date)
-      if resource.interest == 0.0
-        resource.amount
       else
-        days_until = date.to_date - Time.now.to_date
-        self.compound(resource, days_until)
+        total += resource.amount
       end
     end
+    total
+  end
 
-    def compound(asset, time_length)
-      principal = asset.amount
-      rate = asset.interest/100
-      number_of_periods = 0
-      case asset.compound_frequency
-      when "Daily"
-        number_of_periods = 365
-      when "Weekly"
-        number_of_periods = 52
-      when "Monthly"
-        number_of_periods = 12
-      when "Yearly"
-        number_of_periods = 1
-      end
-      exponent = number_of_periods * (time_length/365)
-      principal*(1+(rate/number_of_periods))**exponent
+  def calculate_future_net_worth(date)
+    # Add up credits, assets with interest, and income. Subtract debts with interest and expenses
+    total_assets = resource_future_total("assets", date)
+    total_credits = resource_total("credits")
+    total_income = resource_generated_total("incomes", date)
+    total_debts = resource_future_total("debts", date)
+    total_expenses = resource_generated_total("expenses", date)
+    total = total_assets + total_credits + total_income - total_debts - total_expenses
+    self.future_net_worth = "#{Money.new((total*100),"USD").format} (as of #{date.to_date.strftime("%b %d, %Y")})"
+  end
+
+  # resource.future_value instead?
+  def future_value(resource, date)
+    if resource.interest == 0.0
+      resource.amount
+    else
+      time_length = days_until(date)
+      self.compound(resource, time_length)
     end
+  end
+
+  def resource_future_total(resource_string, date)
+    total = 0
+    self.send(resource_string).each do |resource|
+      total += future_value(resource, date)
+    end
+    total
+  end
+
+  def generated_amount(resource, date)
+    period_length = 0
+    case resource.frequency
+    when "Daily"
+      period_length = 1.0
+    when "Weekly"
+      period_length = 7.0
+    when "Monthly"
+      period_length = 30.4375
+    when "Yearly"
+      period_length = 365.25
+    end
+    amount_per_day = resource.amount/period_length
+    time_length = days_until(date)
+    amount_per_day * time_length
+  end
+
+  def resource_generated_total(resource_string, date)
+    total = 0
+    self.send(resource_string).each do |resource|
+      total += generated_amount(resource, date)
+    end
+    total
+  end
+
+  def days_until(date)
+    date.to_date - Time.now.to_date
+  end
+
+  def compound(asset, time_length)
+    principal = asset.amount
+    rate = asset.interest/100
+    number_of_periods = 0
+    case asset.compound_frequency
+    when "Daily"
+      number_of_periods = 365
+    when "Weekly"
+      number_of_periods = 52
+    when "Monthly"
+      number_of_periods = 12
+    when "Yearly"
+      number_of_periods = 1
+    end
+    exponent = number_of_periods * (time_length/365)
+    principal*(1+(rate/number_of_periods))**exponent
+  end
+
+
 
     # def compound_daily(asset, time_length)
     #   new_value = asset.amount
