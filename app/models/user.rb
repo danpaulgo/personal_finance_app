@@ -2,11 +2,10 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :incomes
-  has_many :expenses
-  has_many :debts
-  has_many :assets
-  has_many :credits
+  has_many :incomes, dependent: :destroy
+  has_many :expenses, dependent: :destroy
+  has_many :debts, dependent: :destroy
+  has_many :assets, dependent: :destroy
 
   validates :name, :username, :password, presence: true
   validates :username, uniqueness: true

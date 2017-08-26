@@ -1,0 +1,2 @@
+class RealEstateAppreciation < ApplicationRecord
+end

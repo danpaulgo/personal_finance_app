@@ -2,8 +2,7 @@ module UsersHelper
 
   def net_worth(type = "total")
     # binding.pry
-    net_worth = self.send("resource_total", "assets", type) +
-    self.send("resource_total", "credits", type) -
+    net_worth = self.send("resource_total", "assets", type) -
     self.send("resource_total", "debts", type)
     # binding.pry
     Money.new((net_worth*100),"USD").format
@@ -27,11 +26,10 @@ module UsersHelper
   def calculate_future_net_worth(date)
     # Add up credits, assets with interest, and income. Subtract debts with interest and expenses
     total_assets = resource_future_total("assets", date)
-    total_credits = resource_total("credits")
     total_income = resource_generated_total("incomes", date)
     total_debts = resource_future_total("debts", date)
     total_expenses = resource_generated_total("expenses", date)
-    total = total_assets + total_credits + total_income - total_debts - total_expenses
+    total = total_assets + total_income - total_debts - total_expenses
     self.future_net_worth = "#{Money.new((total*100),"USD").format} (as of #{date.to_date.strftime("%b %d, %Y")})"
   end
 

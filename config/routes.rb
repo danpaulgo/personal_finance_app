@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # get ':username', to: 'users#show', as: 'user_path'
   resources :users, only: [:new, :create, :edit, :update, :destroy] 
 
-  USER_RESOURCES = [:incomes, :assets, :credits, :debts, :expenses]
+  USER_RESOURCES = [:incomes, :assets, :debts, :expenses]
 
   USER_RESOURCES.each do |r|
     resources r, only: [:index, :new, :create, :edit, :update, :destroy]

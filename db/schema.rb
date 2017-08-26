@@ -10,61 +10,64 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170819062355) do
+ActiveRecord::Schema.define(version: 20170826035913) do
 
   create_table "assets", force: :cascade do |t|
     t.string "name"
-    t.float "amount"
-    t.boolean "liquid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.float "amount"
+    t.boolean "primary"
+    t.boolean "liquid"
     t.float "interest"
     t.string "compound_frequency"
-  end
-
-  create_table "credits", force: :cascade do |t|
-    t.string "name"
-    t.float "amount"
-    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.boolean "liquid"
   end
 
   create_table "debts", force: :cascade do |t|
     t.string "name"
-    t.float "amount"
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.float "amount"
     t.float "interest"
     t.string "compound_frequency"
-    t.integer "payment"
-    t.string "payment_frequency"
-    t.string "string"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "expenses", force: :cascade do |t|
     t.string "name"
+    t.integer "user_id"
     t.float "amount"
     t.string "frequency"
+    t.string "asset_paying_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.integer "payment"
-    t.string "payment_frequency"
   end
 
   create_table "incomes", force: :cascade do |t|
+    t.string "name"
+    t.integer "user_id"
     t.float "amount"
     t.string "frequency"
+    t.integer "asset_destination_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "real_estate_appreciations", force: :cascade do |t|
+    t.string "state"
+    t.float "appreciation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transfers", force: :cascade do |t|
     t.integer "user_id"
-    t.string "name"
+    t.boolean "debt_payment"
+    t.integer "liquid_asset_from_id"
+    t.integer "destination_id"
+    t.float "amount"
+    t.string "frequency"
   end
 
   create_table "users", force: :cascade do |t|
