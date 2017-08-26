@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       @user.assets.create(name: "Checking Account", amount: 0.0, primary: true, liquid: true)
       redirect_to root_path
     else
-      flash[:error] = @user.errors.full_messages
+      flash[:error] = @user.errors.full_messages.join(", ")
       render 'new'
     end
   end

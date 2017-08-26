@@ -11,5 +11,9 @@ state_rate_pairs.each do |pair|
   RealEstateAppreciation.create(state: pair[0], appreciation: pair[1])
 end
 
-User.create(name: "Daniel Goldberg", username: "danpaulgo", password: "BayShore61893")
-User.create(name: "John Doe", username: "johndoe2000", password: "password")
+dan = User.create(name: "Daniel Goldberg", username: "danpaulgo", password: "BayShore61893")
+  dan.assets.create(name: "Cash", amount: 0.0, primary: true, liquid: true)
+  dan.assets.create(name: "Checking Account", amount: 0.0, primary: true, liquid: true)
+john = User.create(name: "John Doe", username: "johndoe2000", password: "password")
+  john.assets.create(name: "Cash", amount: 0.0, primary: true, liquid: true)
+  john.assets.create(name: "Checking Account", amount: 0.0, primary: true, liquid: true)

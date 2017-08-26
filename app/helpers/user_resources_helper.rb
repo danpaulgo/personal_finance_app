@@ -59,6 +59,8 @@ module UserResourcesHelper
       form_payment_frequency(f)
     when "description"
       form_description(f)
+    else
+      f.text_field attribute.to_sym, placeholder: attribute.capitalize
     end
   end
 
