@@ -18,6 +18,10 @@ class UserResourcesController < ApplicationController
     render 'resources/index.html.erb'
   end
 
+  def options
+    render "resources/#{$resource_plural}/options"
+  end
+
   def new
     @page_resource = $new_resource
     render 'resources/new.html.erb'

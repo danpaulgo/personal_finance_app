@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   USER_RESOURCES.each do |r|
     resources r, only: [:index, :new, :create, :edit, :update, :destroy]
+    get "#{r}/options", to: "#{r}#options"
   end
 
   resources :future_net_worths, only: [:create]
