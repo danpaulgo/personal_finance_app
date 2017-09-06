@@ -1,0 +1,20 @@
+<table>
+  <tr>
+  <% @table_columns.each do |col| %>
+    <th><%= col.capitalize.gsub('_id', "").gsub('_'," ").split.map(&:capitalize).join(' ') %></th>
+  <% end %>
+  </tr>
+  <% @all.each do |asset| %>
+    <tr>
+    <% @table_columns.each do |column| %>
+      <% if asset.send(column).blank? %>
+        <td>N/a</td>
+      <% else %>
+        <td><%= prep_data(asset, column) %></td>
+      <% end %>
+    <% end %>
+    <td><%= link_to "edit", "/#{$resource_plural}/#{asset.id}/edit" %></td>
+    <td><%= link_to "delete", "/#{$resource_plural}/#{asset.id}", method: :delete, data:{confirm: "Are you sure you would like to delete this item?"} %></td>
+    </tr>
+  <% end %>
+</table>

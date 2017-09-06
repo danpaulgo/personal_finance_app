@@ -1,0 +1,14 @@
+<h1>Select Asset Type</h1>
+<h3>Liquid Assets</h3>
+<ul>
+  <% Resource.find_by(name: "Asset").resource_types.where(liquid_asset: true).each do |type| %>
+    <li><%= link_to type.name, "/#{$resource_plural}/new/#{type}" %></li>
+  <% end %>
+</ul>
+
+<h3>Non-liquid Assets</h3>
+<ul>
+  <% Resource.find_by(name: "Asset").resource_types.where(liquid_asset: false).each do |type| %>
+    <li><%= link_to type.name, "/#{$resource_plural}/new/#{type}" %></li>
+  <% end %>
+</ul>

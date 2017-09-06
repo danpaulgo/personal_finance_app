@@ -1,0 +1,10 @@
+<h1>Assets</h1>
+<% @table_columns = input_fields($new_resource) - ["liquid"] %>
+<h3>Liquid Assets</h3>
+<% @all = @liquid %>
+<%= render 'resources/assets/table' %> 
+<h3>Non-Liquid Assets</h3>
+<% @all = @non_liquid %>
+<%= render 'resources/assets/table' %>
+<br>
+<%= link_to "Add #{$resource}", "/#{$resource_plural}/options" %>

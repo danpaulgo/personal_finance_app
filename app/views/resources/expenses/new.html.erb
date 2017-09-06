@@ -1,0 +1,29 @@
+<%= render 'resources/errors', object: @page_resource %>
+<h1>New Expense</h1>
+<h3><%= @type.name %></h3>
+<%= form_for(@page_resource) do |f| %>
+
+  <%= hidden_field_tag "type_id", @type.id %>
+  <%= hidden_field_tag "type_snake", params[:type] %>
+
+  <%= f.label :name %>:
+  <%= form_name(f) %>
+  <br>
+  <%= f.label :amount %>:
+  <%= form_amount(f) %>
+  <br>
+  <%= f.label :frequency %>:
+  <%= form_frequency(f) %>
+  <br>
+  <%= f.label :asset_paying_id, "Pay Using" %>:
+  <%= form_asset_paying(f, current_user) %>
+  <br>
+  <%= f.label :next_billing_date, "Next Billing" %>:
+  <%= form_next_billing(f) %>
+  <br>
+  <%= f.label :discontinued, "End Date (optional)" %>:
+  <%= form_discontinued(f) %>
+  <br>
+  <%= f.submit "Add Expense" %>
+
+<% end %>

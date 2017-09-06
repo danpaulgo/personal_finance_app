@@ -10,9 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170826035913) do
+ActiveRecord::Schema.define(version: 20170902043405) do
+
+  # create_table "asset_liquids", force: :cascade do |t|
+  #   t.integer "type_id"
+  #   t.string "name"
+  #   t.integer "user_id"
+  #   t.float "amount"
+  #   t.float "interest"
+  #   t.string "compound_frequency"
+  #   t.boolean "primary"
+  #   t.datetime "created_at", null: false
+  #   t.datetime "updated_at", null: false
+  # end
+
+  # create_table "asset_non_liquids", force: :cascade do |t|
+  #   t.integer "type_id"
+  #   t.string "name"
+  #   t.integer "user_id"
+  #   t.float "amount"
+  #   t.float "interest"
+  #   t.string "compound_frequency"
+  #   t.datetime "created_at", null: false
+  #   t.datetime "updated_at", null: false
+  # end
 
   create_table "assets", force: :cascade do |t|
+    t.integer "type_id"
     t.string "name"
     t.integer "user_id"
     t.float "amount"
@@ -25,6 +49,7 @@ ActiveRecord::Schema.define(version: 20170826035913) do
   end
 
   create_table "debts", force: :cascade do |t|
+    t.integer "type_id"
     t.string "name"
     t.integer "user_id"
     t.float "amount"
@@ -35,21 +60,27 @@ ActiveRecord::Schema.define(version: 20170826035913) do
   end
 
   create_table "expenses", force: :cascade do |t|
+    t.integer "type_id"
     t.string "name"
     t.integer "user_id"
     t.float "amount"
     t.string "frequency"
-    t.string "asset_paying_id"
+    t.integer "asset_paying_id"
+    t.datetime "next_billing_date"
+    t.datetime "discontinued"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "incomes", force: :cascade do |t|
+    t.integer "type_id"
     t.string "name"
     t.integer "user_id"
     t.float "amount"
     t.string "frequency"
     t.integer "asset_destination_id"
+    t.datetime "next_payment_date"
+    t.datetime "discontinued"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,6 +88,20 @@ ActiveRecord::Schema.define(version: 20170826035913) do
   create_table "real_estate_appreciations", force: :cascade do |t|
     t.string "state"
     t.float "appreciation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "resource_names", force: :cascade do |t|
+    t.string "name"
+    t.string "table_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "resource_types", force: :cascade do |t|
+    t.integer "resource_name_id"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

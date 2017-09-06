@@ -8,11 +8,14 @@ Rails.application.routes.draw do
   # get ':username', to: 'users#show', as: 'user_path'
   resources :users, only: [:new, :create, :edit, :update, :destroy] 
 
-  USER_RESOURCES = [:incomes, :assets, :debts, :expenses]
+  # FINANCE_RESOURCES = [:incomes, :liquid_assets, :non_liquid_assets, :debts, :expenses]
+  # FINANCE_RESOURCES = ResourceName.all.map{|r| r.name.downcase.gsub(/([\-\(\s])/, "_").gsub(")", "").pluralize.to_sym}
+  FINANCE_RESOURCES = ResourceName.all.map{|r| r.table_name.to_sym}
 
-  USER_RESOURCES.each do |r|
-    resources r, only: [:index, :new, :create, :edit, :update, :destroy]
+  FINANCE_RESOURCES.each do |r|
+    resources r, only: [:index, :create, :edit, :update, :destroy]
     get "#{r}/options", to: "#{r}#options"
+    get "#{r}/new/:type", to: "#{r}#new"
   end
 
   resources :future_net_worths, only: [:create]

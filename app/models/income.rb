@@ -2,6 +2,6 @@ class Income < ApplicationRecord
 
   belongs_to :user
 
-  validates :name, :amount, :user_id, :frequency, :presence => true
+  validates :amount, :user_id, :frequency, :presence => true
 
 end

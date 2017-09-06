@@ -9,8 +9,10 @@ class UserResourcesController < ApplicationController
 
   def self.set_resource(resource)
     $resource = resource
-    $resource_plural = $resource.pluralize.downcase
-    $new_resource = $resource.constantize.new
+    $resource_plural = $resource.downcase.pluralize
+    # $resource_name = ResourceName.find_by(table_name: $resource_plural).name
+    # $resource_name_singular = $resource.split("_")[0].capitalize
+    $new_resource = $resource.downcase.camelize.constantize.new
   end
 
   def index
@@ -19,23 +21,43 @@ class UserResourcesController < ApplicationController
   end
 
   def options
-    render "resources/#{$resource_plural}/options"
+    @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}.delete_if{|obj| obj.name == "Other"}
+    render "resources/options.html.erb"
   end
 
   def new
     @page_resource = $new_resource
-    render 'resources/new.html.erb'
+    @type = ResourceType.find_by(name: params[:type].split("_").map{|w| w.capitalize}.join(" "))
+    if @type && ResourceName.find_by(name: @page_resource.class.name).resource_types.include?(@type)
+      case $resource
+      when "Asset"
+        render 'resources/assets/new.html.erb'
+      when "Debt"
+        render 'resources/debts/new.html.erb'
+      when "Income"
+        render 'resources/incomes/new.html.erb'
+      when "Expense"
+        render 'resources/expenses/new.html.erb'
+      end
+    else
+      flash[:error] = "Invalid #{@resource.class.name.downcase} type"
+      redirect_to root_path
+    end
+
+    # render 'resources/new.html.erb'
   end
 
   def create
     @page_resource = $resource.constantize.new(resource_params)
     @page_resource.user_id = current_user.id
+    @page_resource.type_id = params[:type_id]
     nil_to_zero(@page_resource)
     if @page_resource.save
       flash[:success] = "#{$resource} saved"
       redirect_to "/#{$resource_plural}" 
     else
-      render 'resources/new'
+      @type = ResourceType.find(params[:type_id])
+      render "resources/#{$resource_plural}/new" 
     end
   end
 

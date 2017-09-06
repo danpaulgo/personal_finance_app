@@ -1,0 +1,7 @@
+<h1><%= "Select #{$resource} Type" %></h1>
+<ul>
+  <%= render @types %>
+  <li>
+    <%= link_to "Other", "/#{$resource_plural}/new/other" %>
+  </li>
+</ul>

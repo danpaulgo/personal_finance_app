@@ -1,0 +1,53 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red127\green127\blue127;}
+{\*\expandedcolortbl;;\csgenericrgb\c49804\c49804\c49804;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 TODO:\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	1.	}Update expenses form\
+{\listtext	2.	}Add necessary columns (see section below)\
+{\listtext	3.	}Complete expenses form with dynamic default values depending on 
+\b @type 
+\b0 (don\'92t use created form field methods)\
+{\listtext	4.	}Complete similar forms for incomes and debts\
+{\listtext	5.	}Create form partials used to piece together dynamic forms for assets depending on the 
+\b type 
+\b0 which is stored in the 
+\b get 
+\b0 params\
+{\listtext	6.	}Transfers and transfer_types\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf2 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+In 
+\b assets/new/:type
+\b0  use if statements based on 
+\b params\{:type\} 
+\b0 in order to alter default form\
+\
+* Add "paid from" to expenses with dropdown list consisting solely of primary liquid assets\
+*Add time length (number of payments) to expense table with a default of indefinite and options: one time, daily, weekly, monthly, yearly.\
+* Also add "next due date" date column to expenses\
+\
+* Add "directed_to" to incomes which will define which asset income goes to directly (may include both liquid and non liquid assets but separated by category in dropdown. MAY ALSO GIVE OPTION TO CREATE NEW ASSET FOR INCOME TO BE DIRECTED TO)\
+* Add \'93time length\'94 and \'93next payment date\'94 similar to expenses\
+\
+Each resource gets own form (no more dynamic resource form)\
+All debts, expenses and incomes will have identical forms\
+Assets form will be somewhat dynamic. There will be a set layout with a hidden field defining if the asset is liquid. There will also way to differentiate between estimated appreciation and guaranteed interest for different types of assets (all non liquId assets will be estimates). There will be extentions for this layout in the cases of:\
+\
+Cars (expenses on car such as gas, car insurance, maintenance, lease payment, or financing, AS WELL as an option for the cars  value to decrease at the average rate of 15% a year)\
+* if financed, user has 2 options:\
+1. Enter amount owed and interest rate (compounded daily if 'i dont know') [notice user that this will be registered as a debt]\
+2. Payment anount and number of payments left [notice user that this will be stored as an expense]\
+\
+Real estate (average appreciation placeholder ans notice, expenses such as mortgage, gas bill, electric bill, water bill, tv/phone/internet, yearly maintenance, income property/rent received? (Would create income automatically)) \
+\
+Use labels instead of placeholders so that interest may be preset to zero or avg state real estate appreciation \
+* or use both labels and placeholders}
