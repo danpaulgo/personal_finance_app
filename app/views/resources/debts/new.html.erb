@@ -1,0 +1,23 @@
+<%= render 'resources/errors', object: @page_resource %>
+<h1>New Debt</h1>
+<h3><%= @type_category %></h3>
+<%= form_for(@page_resource) do |f| %>
+
+  <%= hidden_field_tag "type_id", @type.id %>
+  <%# hidden_field_tag "type_snake", params[:type] %>
+
+  <%= f.label :name, "Name:" %>
+  <%= form_name(f, @type_category, @type.name) %>
+  <br>
+  <%= f.label :amount, "Amount:" %>
+  <%= form_amount(f) %>
+  <br>
+  <%= f.label :interest, "Interest:" %>
+  <%= form_interest(f) %>
+  <br>
+  <%= f.label :compound_frequency, "Compound Frequency:" %>
+  <%= form_frequency(f, compound = true) %>
+  <br>
+  <%= f.submit "Add Debt" %>
+
+<% end %>

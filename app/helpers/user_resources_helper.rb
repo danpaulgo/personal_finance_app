@@ -6,7 +6,7 @@ module UserResourcesHelper
   end
 
   def show_fields(resource)
-    permitted_input = ["name", "type_id", "amount", "frequency", "liquid"]
+    permitted_input = ["name", "type_id", "amount", "interest", "frequency", "liquid"]
     permitted_input & input_fields(resource)
   end
 
@@ -141,9 +141,10 @@ module UserResourcesHelper
     #   f.select(:compound_frequency, options_for_select(frequency_selections, selected: f.object.compound_frequency), include_blank: "Compound Frequency")
     # end
 
-    def form_frequency(f)
+    def form_frequency(f, compound = false)
+      compound ? frequency_type = "compound_frequency" : frequency_type = "frequency"
       frequency_selections = ["Daily", "Weekly", "Monthly", "Yearly"]
-      f.select(:frequency, options_for_select(frequency_selections, selected: f.object.frequency), include_blank: "Select Frequency")
+      f.select(:"#{frequency_type}", options_for_select(frequency_selections, selected: f.object.send(frequency_type)), include_blank: "Select Frequency")
     end
 
     def form_payment(f)
@@ -160,17 +161,17 @@ module UserResourcesHelper
       f.text_area :description, placeholder: "Description"
     end
 
-    def form_asset_paying(f, user)
+    def form_select_primary_asset(f, user, direction = "paying")
       selections = user.assets.where(primary: true).map{|asset| [asset.name, asset.id]}
-      f.select(:asset_paying_id, options_for_select(selections, selected: f.object.asset_paying_id), include_blank: "Select Asset")
+      f.select(:"asset_#{direction}_id", options_for_select(selections, selected: f.object.send("asset_#{direction}_id")), include_blank: "Select Asset")
     end
 
     def form_discontinued(f)
       f.date_field :discontinued
     end
 
-    def form_next_billing(f)
-      f.date_field :next_billing_date
+    def form_next_date(f, direction = "billing")
+      f.date_field :"next_#{direction}_date"
     end
 
 end

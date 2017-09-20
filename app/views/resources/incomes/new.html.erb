@@ -1,0 +1,29 @@
+<%= render 'resources/errors', object: @page_resource %>
+<h1>New Income</h1>
+<h3><%= @type_category %></h3>
+<%= form_for(@page_resource) do |f| %>
+
+  <%= hidden_field_tag "type_id", @type.id %>
+  <%# hidden_field_tag "type_snake", params[:type] %>
+
+  <%= f.label :name, "Name:" %>
+  <%= form_name(f, @type_category, @type.name) %>
+  <br>
+  <%= f.label :amount, "Amount:" %>
+  <%= form_amount(f) %>
+  <br>
+  <%= f.label :frequency, "Frequency:" %>
+  <%= form_frequency(f) %>
+  <br>
+  <%= f.label :asset_destination_id, "Directed To:" %>
+  <%= form_select_primary_asset(f, current_user, "destination") %>
+  <br>
+  <%= f.label :next_payment_date, "Next Payment:" %>
+  <%= form_next_date(f, "payment") %>
+  <br>
+  <%= f.label :discontinued, "End Date (optional):" %>
+  <%= form_discontinued(f) %>
+  <br>
+  <%= f.submit "Add Income" %>
+
+<% end %>

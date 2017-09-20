@@ -4,24 +4,24 @@
 <%= form_for(@page_resource) do |f| %>
 
   <%= hidden_field_tag "type_id", @type.id %>
-  <%= hidden_field_tag "type_snake", params[:type] %>
+  <%# hidden_field_tag "type_snake", params[:type] %>
 
-  <%= f.label :name %>:
+  <%= f.label :name, "Name:" %>
   <%= form_name(f, @type_category, @type.name) %>
   <br>
-  <%= f.label :amount %>:
+  <%= f.label :amount, "Amount:" %>
   <%= form_amount(f) %>
   <br>
-  <%= f.label :frequency %>:
-  <%= form_frequency(f, @type_category) %>
+  <%= f.label :frequency, "Frequency:" %>
+  <%= form_frequency(f) %>
   <br>
-  <%= f.label :asset_paying_id, "Pay Using" %>:
-  <%= form_asset_paying(f, current_user) %>
+  <%= f.label :asset_paying_id, "Pay Using:" %>
+  <%= form_select_primary_asset(f, current_user) %>
   <br>
-  <%= f.label :next_billing_date, "Next Billing" %>:
-  <%= form_next_billing(f) %>
+  <%= f.label :next_billing_date, "Next Billing:" %>
+  <%= form_next_date(f) %>
   <br>
-  <%= f.label :discontinued, "End Date (optional)" %>:
+  <%= f.label :discontinued, "End Date (optional):" %>
   <%= form_discontinued(f) %>
   <br>
   <%= f.submit "Add Expense" %>
