@@ -123,8 +123,9 @@ module UserResourcesHelper
     # FORM HELPERS
 
     # Preps form fields for specific attributes
-    def form_name(f)
-      f.text_field :name, placeholder: "Name"
+    def form_name(f, type_category = nil, type_name = nil)
+      type_name = nil if !(type_category == "Bill" || type_category == "Insurance" )
+      f.text_field :name, placeholder: "Name", value: type_name
     end
 
     def form_amount(f)

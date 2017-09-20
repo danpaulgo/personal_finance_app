@@ -1,19 +1,19 @@
 <%= render 'resources/errors', object: @page_resource %>
 <h1>New Expense</h1>
-<h3><%= @type.name %></h3>
+<h3><%= @type_category %></h3>
 <%= form_for(@page_resource) do |f| %>
 
   <%= hidden_field_tag "type_id", @type.id %>
   <%= hidden_field_tag "type_snake", params[:type] %>
 
   <%= f.label :name %>:
-  <%= form_name(f) %>
+  <%= form_name(f, @type_category, @type.name) %>
   <br>
   <%= f.label :amount %>:
   <%= form_amount(f) %>
   <br>
   <%= f.label :frequency %>:
-  <%= form_frequency(f) %>
+  <%= form_frequency(f, @type_category) %>
   <br>
   <%= f.label :asset_paying_id, "Pay Using" %>:
   <%= form_asset_paying(f, current_user) %>

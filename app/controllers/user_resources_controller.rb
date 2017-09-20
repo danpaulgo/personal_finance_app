@@ -28,6 +28,13 @@ class UserResourcesController < ApplicationController
   def new
     @page_resource = $new_resource
     @type = ResourceType.find_by(name: params[:type].split("_").map{|w| w.capitalize}.join(" "))
+    if !!@type.name.match(/\sBill\z/)
+      @type_category = "Bill"
+    elsif !!@type.name.match(/\sInsurance\z/)
+      @type_category = "Insurance"
+    else
+      @type_category = @type.name
+    end  
     if @type && ResourceName.find_by(name: @page_resource.class.name).resource_types.include?(@type)
       case $resource
       when "Asset"
