@@ -1,0 +1,10 @@
+<%= form_tag car_step_three_path do %>
+  <%= label_tag "Is this car a rental?" %>
+  <br>
+  <%= label_tag :rental, "Yes", value: "true" %>
+  <%= radio_button_tag :rental, true %>
+  <%= label_tag :rental, "No", value: "false" %>
+  <%= radio_button_tag :rental, false %>
+  <br>
+  <%= submit_tag "Next" %>
+<% end %>

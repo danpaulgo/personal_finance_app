@@ -11,7 +11,7 @@ module UserResourcesHelper
   end
 
   # Uses below functions to prepares data to be presented in table on index page by taking data from an object and placing it in a certain column
-  def prep_data(object, column)
+  def prep_data_for_table(object, column)
     case column
     when "type_id"
       type_output(object)
@@ -172,6 +172,13 @@ module UserResourcesHelper
 
     def form_next_date(f, direction = "billing")
       f.date_field :"next_#{direction}_date"
+    end
+
+    def form_liquid(f)
+      f.label :liquid, "Yes", value: "true"
+      f.radio_button :liquid, true
+      f.label :liquid, "No", value: "false"
+      f.radio_button :liquid, false
     end
 
 end

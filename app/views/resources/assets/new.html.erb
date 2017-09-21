@@ -1,0 +1,30 @@
+<%= render 'resources/errors', object: @page_resource %>
+<h1>New Asset</h1>
+<h3><%= @type_category %></h3>
+<%= form_for(@page_resource, url: @submit_path) do |f| %>
+
+  <%= hidden_field_tag "asset[type_id]", @type.id %>
+  <%# hidden_field_tag "type_snake", params[:type] %>
+
+  <%= f.label :name, "Name:" %>
+  <%= form_name(f, @type_category, @type.name) %>
+  <br>
+  <%= f.label :amount, "Amount:" %>
+  <%= form_amount(f) %>
+  <br>
+  <%= f.label :interest, "Interest (optional):" %>
+  <%= form_interest(f,) %>
+  <br>
+  <%= f.label :compound_frequency, "Compound Frequency:" %>
+  <%= form_frequency(f, compound = true) %>
+  <br>
+  <%= f.label "Liquid?" %>
+  <br>
+  <%= f.label :liquid, "Yes", value: "true" %>
+  <%= f.radio_button :liquid, true %>
+  <%= f.label :liquid, "No", value: "false" %>
+  <%= f.radio_button :liquid, false %>
+  <br>
+  <%= f.submit @button_text %>
+
+<% end %>

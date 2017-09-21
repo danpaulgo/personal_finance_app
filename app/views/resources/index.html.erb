@@ -12,7 +12,7 @@
       <% if resource.send(column).blank? %>
         <td>N/a</td>
       <% else %>
-        <td><%= prep_data(resource, column) %></td>
+        <td><%= prep_data_for_table(resource, column) %></td>
       <% end %>
     <% end %>
     <td><%= link_to "edit", "/#{$resource_plural}/#{resource.id}/edit" %></td>
