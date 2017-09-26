@@ -38,14 +38,14 @@ class UserResourcesController < ApplicationController
     if @type && ResourceName.find_by(name: @page_resource.class.name).resource_types.include?(@type)
       case $resource
       when "Asset"
-        if @type_category == "Car"
-          @submit_path = car_step_two_path
+        if @type_category == "Vehicle"
+          @submit_path = vehicle_step_two_path
           @button_text = "Next"
         elsif @type_category == "Real Estate"
           @submit_path = real_estate_step_two_path
           @button_text = "Next"
         else
-          @submit_path = "/assets"
+          @submit_path = assets_path
         end
         render 'resources/assets/new.html.erb'
       when "Debt"

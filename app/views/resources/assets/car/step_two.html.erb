@@ -1,10 +1,18 @@
-<%= form_tag car_step_three_path do %>
-  <%= label_tag "Is this car a rental?" %>
-  <br>
-  <%= label_tag :rental, "Yes", value: "true" %>
-  <%= radio_button_tag :rental, true %>
-  <%= label_tag :rental, "No", value: "false" %>
-  <%= radio_button_tag :rental, false %>
-  <br>
+<%= form_tag process_depreciation_path do %>
+  Would you like to take into account that vehicles depreciate in value at an average of 15% anually?
+  <table>
+    <tr>
+      <td><%= label_tag :depriciation, "Yes", value: "yes" %></td>
+      <td><%= radio_button_tag :depreciation, "yes" %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag :depriciation, "No", value: "no" %></td>
+      <td><%= radio_button_tag :depreciation, "no" %></td>
+    </tr>
+  <tr>
+    <td><%= label_tag :depriciation, "Other", value: "other" %></td>
+    <td><%= radio_button_tag :depreciation, "other" %></td>
+  </tr>
+  </table>
   <%= submit_tag "Next" %>
 <% end %>

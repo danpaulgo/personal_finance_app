@@ -1,2 +1,0 @@
-module AssetsControllerHelper
-end

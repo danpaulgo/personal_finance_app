@@ -9,22 +9,39 @@
   <%= f.label :name, "Name:" %>
   <%= form_name(f, @type_category, @type.name) %>
   <br>
-  <%= f.label :amount, "Amount:" %>
+  <%= f.label :amount, "Value:" %>
   <%= form_amount(f) %>
   <br>
-  <%= f.label :interest, "Interest (optional):" %>
-  <%= form_interest(f,) %>
-  <br>
-  <%= f.label :compound_frequency, "Compound Frequency:" %>
-  <%= form_frequency(f, compound = true) %>
-  <br>
-  <%= f.label "Liquid?" %>
-  <br>
-  <%= f.label :liquid, "Yes", value: "true" %>
-  <%= f.radio_button :liquid, true %>
-  <%= f.label :liquid, "No", value: "false" %>
-  <%= f.radio_button :liquid, false %>
-  <br>
+  <% if @type.resource_name == "Car" %>
+    <%= f.label :interest, "Interest (optional):" %>
+    <%= form_interest(f,) %>
+    <br>
+    <%= f.label :compound_frequency, "Compound Frequency:" %>
+    <%= form_frequency(f, compound = true) %>
+    <br>
+  <% end %>
+  <% if AssetsHelper::LIQUID_ASSET_TYPES.include?(@type) %>
+    <%= hidden_field_tag "asset[liquid]", true %>
+  <% elsif AssetsHelper::ILLIQUID_ASSET_TYPES.include?(@type) %>
+    <%= hidden_field_tag "asset[liquid]", false %>
+  <% else %>
+    <% f.label "Liquid?" %>
+    <br>
+    <%= f.label :liquid, "Yes", value: "true" %>
+    <%= f.radio_button :liquid, true %>
+    <%= f.label :liquid, "No", value: "false" %>
+    <%= f.radio_button :liquid, false %>
+    <br>
+  <% end %>
+  <% if @type.name == "Vehicle" %>
+    <%= label_tag "Is this vehicle financed?" %>
+    <br>
+    <%= label_tag :rental, "Yes", value: "true" %>
+    <%= radio_button_tag :rental, true %>
+    <%= label_tag :rental, "No", value: "false" %>
+    <%= radio_button_tag :rental, false %>
+    <br>
+  <% end %>
   <%= f.submit @button_text %>
 
 <% end %>
