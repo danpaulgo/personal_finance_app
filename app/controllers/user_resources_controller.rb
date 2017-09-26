@@ -39,7 +39,9 @@ class UserResourcesController < ApplicationController
       case $resource
       when "Asset"
         if @type_category == "Vehicle"
-          @submit_path = vehicle_step_two_path
+          @owed = nil
+          @paid = nil
+          @submit_path = vehicle_process_step_one_path
           @button_text = "Next"
         elsif @type_category == "Real Estate"
           @submit_path = real_estate_step_two_path

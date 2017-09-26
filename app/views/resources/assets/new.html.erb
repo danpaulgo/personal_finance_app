@@ -4,10 +4,11 @@
 <%= form_for(@page_resource, url: @submit_path) do |f| %>
 
   <%= hidden_field_tag "asset[type_id]", @type.id %>
+  <%= hidden_field_tag "asset[primary]", false %>
   <%# hidden_field_tag "type_snake", params[:type] %>
 
   <%= f.label :name, "Name:" %>
-  <%= form_name(f, @type_category, @type.name) %>
+  <%= form_name(f, @type_category, (@page_resource.name || @type.name)) %>
   <br>
   <%= f.label :amount, "Value:" %>
   <%= form_amount(f) %>
@@ -34,12 +35,12 @@
     <br>
   <% end %>
   <% if @type.name == "Vehicle" %>
-    <%= label_tag "Is this vehicle financed?" %>
+    <label>Is this vehicle financed?</label>
     <br>
-    <%= label_tag :rental, "Yes", value: "true" %>
-    <%= radio_button_tag :rental, true %>
-    <%= label_tag :rental, "No", value: "false" %>
-    <%= radio_button_tag :rental, false %>
+    <label value="true" for="financed_true">Yes</label>
+    <input type="radio" name="financed" id="financed_true" value="true" <%= "checked" if @owed %> />
+    <label value="false" for="financed_false">No</label>
+    <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
     <br>
   <% end %>
   <%= f.submit @button_text %>
