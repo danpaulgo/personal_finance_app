@@ -19,8 +19,10 @@ Rails.application.routes.draw do
   end
 
   post "assets/new/vehicle/2", to: "assets#vehicle_process_step_one", as: "vehicle_process_step_one"
-  post "assets/new/vehicle/depreciation", to: "assets#process_depreciation", as: "process_depreciation"
-  post "assets/new/vehicle/3", to: "assets#vehicle_step_three", as: "vehicle_step_three"
+  get "assets/new/vehicle/2", to: "assets#vehicle_step_two", as: "vehicle_step_two"
+  post "assets/new/vehicle/3", to: "assets#vehicle_process_step_two", as: "vehicle_process_step_two"
+  get "assets/new/vehicle/3", to: "assets#vehicle_step_three", as: "vehicle_step_three"
+  post "assets/new/vehicle/4", to: "assets#vehicle_process_step_three", as: "vehicle_process_step_three"
 
   resources :future_net_worths, only: [:create]
 

@@ -1,0 +1,19 @@
+<%= render 'resources/assets/form_header' %>
+<%= form_for @page_resource, url: vehicle_process_step_three_path do |f| %>
+  <label>Would you like to take into account that vehicles depreciate in value at an average rate of 15% anually?</label>
+  <table>
+    <tr>
+      <td><label value="yes" for="depreciation_yes">Yes</label></td>
+      <td><input type="radio" name="depreciation" id="depreciation_yes" value="yes"></td>
+    </tr>
+    <tr>
+      <td><label value="no" for="depreciation_no">No</label></td>
+      <td><input type="radio" name="depreciation" id="depreciation_no" value="no"></td>
+    </tr>
+  </table>
+  Or, enter custom rate:
+  <br>
+  <%= f.number_field :interest, value: nil, placeholder: "Custom Rate (%)", step: :any %>
+  <br>
+  <%= submit_tag "Next" %>
+<% end %>

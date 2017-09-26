@@ -1,6 +1,4 @@
-<%= render 'resources/errors', object: @page_resource %>
-<h1>New Asset</h1>
-<h3><%= @type_category %></h3>
+<%= render 'resources/assets/form_header' %>
 <%= form_for(@page_resource, url: @submit_path) do |f| %>
 
   <%= hidden_field_tag "asset[type_id]", @type.id %>
