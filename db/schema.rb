@@ -10,30 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170902043405) do
-
-  # create_table "asset_liquids", force: :cascade do |t|
-  #   t.integer "type_id"
-  #   t.string "name"
-  #   t.integer "user_id"
-  #   t.float "amount"
-  #   t.float "interest"
-  #   t.string "compound_frequency"
-  #   t.boolean "primary"
-  #   t.datetime "created_at", null: false
-  #   t.datetime "updated_at", null: false
-  # end
-
-  # create_table "asset_non_liquids", force: :cascade do |t|
-  #   t.integer "type_id"
-  #   t.string "name"
-  #   t.integer "user_id"
-  #   t.float "amount"
-  #   t.float "interest"
-  #   t.string "compound_frequency"
-  #   t.datetime "created_at", null: false
-  #   t.datetime "updated_at", null: false
-  # end
+ActiveRecord::Schema.define(version: 20170927203902) do
 
   create_table "assets", force: :cascade do |t|
     t.integer "type_id"
@@ -65,7 +42,7 @@ ActiveRecord::Schema.define(version: 20170902043405) do
     t.integer "user_id"
     t.float "amount"
     t.string "frequency"
-    t.integer "asset_paying_id"
+    t.integer "associated_asset_id"
     t.datetime "next_billing_date"
     t.datetime "discontinued"
     t.datetime "created_at", null: false
@@ -78,7 +55,7 @@ ActiveRecord::Schema.define(version: 20170902043405) do
     t.integer "user_id"
     t.float "amount"
     t.string "frequency"
-    t.integer "asset_destination_id"
+    t.integer "associated_asset_id"
     t.datetime "next_payment_date"
     t.datetime "discontinued"
     t.datetime "created_at", null: false
@@ -108,11 +85,14 @@ ActiveRecord::Schema.define(version: 20170902043405) do
 
   create_table "transfers", force: :cascade do |t|
     t.integer "user_id"
-    t.boolean "debt_payment"
     t.integer "liquid_asset_from_id"
     t.integer "destination_id"
+    t.string "type"
+    t.datetime "next_date"
     t.float "amount"
     t.string "frequency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

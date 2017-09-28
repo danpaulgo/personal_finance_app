@@ -1,0 +1,36 @@
+<%= render 'resources/assets/form_header' %>
+<%= form_tag process_vehicle_step_five_path do %>
+  <b>Related Expenses</b>
+  <br>
+  <br>
+  <%= fields_for :gasoline, @gasoline do |g| %>
+    <%= g.label :amount, "How much do you typically spend on gas in a month?" %>
+    <br>
+    <%= form_amount(g) %>
+  <% end %>
+  <br>
+  <br> 
+  <%= fields_for :insurance, @insurance do |i| %>
+    <%= i.label :amount, "How much do you pay for car insurance in a year?" %>
+    <br>
+    <%= form_amount(i) %>
+  <% end %>
+  <br>
+  <br> 
+  <%= fields_for :maintenance, @maintenance do |m| %>
+    <%= m.label :amount, "How much do you typically spend on maintenance and repairs in a year?" %>
+    <br>
+    <%= form_amount(m) %>
+  <% end %>
+  <br>
+  <br> 
+  <%= fields_for :maintenance, @maintenance do |m| %>
+    <%= m.label :amount, "How much do you typically spend on miscellaneous expenses in a year?" %>
+    <br>
+    <%= form_amount(m) %>
+  <% end %>
+  <br>
+  <br>
+  <%= submit_tag "Submit" %>
+  
+<% end %>

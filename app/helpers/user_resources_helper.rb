@@ -1,7 +1,7 @@
 module UserResourcesHelper
 
   def input_fields(resource)
-    permitted_input = ["type_id", "name", "amount", "frequency", "interest", "liquid", "compound_frequency", "asset_payind_id", "asset_destination_id", "next_billing_date", "next_payment_date", "discontinued", "asset_paying_id", "destination_id"]
+    permitted_input = ["type_id", "name", "amount", "frequency", "interest", "liquid", "compound_frequency", "associated_asset_id", "next_billing_date", "next_payment_date", "discontinued", "asset_paying_id", "destination_id"]
     permitted_input & resource.attributes.keys
   end
 
@@ -143,11 +143,16 @@ module UserResourcesHelper
     #   f.select(:compound_frequency, options_for_select(frequency_selections, selected: f.object.compound_frequency), include_blank: "Compound Frequency")
     # end
 
-    def form_frequency(f, compound = false)
-      compound ? frequency_type = "compound_frequency" : frequency_type = "frequency"
-      frequency_selections = ["Daily", "Weekly", "Monthly", "Yearly"]
-      f.select(:"#{frequency_type}", options_for_select(frequency_selections, selected: f.object.send(frequency_type)), include_blank: "Select Frequency")
+    def form_frequency(f)
+      frequency_selections = ["One-time", "Daily", "Weekly", "Monthly", "Yearly"]
+      f.select(:frequency, options_for_select(frequency_selections, selected: f.object.frequency), include_blank: "Select Frequency")
     end
+
+    def form_compound_frequency(f)
+      frequency_selections = ["Daily", "Weekly", "Monthly", "Quarterly", "Yearly", "I don't know"]
+      f.select(:compound_frequency, options_for_select(frequency_selections, selected: f.object.compound_frequency), include_blank: "Select Frequency")
+    end
+
 
     def form_payment(f)
       f.number_field :payment, placeholder: "Payment Amount (USD)", step: '0.01', value: (f.object.amount.nil? ? nil : ('%.2f' % f.object.amount))
@@ -163,9 +168,18 @@ module UserResourcesHelper
       f.text_area :description, placeholder: "Description"
     end
 
-    def form_select_primary_asset(f, user, direction = "paying")
+    def form_select_primary_asset(f, user)
       selections = user.assets.where(primary: true).map{|asset| [asset.name, asset.id]}
-      f.select(:"asset_#{direction}_id", options_for_select(selections, selected: f.object.send("asset_#{direction}_id")), include_blank: "Select Asset")
+      f.select(:associated_asset_id, options_for_select(selections, selected: f.object.associated_asset_id), include_blank: "Select Asset")
+    end
+
+    def form_select_liquid_asset(f, user)
+      selections = user.assets.where(liquid: true).map{|asset| [asset.name, asset.id]}
+      f.select(:liquid_asset_from_id, options_for_select(selections, selected: f.object.liquid_asset_from_id), include_blank: "Select Asset")
+    end
+
+    def form_select_assets_debts(f, user)
+
     end
 
     def form_discontinued(f)

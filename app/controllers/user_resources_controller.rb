@@ -41,10 +41,10 @@ class UserResourcesController < ApplicationController
         if @type_category == "Vehicle"
           @owed = nil
           @paid = nil
-          @submit_path = vehicle_process_step_one_path
+          @submit_path = process_vehicle_step_one_path
           @button_text = "Next"
         elsif @type_category == "Real Estate"
-          @submit_path = real_estate_step_two_path
+          @submit_path = process_real_estate_step_two_path
           @button_text = "Next"
         else
           @submit_path = assets_path
@@ -103,6 +103,7 @@ class UserResourcesController < ApplicationController
 
   private
 
+    # CHANGE TO INDIVIDUAL CONTROLLERS
     def resource_params
       params.require($resource.downcase.to_sym).permit(input_fields($new_resource).map{|pi| pi.to_sym})
       # MAY WORK WITHOUT ".to_sym" METHOD

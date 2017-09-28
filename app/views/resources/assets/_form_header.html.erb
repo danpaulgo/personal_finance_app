@@ -1,4 +1,5 @@
-<% set_vehicle_form_variables %>
-<%= render 'resources/errors', object: @page_resource %>
+<% if @type_category != "Vehicle" %>
+  <%= render 'resources/errors', object: @page_resource %>
+<% end %>
 <h1>New Asset</h1>
 <h3><%= @type_category %></h3>

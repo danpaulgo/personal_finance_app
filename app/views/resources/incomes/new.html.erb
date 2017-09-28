@@ -15,8 +15,8 @@
   <%= f.label :frequency, "Frequency:" %>
   <%= form_frequency(f) %>
   <br>
-  <%= f.label :asset_destination_id, "Directed To:" %>
-  <%= form_select_primary_asset(f, current_user, "destination") %>
+  <%= f.label :associated_asset_id, "Directed To:" %>
+  <%= form_select_primary_asset(f, current_user) %>
   <br>
   <%= f.label :next_payment_date, "Next Payment:" %>
   <%= form_next_date(f, "payment") %>

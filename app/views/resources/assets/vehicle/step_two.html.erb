@@ -1,2 +1,31 @@
 <%= render 'resources/assets/form_header' %>
-TESTING
+<%= form_for @loan, url: process_vehicle_step_two_path do |f| %>
+  <b>Vehicle Loan Details</b>
+  <br>
+  <%= f.label :amount, "Amount owed:" %>
+  <%= form_amount(f) %>
+  <br>
+  <%= f.label :interest, "Interest rate:" %>
+  <%= form_interest(f) %>
+  <br>
+  <%= f.label :compound_frequency, "Compound Frequency:" %>
+  <%= form_compound_frequency(f) %>
+  <br>
+  <b>Loan Payment Details</b>
+  <br>
+  <%= fields_for :payment, @payment do |p| %>
+    <%= p.label :amount, "Payment amount: " %>
+    <%= form_amount(p) %>
+    <br>
+    <%= p.label :frequency, "Payment frequency: " %>
+    <%= form_frequency(p) %>
+    <br>
+    <%= p.label :liquid_asset_from_id, "Paid using: " %>
+    <%= form_select_liquid_asset(p, current_user) %>
+  <% end %>
+  <br>
+  <%= f.submit "Next" %>
+  
+<% end %>
+<p><i>* If you do not have all necessary information, you may <%= link_to "enter your vehicle payments as an expense", vehicle_step_three_path %> instead or <%= link_to "skip", vehicle_step_four_path %> this step altogether</i></p>
+<!-- This will link to the other page which will have a link that reads "Enter vehicle loan as a debt". vehicle_step_three_path must be replaced  -->

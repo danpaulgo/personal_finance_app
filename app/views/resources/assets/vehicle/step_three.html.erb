@@ -1,19 +1,20 @@
 <%= render 'resources/assets/form_header' %>
-<%= form_for @page_resource, url: vehicle_process_step_three_path do |f| %>
-  <label>Would you like to take into account that vehicles depreciate in value at an average rate of 15% anually?</label>
-  <table>
-    <tr>
-      <td><label value="yes" for="depreciation_yes">Yes</label></td>
-      <td><input type="radio" name="depreciation" id="depreciation_yes" value="yes"></td>
-    </tr>
-    <tr>
-      <td><label value="no" for="depreciation_no">No</label></td>
-      <td><input type="radio" name="depreciation" id="depreciation_no" value="no"></td>
-    </tr>
-  </table>
-  Or, enter custom rate:
+<%= form_for @expense, url: process_vehicle_step_three_path do |f| %>
+  <b>Vehicle Payment Details</b>
   <br>
-  <%= f.number_field :interest, value: nil, placeholder: "Custom Rate (%)", step: :any %>
+  <%= f.label :amount, "Amount:" %>
+  <%= form_amount(f) %>
   <br>
-  <%= submit_tag "Next" %>
+  <%= f.label :frequency, "Frequency:" %>
+  <%= form_frequency(f) %>
+  <br>
+  <%= f.label :associated_asset_id, "Pay Using:" %>
+  <%= form_select_primary_asset(f, current_user) %>
+  <br>
+  <%= f.label :next_billing_date, "Next Billing:" %>
+  <%= form_next_date(f) %>
+  <br>
+  <%= f.label :discontinued, "End Date:" %>
+  <%= form_discontinued(f) %>
 <% end %>
+<p><%= link_to "Back", vehicle_step_two_path %></p>
