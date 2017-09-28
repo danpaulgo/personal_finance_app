@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(version: 20170927203902) do
     t.float "amount"
     t.string "frequency"
     t.integer "associated_asset_id"
-    t.datetime "next_billing_date"
-    t.datetime "discontinued"
+    t.datetime "next_date"
+    t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -56,8 +56,8 @@ ActiveRecord::Schema.define(version: 20170927203902) do
     t.float "amount"
     t.string "frequency"
     t.integer "associated_asset_id"
-    t.datetime "next_payment_date"
-    t.datetime "discontinued"
+    t.datetime "next_date"
+    t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

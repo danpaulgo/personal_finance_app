@@ -23,6 +23,10 @@ class VehicleFormController < AssetsController
     end
   end
 
+  def session_vehicle
+    Asset.new(session[:asset_params])
+  end
+
   def vehicle_step_two
     @loan = Debt.new
     @payment = Transfer.new
@@ -30,12 +34,17 @@ class VehicleFormController < AssetsController
   end
 
   def process_vehicle_step_two
-    # render vehicle_step_two and create flash error if any of the values in params[:debt] or params[:payment] are blank or nil
+    # call .valid? on @loan and debt instead of saving. use fake destination_id on payment to validate
+
+
+
+
     @loan = Debt.new(debt_params)
     @loan.user = current_user
+    @loan.name = "#{session_vehicle.name} loan"
     @loan.type_id = 16
     @payment = Transfer.new(payment_params)
-    # binding.pry
+    binding.pry
     if @loan.save && !params[:payment].values.any?{|v| v.blank?}
       @payment.destination_id = @loan.id
       @payment.user = current_user
@@ -44,6 +53,7 @@ class VehicleFormController < AssetsController
       if @payment.save
         redirect_to vehicle_step_four_path
       else
+        @loan.delete
         flash[:error] = "Make sure all fields are filled in correctly"
         render 'resources/assets/vehicle/step_two.html.erb'
       end
@@ -59,7 +69,17 @@ class VehicleFormController < AssetsController
   end
 
   def process_vehicle_step_three
-
+    @expense = Expense.new(expense_params)
+    @expense.user = current_user
+    @expense.type_id = 42
+    @expense.name = "#{session_vehicle.name} payment"
+    if @expense.valid?
+      session[:vehicle_payment] = @expense
+      redirect_to vehicle_step_four_path
+    else
+      flash[:error] = @expense.errors.full_messages.join(", ")
+      render 'resources/assets/vehicle/step_three.html.erb'
+    end
   end
 
   def vehicle_step_four
@@ -97,6 +117,10 @@ class VehicleFormController < AssetsController
 
     def payment_params
       params.require(:payment).permit(:amount, :frequency, :liquid_asset_from_id, :next_date)
+    end
+
+    def expense_params
+      params.require(:expense).permit(:amount, :frequency, :associated_asset_id, :next_date, :end_date)
     end
 
 end

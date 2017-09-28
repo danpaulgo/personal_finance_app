@@ -182,8 +182,8 @@ module UserResourcesHelper
 
     end
 
-    def form_discontinued(f)
-      f.date_field :discontinued
+    def form_end_date(f)
+      f.date_field :end_date
     end
 
     def form_next_date(f)

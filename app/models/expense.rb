@@ -2,7 +2,7 @@ class Expense < ApplicationRecord
 
   belongs_to :user
 
-  validates :amount, :user_id, :frequency, :asset_paying_id, :next_billing_date, presence: true
+  validates :amount, :user_id, :frequency, :associated_asset_id, :next_date, presence: true
   # validates_presence_of :payment_frequency, if: :payment?
 
   def make_payment(debt, amount, pay_from)
