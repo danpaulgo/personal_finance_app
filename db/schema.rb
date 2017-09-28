@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 20170927203902) do
     t.integer "user_id"
     t.integer "liquid_asset_from_id"
     t.integer "destination_id"
-    t.string "type"
+    t.string "transfer_type"
     t.datetime "next_date"
     t.float "amount"
     t.string "frequency"

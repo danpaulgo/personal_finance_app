@@ -186,8 +186,8 @@ module UserResourcesHelper
       f.date_field :discontinued
     end
 
-    def form_next_date(f, direction = "billing")
-      f.date_field :"next_#{direction}_date"
+    def form_next_date(f)
+      f.date_field :next_date
     end
 
     def form_liquid(f)

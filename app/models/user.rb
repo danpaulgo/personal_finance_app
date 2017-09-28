@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :expenses, dependent: :destroy
   has_many :debts, dependent: :destroy
   has_many :assets, dependent: :destroy
+  has_many :transfers, dependent: :destroy
 
   validates :name, :username, :password, presence: true
   validates :username, uniqueness: true

@@ -32,9 +32,23 @@ class VehicleFormController < AssetsController
   def process_vehicle_step_two
     # render vehicle_step_two and create flash error if any of the values in params[:debt] or params[:payment] are blank or nil
     @loan = Debt.new(debt_params)
+    @loan.user = current_user
+    @loan.type_id = 16
     @payment = Transfer.new(payment_params)
-    if params[:debt].values.any?{|v| v.blank?} || params[:payment].values.any?{|v| v.blank?}
-      flash[:error] = "Please fill in all fields"
+    # binding.pry
+    if @loan.save && !params[:payment].values.any?{|v| v.blank?}
+      @payment.destination_id = @loan.id
+      @payment.user = current_user
+      @payment.transfer_type = "Debt Payment"
+      # CORRECT REPEATING CODE BELOW
+      if @payment.save
+        redirect_to vehicle_step_four_path
+      else
+        flash[:error] = "Make sure all fields are filled in correctly"
+        render 'resources/assets/vehicle/step_two.html.erb'
+      end
+    else
+      flash[:error] = "Make sure all fields are filled in correctly"
       render 'resources/assets/vehicle/step_two.html.erb'
     end
   end
@@ -82,7 +96,7 @@ class VehicleFormController < AssetsController
     end
 
     def payment_params
-      params.require(:payment).permit(:amount, :frequency, :liquid_asset_from_id)
+      params.require(:payment).permit(:amount, :frequency, :liquid_asset_from_id, :next_date)
     end
 
 end
