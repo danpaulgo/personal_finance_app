@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   post "assets/new/vehicle/4", to: "vehicle_form#process_vehicle_step_four", as: "process_vehicle_step_four"
   get "assets/new/vehicle/5", to: "vehicle_form#vehicle_step_five", as: "vehicle_step_five"
   post "assets/new/vehicle/5", to: "vehicle_form#process_vehicle_step_five", as: "process_vehicle_step_five"
+  # get "assets/new/vehicle/complete", to: "vehicle_form#process_vehicle_form", as: "process_vehicle_form"
 
   resources :future_net_worths, only: [:create]
 

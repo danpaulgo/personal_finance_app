@@ -22,9 +22,6 @@
     <br>
     <%= p.label :liquid_asset_from_id, "Paid using: " %>
     <%= form_select_liquid_asset(p, current_user) %>
-    <br>
-    <%= p.label :next_date, "Date of next payment: " %>
-    <%= form_next_date(p) %>
   <% end %>
   <br>
   <%= f.submit "Next" %>

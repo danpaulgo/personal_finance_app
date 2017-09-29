@@ -14,7 +14,7 @@ class VehicleFormController < AssetsController
       flash[:error] = "Please fill in all fields"
       render "resources/assets/new"
     else
-      session[:asset_params] = asset_params
+      session[:vehicle] = @page_resource
       if @financed == "true"
         redirect_to vehicle_step_two_path
       else
@@ -24,7 +24,7 @@ class VehicleFormController < AssetsController
   end
 
   def session_vehicle
-    Asset.new(session[:asset_params])
+    Asset.new(session[:vehicle])
   end
 
   def vehicle_step_two
@@ -35,30 +35,22 @@ class VehicleFormController < AssetsController
 
   def process_vehicle_step_two
     # call .valid? on @loan and debt instead of saving. use fake destination_id on payment to validate
-
-
-
-
     @loan = Debt.new(debt_params)
     @loan.user = current_user
     @loan.name = "#{session_vehicle.name} loan"
     @loan.type_id = 16
     @payment = Transfer.new(payment_params)
-    binding.pry
-    if @loan.save && !params[:payment].values.any?{|v| v.blank?}
-      @payment.destination_id = @loan.id
-      @payment.user = current_user
-      @payment.transfer_type = "Debt Payment"
-      # CORRECT REPEATING CODE BELOW
-      if @payment.save
-        redirect_to vehicle_step_four_path
-      else
-        @loan.delete
-        flash[:error] = "Make sure all fields are filled in correctly"
-        render 'resources/assets/vehicle/step_two.html.erb'
-      end
+    @payment.user = current_user
+    @payment.transfer_type = "Debt Payment"
+    @payment.destination_id = 1
+    if @loan.valid? && @payment.valid?
+      session[:vehicle_loan] = @loan
+      session[:vehicle_loan_payment] = @payment
+      redirect_to vehicle_step_four_path
     else
-      flash[:error] = "Make sure all fields are filled in correctly"
+      @payment.valid?
+      @errors = @loan.errors.full_messages + @payment.errors.full_messages
+      flash[:error] = @errors.join(", ")
       render 'resources/assets/vehicle/step_two.html.erb'
     end
   end
@@ -87,10 +79,27 @@ class VehicleFormController < AssetsController
   end
 
   def process_vehicle_step_four
-
+    @vehicle = session_vehicle
+    @depreciate = params[:depreciation]
+    @custom_rate = params[:asset][:interest]
+    if @custom_rate.blank? && @depreciate.blank?
+      flash[:error] = "Please make a selection before continuing"
+      render 'resources/assets/vehicle/step_four.html.erb'
+    else
+      if !@custom_rate.blank?
+        @vehicle.interest ="-#{@custom_rate}".to_i
+      elsif @depreciate == "yes"
+        @vehicle.interest = -15
+      elsif @depreciate == "no"
+        @vehicle.interest = 0
+      end
+      session[:vehicle] = @vehicle
+      redirect_to vehicle_step_five_path
+    end
   end
 
   def vehicle_step_five
+    @user = current_user
     @gasoline = Expense.new
     @insurance = Expense.new
     @maintenance = Expense.new
@@ -100,6 +109,46 @@ class VehicleFormController < AssetsController
 
   def process_vehicle_step_five
 
+    expense_defaults = {gasoline: {type_id: 27, frequency: "Monthly"}, insurance: {type_id: 37, frequency: "Yearly"}, maintenance: {type_id: 29, frequency: "Yearly"}, misc: {type_id: 42, frequency: "Yearly"}}
+
+    @vehicle = session_vehicle
+    @user = current_user
+    @gasoline = Expense.new(expense_params("gasoline"))
+    @insurance = Expense.new(expense_params("insurance"))
+    @maintenance = Expense.new(expense_params("maintenance"))
+    @misc = Expense.new(expense_params("misc"))
+    
+    expense_defaults.each do |key, value|
+      expense = instance_variable_get("@#{key}")
+      if (expense.amount.blank? || expense.associated_asset_id.blank?) && !(expense.amount.blank? && expense.associated_asset_id.blank?)
+        flash[:error] = "Please enter both an amount and an asset for each question you choose to answer"
+        render 'resources/assets/vehicle/step_five.html.erb'
+        break
+      else
+        expense.name = "#{@vehicle.name} (#{key})"
+        expense.type_id = value[:type_id]
+        expense.user = current_user
+        expense.frequency = value[:frequency]
+        session[:"vehicle_#{key}"] = expense if expense.valid?
+        if value == expense_defaults.values.last
+          process_vehicle_form
+        end
+      end
+    end
+
+  end
+
+  def process_vehicle_form
+    # Check each session key for nil values. Instantiate and save objects for all values that are not nil. Reset all session keys to nil.
+    binding.pry
+    session[:vehicle]
+    session[:vehicle_loan]
+    session[:vehicle_loan_payment]
+    session[:vehicle_payment]
+    session[:vehicle_gasoline]
+    session[:vehicle_insurance]
+    session[:vehicle_maintenance]
+    session[:vehicle_misc]
   end
 
   private
@@ -119,8 +168,8 @@ class VehicleFormController < AssetsController
       params.require(:payment).permit(:amount, :frequency, :liquid_asset_from_id, :next_date)
     end
 
-    def expense_params
-      params.require(:expense).permit(:amount, :frequency, :associated_asset_id, :next_date, :end_date)
+    def expense_params(expense_name = "expense")
+      params.require(:"#{expense_name}").permit(:amount, :frequency, :associated_asset_id, :next_date, :end_date)
     end
 
 end

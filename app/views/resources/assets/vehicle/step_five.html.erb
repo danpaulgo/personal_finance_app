@@ -7,6 +7,8 @@
     <%= g.label :amount, "How much do you typically spend on gas in a month?" %>
     <br>
     <%= form_amount(g) %>
+    <%= g.label :associated_asset_id, "paid using: " %>
+    <%= form_select_primary_asset(g, @user) %>
   <% end %>
   <br>
   <br> 
@@ -14,6 +16,8 @@
     <%= i.label :amount, "How much do you pay for car insurance in a year?" %>
     <br>
     <%= form_amount(i) %>
+    <%= i.label :associated_asset_id, "paid using: " %>
+    <%= form_select_primary_asset(i, @user) %>
   <% end %>
   <br>
   <br> 
@@ -21,13 +25,17 @@
     <%= m.label :amount, "How much do you typically spend on maintenance and repairs in a year?" %>
     <br>
     <%= form_amount(m) %>
+    <%= m.label :associated_asset_id, "paid using: " %>
+    <%= form_select_primary_asset(m, @user) %>
   <% end %>
   <br>
   <br> 
-  <%= fields_for :maintenance, @maintenance do |m| %>
-    <%= m.label :amount, "How much do you typically spend on miscellaneous expenses in a year?" %>
+  <%= fields_for :misc, @misc do |mi| %>
+    <%= mi.label :amount, "How much do you typically spend on miscellaneous expenses in a year?" %>
     <br>
-    <%= form_amount(m) %>
+    <%= form_amount(mi) %>
+    <%= mi.label :associated_asset_id, "paid using: " %>
+    <%= form_select_primary_asset(mi, @user) %>
   <% end %>
   <br>
   <br>

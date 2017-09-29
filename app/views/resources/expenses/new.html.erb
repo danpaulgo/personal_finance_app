@@ -18,9 +18,6 @@
   <%= f.label :associated_asset_id, "Pay Using:" %>
   <%= form_select_primary_asset(f, current_user) %>
   <br>
-  <%= f.label :next_date, "Next Billing:" %>
-  <%= form_next_date(f) %>
-  <br>
   <%= f.label :end_date, "End Date (optional):" %>
   <%= form_end_date(f) %>
   <br>
