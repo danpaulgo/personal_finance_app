@@ -16,6 +16,7 @@ class UserResourcesController < ApplicationController
   end
 
   def index
+    binding.pry
     @all = current_user.send($resource_plural)
     render 'resources/index.html.erb'
   end
@@ -27,7 +28,7 @@ class UserResourcesController < ApplicationController
 
   def new
     @page_resource = $new_resource
-    @type = ResourceType.find_by(name: params[:type].split("_").map{|w| w.capitalize}.join(" "))
+    @type = ResourceType.find_by(name: params[:type].split("_").map{ |w| (w != "of" && w != "the") ? w.capitalize : w}.join(" "))
     if !!@type.name.match(/\sBill\z/)
       @type_category = "Bill"
     elsif !!@type.name.match(/\sInsurance\z/)

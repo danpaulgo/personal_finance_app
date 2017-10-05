@@ -20,6 +20,9 @@
     <%= p.label :frequency, "Payment frequency: " %>
     <%= form_frequency(p) %>
     <br>
+      <%= p.label :next_date, "Next payment date: " %>
+      <%= form_next_date(p) %>
+    <br>
     <%= p.label :liquid_asset_from_id, "Paid using: " %>
     <%= form_select_liquid_asset(p, current_user) %>
   <% end %>

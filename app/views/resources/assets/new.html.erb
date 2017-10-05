@@ -11,20 +11,13 @@
   <%= f.label :amount, "Value:" %>
   <%= form_amount(f) %>
   <br>
-  <% if @type.resource_name == "Car" %>
-    <%= f.label :interest, "Interest (optional):" %>
-    <%= form_interest(f,) %>
-    <br>
-    <%= f.label :compound_frequency, "Compound Frequency:" %>
-    <%= form_compound_frequency(f) %>
-    <br>
-  <% end %>
+
   <% if AssetsHelper::LIQUID_ASSET_TYPES.include?(@type) %>
     <%= hidden_field_tag "asset[liquid]", true %>
   <% elsif AssetsHelper::ILLIQUID_ASSET_TYPES.include?(@type) %>
     <%= hidden_field_tag "asset[liquid]", false %>
   <% else %>
-    <% f.label "Liquid?" %>
+    <label>Liquid?</label>
     <br>
     <%= f.label :liquid, "Yes", value: "true" %>
     <%= f.radio_button :liquid, true %>
