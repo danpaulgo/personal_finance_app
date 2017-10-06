@@ -33,6 +33,13 @@
     <label value="false" for="financed_false">No</label>
     <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
     <br>
+  <% elsif @type.name == "Real Estate" %>
+
+  <% else %>
+    <%= f.label :interest, "Estimated rate of appreciation: " %>
+    <br>
+    <%= form_interest(f) %>
+    <br>
   <% end %>
   <%= f.submit @button_text %>
 

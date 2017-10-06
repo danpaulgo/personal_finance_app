@@ -16,7 +16,6 @@ class VehicleFormController < AssetsController
       flash[:error] = "Please fill in all fields"
       render "resources/assets/new"
     else
-      binding.pry
       session[:vehicle] = @page_resource
       if @financed == "true"
         redirect_to vehicle_step_two_path
@@ -143,7 +142,7 @@ class VehicleFormController < AssetsController
 
   end
 
-  @@new_instances_types = [{session_name: :vehicle, resource_name: "Asset"}, {session_name: :vehicle_loan, resource_name: "Debt"}, {session_name: :vehicle_loan_payment, resource_name: "Transfer"}, {session_name: :vehicle_payment, resource_name: "Expense"}, {session_name: :vehicle_gasoline, resource_name: "Expense"}, {session_name: :vehicle_insurance, resource_name: "Expense"}, {session_name: :vehicle_maintenance, resource_name: "Expense"}, {session_name: :vehicle_misc, resource_name: "Expense"}]
+  @@new_instances = [{session_name: :vehicle, resource_name: "Asset"}, {session_name: :vehicle_loan, resource_name: "Debt"}, {session_name: :vehicle_loan_payment, resource_name: "Transfer"}, {session_name: :vehicle_payment, resource_name: "Expense"}, {session_name: :vehicle_gasoline, resource_name: "Expense"}, {session_name: :vehicle_insurance, resource_name: "Expense"}, {session_name: :vehicle_maintenance, resource_name: "Expense"}, {session_name: :vehicle_misc, resource_name: "Expense"}]
 
   def process_vehicle_form
     # Check each session key for nil values. Instantiate and save objects for all values that are not nil. Reset all session keys to nil.
@@ -153,7 +152,7 @@ class VehicleFormController < AssetsController
   end
 
   def present_params
-    @@new_instances_types.map{ |type_hash| type_hash if !session[type_hash[:session_name]].blank?}.compact
+    @@new_instances.map{ |type_hash| type_hash if !session[type_hash[:session_name]].blank?}.compact
   end
 
   def create_objects_from_session

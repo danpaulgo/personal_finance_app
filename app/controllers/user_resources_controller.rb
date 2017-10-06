@@ -16,7 +16,6 @@ class UserResourcesController < ApplicationController
   end
 
   def index
-    binding.pry
     @all = current_user.send($resource_plural)
     render 'resources/index.html.erb'
   end
