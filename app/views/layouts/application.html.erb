@@ -9,14 +9,17 @@
   </head>
 
   <body>
-    <% flash.each do |message_type, message| %>
+    <% flash.each do |message_type, message_array| %>
       <!-- <div class="alert alert-<%= message_type %>">
-        <%= message %> 
+        <%# message %> 
       </div> -->
+      <p><%= message_type.capitalize %>: </p>
       <ul>
-        <li><%= message_type.capitalize %>: <%= message %></li>
+        <% message_array.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
-      <% end %>
+    <% end %>
     <% flash.clear %>
     <%= yield %>
     <br>

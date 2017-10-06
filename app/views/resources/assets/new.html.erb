@@ -1,9 +1,8 @@
 <%= render 'resources/assets/form_header' %>
 <%= form_for(@page_resource, url: @submit_path) do |f| %>
 
-  <%= hidden_field_tag "asset[type_id]", @type.id %>
-  <%= hidden_field_tag "asset[primary]", false %>
-  <%# hidden_field_tag "type_snake", params[:type] %>
+  <%# hidden_field_tag "asset[type_id]", @type.id %>
+  <%# hidden_field_tag "asset[primary]", false %>
 
   <%= f.label :name, "Name:" %>
   <%= form_name(f, @type_category, (@page_resource.name || @type.name)) %>
@@ -11,7 +10,7 @@
   <%= f.label :amount, "Value:" %>
   <%= form_amount(f) %>
   <br>
-
+  <!-- Put below functionality into helper method so that liquidity may be set in controller before opening form -->
   <% if AssetsHelper::LIQUID_ASSET_TYPES.include?(@type) %>
     <%= hidden_field_tag "asset[liquid]", true %>
   <% elsif AssetsHelper::ILLIQUID_ASSET_TYPES.include?(@type) %>

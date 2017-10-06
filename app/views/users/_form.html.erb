@@ -1,3 +1,4 @@
+<%= render 'resources/errors', object: @user %>
 <%= form_for(@user) do |f| %>
   <%= f.label :name, "Full Name" %>:
   <%= f.text_field :name %>

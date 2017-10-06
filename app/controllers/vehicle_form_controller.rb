@@ -13,7 +13,7 @@ class VehicleFormController < AssetsController
       @owed = true if @financed == "true"
       @paid = true if @financed == "false"
       @type_category = "Vehicle"
-      flash[:error] = "Please fill in all fields"
+      flash[:error] = ["Please fill in all fields"]
       render "resources/assets/new"
     else
       session[:vehicle] = @page_resource
@@ -51,8 +51,7 @@ class VehicleFormController < AssetsController
       redirect_to vehicle_step_four_path
     else
       @payment.valid?
-      @errors = @loan.errors.full_messages + @payment.errors.full_messages
-      flash[:error] = @errors.join(", ")
+      flash[:error] = @loan.errors.full_messages + @payment.errors.full_messages
       render 'resources/assets/vehicle/step_two.html.erb'
     end
   end
@@ -71,7 +70,7 @@ class VehicleFormController < AssetsController
       session[:vehicle_payment] = @expense
       redirect_to vehicle_step_four_path
     else
-      flash[:error] = @expense.errors.full_messages.join(", ")
+      flash[:error] = @expense.errors.full_messages
       render 'resources/assets/vehicle/step_three.html.erb'
     end
   end
@@ -85,7 +84,7 @@ class VehicleFormController < AssetsController
     @depreciate = params[:depreciation]
     @custom_rate = params[:asset][:interest]
     if @custom_rate.blank? && @depreciate.blank?
-      flash[:error] = "Please make a selection before continuing"
+      flash[:error] = ["Please make a selection before continuing"]
       render 'resources/assets/vehicle/step_four.html.erb'
     else
       if !@custom_rate.blank?
@@ -125,7 +124,7 @@ class VehicleFormController < AssetsController
     expense_defaults.each do |key, value|
       expense = instance_variable_get("@#{key}")
       if (expense.amount.blank? || expense.associated_asset_id.blank?) && !(expense.amount.blank? && expense.associated_asset_id.blank?)
-        flash[:error] = "Please enter both an amount and an asset for each question you choose to answer"
+        flash[:error] = ["Please enter both an amount and an asset for each question you choose to answer"]
         render 'resources/assets/vehicle/step_five.html.erb'
         break
       else

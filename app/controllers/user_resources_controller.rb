@@ -27,38 +27,47 @@ class UserResourcesController < ApplicationController
 
   def new
     @page_resource = $new_resource
+    @page_resource.user_id = current_user.id
     @type = ResourceType.find_by(name: params[:type].split("_").map{ |w| (w != "of" && w != "the") ? w.capitalize : w}.join(" "))
-    if !!@type.name.match(/\sBill\z/)
-      @type_category = "Bill"
-    elsif !!@type.name.match(/\sInsurance\z/)
-      @type_category = "Insurance"
-    else
-      @type_category = @type.name
-    end  
     if @type && ResourceName.find_by(name: @page_resource.class.name).resource_types.include?(@type)
+      @page_resource.type_id = @type.id
+      if !!@type.name.match(/\sBill\z/)
+        @type_category = "Bill"
+      elsif !!@type.name.match(/\sInsurance\z/)
+        @type_category = "Insurance"
+      else
+        @type_category = @type.name
+      end  
       case $resource
       when "Asset"
+        # Add default params to @page_resource
         if @type_category == "Vehicle"
+          # Add default vehicle params to @page_resource
           @owed = nil
           @paid = nil
           @submit_path = process_vehicle_step_one_path
           @button_text = "Next"
         elsif @type_category == "Real Estate"
+          # Add default real_estate params to @page_resource
           @submit_path = process_real_estate_step_two_path
           @button_text = "Next"
         else
+          # Add additional default asset params to @page_resource
           @submit_path = assets_path
         end
         render 'resources/assets/new.html.erb'
       when "Debt"
+        # Add default params to @page_resource
         render 'resources/debts/new.html.erb'
       when "Income"
+        # Add default params to @page_resource
         render 'resources/incomes/new.html.erb'
       when "Expense"
+        # Add default params to @page_resource
         render 'resources/expenses/new.html.erb'
       end
     else
-      flash[:error] = "Invalid #{@resource.class.name.downcase} type"
+      flash[:error] = ["Invalid #{@page_resource.class.name.downcase} type"]
       redirect_to root_path
     end
 
@@ -67,14 +76,13 @@ class UserResourcesController < ApplicationController
 
   def create
     @page_resource = $resource.constantize.new(resource_params)
-    @page_resource.user_id = current_user.id
-    @page_resource.type_id = params[:type_id]
+    @page_resource.type_id = params[:"#{$resource.downcase}"][:type_id]
     nil_to_zero(@page_resource)
     if @page_resource.save
-      flash[:success] = "#{$resource} saved"
+      flash[:success] = ["#{$resource} saved"]
       redirect_to "/#{$resource_plural}" 
     else
-      @type = ResourceType.find(params[:type_id])
+      @type = ResourceType.find(@page_resource.type_id)
       render "resources/#{$resource_plural}/new" 
     end
   end
@@ -87,7 +95,7 @@ class UserResourcesController < ApplicationController
     @page_resource.update_attributes(resource_params)
     nil_to_zero(@page_resource)
     if @page_resource.save
-      flash[:success] = "#{$resource} updated"
+      flash[:success] = ["#{$resource} updated"]
       redirect_to "/#{$resource_plural}" 
     else
       render 'resources/edit'
@@ -96,7 +104,7 @@ class UserResourcesController < ApplicationController
 
   def destroy
     if @page_resource.destroy
-      flash[:success] = "#{$resource} deleted"
+      flash[:success] = ["#{$resource} deleted"]
       redirect_to "/#{$resource_plural}"
     end
   end
@@ -116,7 +124,7 @@ class UserResourcesController < ApplicationController
     def correct_user
       @page_resource = $resource.constantize.find_by(id: params[:id])
       if !(@page_resource.user ==  current_user)
-        flash[:error] = "Invalid User"
+        flash[:error] = ["Invalid User"]
         redirect_to root_path
       end
     end

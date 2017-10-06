@@ -7,7 +7,7 @@ class FutureNetWorthsController < ApplicationController
     time_now = Time.now.to_date
     date = future_date_param.to_date
     if time_now > date
-      flash[:error] = "Must enter valid date in future"
+      flash[:error] = ["Must enter valid date in future"]
       redirect_to root_path
     else
       @user.future_net_worth = @user.calculate_future_net_worth(future_date_param)

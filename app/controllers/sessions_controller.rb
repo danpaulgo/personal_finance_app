@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       session[:id] = @user.id
       redirect_to root_path
     else 
-      flash[:error] = "Incorrect username/password"
+      flash[:error] = ["Incorrect username/password"]
       render 'new'
     end
   end
