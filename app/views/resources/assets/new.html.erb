@@ -1,7 +1,7 @@
 <%= render 'resources/assets/form_header' %>
 <%= form_for(@page_resource, url: @submit_path) do |f| %>
 
-  <%# hidden_field_tag "asset[type_id]", @type.id %>
+  <%= hidden_field_tag "asset[type_id]", @type.id %>
   <%# hidden_field_tag "asset[primary]", false %>
 
   <%= f.label :name, "Name:" %>

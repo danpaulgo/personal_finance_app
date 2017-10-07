@@ -27,10 +27,8 @@ class UserResourcesController < ApplicationController
 
   def new
     @page_resource = $new_resource
-    @page_resource.user_id = current_user.id
     @type = ResourceType.find_by(name: params[:type].split("_").map{ |w| (w != "of" && w != "the") ? w.capitalize : w}.join(" "))
     if @type && ResourceName.find_by(name: @page_resource.class.name).resource_types.include?(@type)
-      @page_resource.type_id = @type.id
       if !!@type.name.match(/\sBill\z/)
         @type_category = "Bill"
       elsif !!@type.name.match(/\sInsurance\z/)
@@ -76,7 +74,7 @@ class UserResourcesController < ApplicationController
 
   def create
     @page_resource = $resource.constantize.new(resource_params)
-    @page_resource.type_id = params[:"#{$resource.downcase}"][:type_id]
+    @page_resource.user_id = current_user.id
     nil_to_zero(@page_resource)
     if @page_resource.save
       flash[:success] = ["#{$resource} saved"]

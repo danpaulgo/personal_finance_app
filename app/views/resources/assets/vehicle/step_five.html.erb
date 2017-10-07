@@ -30,7 +30,7 @@
   <% end %>
   <br>
   <br> 
-  <%= fields_for :misc, @misc do |mi| %>
+  <%= fields_for :miscellaneous, @miscellaneous do |mi| %>
     <%= mi.label :amount, "How much do you typically spend on miscellaneous expenses in a year?" %>
     <br>
     <%= form_amount(mi) %>

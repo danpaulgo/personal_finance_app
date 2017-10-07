@@ -4,10 +4,12 @@ class VehicleFormController < AssetsController
 
   def process_vehicle_step_one
     clear_session_vehicle_params
-    @page_resource = Asset.new(asset_params)
-    @page_resource.user_id = current_user.id
+    # binding.pry
+    @vehicle = Asset.new(asset_params)
+    @vehicle.user = current_user
+    @vehicle.primary = false
     @financed = params[:financed]
-    if @page_resource.name.blank? || @page_resource.amount == nil || @financed == nil
+    if @vehicle.name.blank? || @vehicle.amount == nil || @financed == nil
       @submit_path = process_vehicle_step_one_path
       @button_text = "Next"
       @owed = true if @financed == "true"
@@ -16,7 +18,7 @@ class VehicleFormController < AssetsController
       flash[:error] = ["Please fill in all fields"]
       render "resources/assets/new"
     else
-      session[:vehicle] = @page_resource
+      session[:vehicle] = @vehicle
       if @financed == "true"
         redirect_to vehicle_step_two_path
       else
@@ -39,7 +41,7 @@ class VehicleFormController < AssetsController
     # call .valid? on @loan and debt instead of saving. use fake destination_id on payment to validate
     @loan = Debt.new(debt_params)
     @loan.user = current_user
-    @loan.name = "#{session_vehicle.name} loan"
+    @loan.name = "Vehicle loan (#{session_vehicle.name})"
     @loan.type_id = 16
     @payment = Transfer.new(payment_params)
     @payment.user = current_user
@@ -65,7 +67,7 @@ class VehicleFormController < AssetsController
     @expense = Expense.new(expense_params)
     @expense.user = current_user
     @expense.type_id = 42
-    @expense.name = "#{session_vehicle.name} payment"
+    @expense.name = "Vehicle payment (#{session_vehicle.name})"
     if @expense.valid?
       session[:vehicle_payment] = @expense
       redirect_to vehicle_step_four_path
@@ -106,20 +108,20 @@ class VehicleFormController < AssetsController
     @gasoline = Expense.new
     @insurance = Expense.new
     @maintenance = Expense.new
-    @misc = Expense.new
+    @miscellaneous = Expense.new
     render 'resources/assets/vehicle/step_five.html.erb'
   end
 
   def process_vehicle_step_five
 
-    expense_defaults = {gasoline: {type_id: 27, frequency: "Monthly"}, insurance: {type_id: 37, frequency: "Yearly"}, maintenance: {type_id: 29, frequency: "Yearly"}, misc: {type_id: 42, frequency: "Yearly"}}
+    expense_defaults = {gasoline: {type_id: 27, frequency: "Monthly"}, insurance: {type_id: 37, frequency: "Yearly"}, maintenance: {type_id: 29, frequency: "Yearly"}, miscellaneous: {type_id: 42, frequency: "Yearly"}}
 
     @vehicle = session_vehicle
     @user = current_user
     @gasoline = Expense.new(expense_params("gasoline"))
     @insurance = Expense.new(expense_params("insurance"))
     @maintenance = Expense.new(expense_params("maintenance"))
-    @misc = Expense.new(expense_params("misc"))
+    @miscellaneous = Expense.new(expense_params("miscellaneous"))
     
     expense_defaults.each do |key, value|
       expense = instance_variable_get("@#{key}")
@@ -128,7 +130,7 @@ class VehicleFormController < AssetsController
         render 'resources/assets/vehicle/step_five.html.erb'
         break
       else
-        expense.name = "#{@vehicle.name} (#{key})"
+        expense.name = "#{key.capitalize} (#{@vehicle.name})"
         expense.type_id = value[:type_id]
         expense.user = @user
         expense.frequency = value[:frequency]
@@ -141,7 +143,7 @@ class VehicleFormController < AssetsController
 
   end
 
-  @@new_instances = [{session_name: :vehicle, resource_name: "Asset"}, {session_name: :vehicle_loan, resource_name: "Debt"}, {session_name: :vehicle_loan_payment, resource_name: "Transfer"}, {session_name: :vehicle_payment, resource_name: "Expense"}, {session_name: :vehicle_gasoline, resource_name: "Expense"}, {session_name: :vehicle_insurance, resource_name: "Expense"}, {session_name: :vehicle_maintenance, resource_name: "Expense"}, {session_name: :vehicle_misc, resource_name: "Expense"}]
+  @@new_instances = [{session_name: :vehicle, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
 
   def process_vehicle_form
     # Check each session key for nil values. Instantiate and save objects for all values that are not nil. Reset all session keys to nil.
@@ -155,18 +157,24 @@ class VehicleFormController < AssetsController
   end
 
   def create_objects_from_session
+    flash[:success] = []
     present_params.each do |type_hash|
       session_value = session[type_hash[:session_name]]
       if session_value.is_a?(Hash)
-        type_hash[:resource_name].constantize.create(session_value)
+        new_instance = type_hash[:resource_type].constantize.create(session_value)
       else
-        session_value
+        new_instance = session_value
+        session_value.save
+      end
+      if new_instance.errors.empty?
+        resource_name = type_hash[:session_name].to_s.gsub("_", " ").capitalize
+        flash[:success] += ["#{resource_name} successfully created (#{type_hash[:resource_type]})"]
       end
     end
   end
 
   def clear_session_vehicle_params
-    @@new_instances_types.each do |type_hash|
+    @@new_instances.each do |type_hash|
       session[type_hash[:session_name]] = nil
     end
   end
@@ -176,7 +184,7 @@ class VehicleFormController < AssetsController
     def set_vehicle_form_variables
       @type = ResourceType.find_by(name: "Vehicle")
       @type_category = "Vehicle"
-      @page_resource = Asset.new(session[:asset_params])
+      @vehicle = Asset.new(session[:asset_params])
       # binding.pry
     end
 
