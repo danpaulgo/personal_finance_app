@@ -1,7 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-$universal-background: #F5FFFA;
+$universal-background: #F5F5F5;
 $header-hover-color: #2C4251;
 $header-background-color: #01AC3A;
 $menu-background-color: #347AB6;
@@ -15,7 +15,7 @@ $link-font: "Raleway";
 }
 
 /* FONTS */
-@import url('https://fonts.googleapis.com/css?family=Arimo:400|Raleway|Encode+Sans+Expanded');
+@import url('https://fonts.googleapis.com/css?family=Arimo:400|Comfortaa|Handlee|Raleway|Encode+Sans+Expanded');
 
 /* APPLICATION */
 
@@ -32,8 +32,13 @@ p{
   font-family: "Arimo",sans-serif;
 }
 
-h4{
+h2,h3,h4{
   font-family: "Encode Sans Expanded";
+}
+
+h1{
+  font-family: "Handlee";
+  font-size: 3.5em;
 }
 
 a{
@@ -47,7 +52,7 @@ header{
   height: 55px;
   width: 98%;
   margin-left: 1%;
-  margin-bottom: 100px;
+  margin-bottom: 65px;
   padding: 2px 0 5px 10px;
   box-shadow: 1px 2px 12px #404040;
   border-bottom-right-radius:15px;
@@ -137,37 +142,47 @@ header{
   }
 }
 
-div.jumbo{
-  img.jumbotron-img{
-    display: block;
-    margin: auto;
-    border-radius: 15px;
-    height: 425px;
-    width: 85%;
-    max-width: 800px;
-    padding: 0;
-    border: 1px solid #2C4251;
-    box-shadow: 2px 3px 12px 0 #404040;
+div.wrapper{
+  text-align: center;
+  div.welcome-message{
+    padding: 0 7%;
+    color: #D8D8D8;
+  }
+  div.jumbo{
+    img.jumbotron-img{
+      display: block;
+      margin: auto;
+      margin-top:25px;
+      border-radius: 15px;
+      height: 425px;
+      width: 85%;
+      max-width: 800px;
+      padding: 0;
+      border: 1px solid #2C4251;
+      box-shadow: 2px 3px 12px 0 #404040;
 
-  }
-  a.btn{
-    position: absolute;
-    left: 66%;
-    min-width: 150px;
-    transform: translate(-50%, -50%);
-  }
-  a.sign-up-btn{
-    // background-color: $menu-background-color;
-    top: 370px;
-    
-  }
-  a.login-btn{
-    top: 315px;
-  }
-  a.btn:hover{
-    background-color: $header-hover-color;
+    }
+    a.btn{
+      position: absolute;
+      left: 66%;
+      min-width: 150px;
+      transform: translate(-50%, -50%);
+    }
+    a.sign-up-btn{
+      // background-color: $menu-background-color;
+      top: 420px;
+      
+    }
+    a.login-btn{
+      top: 365px;
+    }
+    a.btn:hover{
+      background-color: $header-hover-color;
+    }
   }
 }
+
+
 
 footer.col-md-12{
   // display:block;
@@ -212,8 +227,7 @@ footer.col-md-12{
       a:hover{
         color:white;
       }
-    }
-    
+    } 
   }
   div.footer-mid{
     border-right: 1px solid white;
@@ -224,7 +238,7 @@ footer.col-md-12{
         background-color: $menu-background-color;
       }
       img{
-        height: 45px;
+        height: 40px;
         padding: 5px;
       }
     }
