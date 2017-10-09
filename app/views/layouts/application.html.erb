@@ -18,6 +18,7 @@
       </a>
         <nav>
           <%= link_to image_tag("new-user-icon.png", class: "user-icon"), "#" %>
+          <%= link_to image_tag("about-icon.png", class: "about-icon"), "#" %>
           <%= link_to image_tag("contact-icon.png", class: "contact-icon"), "#" %>
           <div class="dropdown">
             <a href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,6 +41,13 @@
       <!-- </a> -->
     </header>
 
+    <div class=jumbo>
+      <%= image_tag("piggybank.jpg", class: "jumbotron-img") %>
+      <a class="btn btn-primary btn-lg login-btn" href="#" role="button">Log In</a>
+      <a class="btn btn-primary btn-lg sign-up-btn" href="#" role="button">Sign Up</a>
+    </div>
+
+
     <% flash.each do |message_type, message_array| %>
       <!-- <div class="alert alert-<%= message_type %>">
         <%# message %> 
@@ -52,13 +60,45 @@
       </ul>
     <% end %>
     <% flash.clear %>
+
     <%= yield %>
-    <br>
-    <br>
-    <footer>
-      <% if logged_in? %>
-        <%= link_to "Home", root_path %> | <%= link_to "Log Out", logout_path, method: :delete %>
-      <% end %>
+
+    <footer class="col-md-12">
+
+      <div class="footer-top col-md-12"></div>
+
+      <div class="footer-left col-md-4"> 
+        <h4><b>Navigation</b></h4>
+        <ul class="footer-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Account</a></li>
+        </ul>
+        
+      </div>
+
+      <div class="footer-mid col-md-4"> 
+        <div class="footer-logo">
+          <%= image_tag("logo-white.png") %>
+        </div>
+        <div class="footer-icons">
+          <a href="#"><%= image_tag("linkedin-icon.png", class: "linkedin-icon") %></a>
+          <a href="#"><%= image_tag("github-icon.png", class: "github-icon") %></a>
+        </div>
+        <!-- <div class="footer-left-barrier"></div> -->
+      </div>
+
+      <div class="footer-right col-md-4">
+        <h4><b>Mission Statement</b></h4>
+        <p class="footer-mission-statement">
+          Finance Forecast aims to provide an easy to use platform that will help others to assess their current financial position and get on track to a successful financial future
+        </p>
+        <!-- <div class="footer-left-barrier"></div> -->
+      </div>
+      <div class="footer-bottom col-md-12">
+        <p class="footer-company-name">Finance Forecast &copy; 2017</p>
+      </div>
     </footer>
   </body>
 </html>

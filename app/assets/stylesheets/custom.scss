@@ -1,18 +1,21 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+$universal-background: #F5FFFA;
 $header-hover-color: #2C4251;
 $header-background-color: #01AC3A;
-
-/* FONTS */
-@import url('https://fonts.googleapis.com/css?family=Arimo:400|Raleway');
-
+$menu-background-color: #347AB6;
+$footer-background-color: #202020;
+$link-font: "Raleway";
 
 @mixin box_sizing {
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
   box-sizing:         border-box;
 }
+
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Arimo:400|Raleway|Encode+Sans+Expanded');
 
 /* APPLICATION */
 
@@ -21,25 +24,34 @@ $header-background-color: #01AC3A;
   padding: 0;
 }
 
-html{
-  background-color: #FEFEFA;
+html, body{
+  background-color: $universal-background !important;
 }
 
-body{
-  margin: 0;
-  padding: 0;
+p{
+  font-family: "Arimo",sans-serif;
+}
+
+h4{
+  font-family: "Encode Sans Expanded";
+}
+
+a{
+  font-family: $link-font;
 }
 
 /* HEADER */
 
 header{
   background-color: $header-background-color;
-  height: 60px;
-  margin-bottom: 20px;
+  height: 55px;
+  width: 98%;
+  margin-left: 1%;
+  margin-bottom: 100px;
   padding: 2px 0 5px 10px;
-  box-shadow: 0 0 12px 0 #404040;
-  border-bottom-right-radius:5px;
-  border-bottom-left-radius:5px;
+  box-shadow: 1px 2px 12px #404040;
+  border-bottom-right-radius:15px;
+  border-bottom-left-radius:15px;
   a{
     text-decoration: none;
     div.logo{
@@ -82,20 +94,19 @@ header{
   nav{
     display: inline-block;
     float: right;
-    margin-top: 8px;
+    margin-top: 6px;
     div.dropdown{
       display: inline-block;
     }
     div.dropdown-menu{
       min-width: 140px;
-      background-color: #3C91E6;
+      background-color: $menu-background-color;
       color: white;
       border: 1px solid white;
       padding: 5px 0;
       a{
         display: block;
         font-size: 16px;
-        font-family: "Raleway", sans-serif;
         padding-left: 10%;
         line-height: 1.8;
       }
@@ -125,3 +136,112 @@ header{
     }
   }
 }
+
+div.jumbo{
+  img.jumbotron-img{
+    display: block;
+    margin: auto;
+    border-radius: 15px;
+    height: 425px;
+    width: 85%;
+    max-width: 800px;
+    padding: 0;
+    border: 1px solid #2C4251;
+    box-shadow: 2px 3px 12px 0 #404040;
+
+  }
+  a.btn{
+    position: absolute;
+    left: 66%;
+    min-width: 150px;
+    transform: translate(-50%, -50%);
+  }
+  a.sign-up-btn{
+    // background-color: $menu-background-color;
+    top: 370px;
+    
+  }
+  a.login-btn{
+    top: 315px;
+  }
+  a.btn:hover{
+    background-color: $header-hover-color;
+  }
+}
+
+footer.col-md-12{
+  // display:block;
+  color: white;
+  background-color: $universal-background;
+  margin-top: 150px;
+  height: 100%;
+  text-align: center;
+  padding: 0;
+  div{
+    background-color: $footer-background-color;
+  }
+  div.col-md-4{
+    height: 160px;
+    padding-top:7px;
+  }
+  div.footer-top{
+    height: 30px;
+    width: 100%;
+  }
+  div.footer-logo{
+    display:block;
+    height: 75px;
+    img{
+      display: block;
+      height: 100%;
+      margin: auto;
+      // margin-bottom:50px;
+      padding:20px;
+    }
+  }
+  div.footer-left{
+    ul.footer-links{
+      list-style:none;
+      a{
+        color: $menu-background-color;
+        text-decoration:none;
+      }
+      a:visited{
+        color: $menu-background-color;
+      }
+      a:hover{
+        color:white;
+      }
+    }
+    
+  }
+  div.footer-mid{
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+    div.footer-icons{
+      // padding-top:10px;
+      img:hover{
+        background-color: $menu-background-color;
+      }
+      img{
+        height: 45px;
+        padding: 5px;
+      }
+    }
+  }
+  div.footer-right{
+    padding: 7px 30px 0;
+    p.footer-mission-statement{
+      font-size: 14px;
+    }
+  }
+  div.footer-bottom{
+    height: 100%;
+    padding-top: 10px;
+    p{
+      margin-bottom:0;
+    }
+  }
+}
+
+
