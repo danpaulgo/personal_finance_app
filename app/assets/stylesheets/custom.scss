@@ -1,0 +1,127 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+$header-hover-color: #2C4251;
+$header-background-color: #01AC3A;
+
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Arimo:400|Raleway');
+
+
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
+/* APPLICATION */
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  background-color: #FEFEFA;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+/* HEADER */
+
+header{
+  background-color: $header-background-color;
+  height: 60px;
+  margin-bottom: 20px;
+  padding: 2px 0 5px 10px;
+  box-shadow: 0 0 12px 0 #404040;
+  border-bottom-right-radius:5px;
+  border-bottom-left-radius:5px;
+  a{
+    text-decoration: none;
+    div.logo{
+      margin-top: 1px;
+      height: 100%;
+      display: inline-block;
+      background-color: white;
+      img.logo-img{
+        max-height:100%;
+      }
+    }
+    div.logo:hover{
+      background-color: $header-hover-color;
+    }
+    div.header-text{
+      height: 100%;
+      display: inline-block;
+      font-style: italic;
+      font-family: "Arimo", serif;
+      color: white;
+      padding: 0;
+      p{
+        margin: 0;
+        line-height: 1;
+      }
+      p.header-finance{
+        font-size: 35px;
+      }
+      p.header-forecast{
+        font-size: 17px;
+      }
+    }
+    div.header-text:hover{
+      color: $header-hover-color;
+    }
+    div.header-text:visited{
+      color: white;
+    }
+  }
+  nav{
+    display: inline-block;
+    float: right;
+    margin-top: 8px;
+    div.dropdown{
+      display: inline-block;
+    }
+    div.dropdown-menu{
+      min-width: 140px;
+      background-color: #3C91E6;
+      color: white;
+      border: 1px solid white;
+      padding: 5px 0;
+      a{
+        display: block;
+        font-size: 16px;
+        font-family: "Raleway", sans-serif;
+        padding-left: 10%;
+        line-height: 1.8;
+      }
+      a:visited{
+        color: white;
+      }
+      a:hover{
+        text-decoration: none;
+        background-color: $header-hover-color;
+      }
+      div.dropdown-divider{
+        width: 80%;
+        height: 1px;
+        margin: 5px 10%;
+        background-color: white;
+      }
+    }
+    img{
+      height: 40px;
+      padding: 8px;
+    }
+    img:hover{
+      background-color: $header-hover-color;
+    }
+    img.menu-icon{
+      margin-right: 20px;
+    }
+  }
+}

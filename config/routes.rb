@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get '/design_test', to: 'application#design_test'
+
   root to: 'users#show'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

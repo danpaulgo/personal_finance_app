@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+/* APPLICATION */
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  background-color: #FEFEFA;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
