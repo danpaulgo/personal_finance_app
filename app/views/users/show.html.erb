@@ -5,7 +5,7 @@
   <p><%= link_to r.name, "/#{FINANCE_RESOURCES[i].to_s}" %></p>
 <% end %>
 <h4>Net Worth</h4>
-<p>Liquid Net Worth: <%= @user.net_worth("liquid") %></p>
-<p>Total Net Worth: <%= @user.net_worth %></p>
-<p>Future Net Worth: <%= @user.future_net_worth if @user.future_net_worth %></p>
+<p>Liquid Net Worth: <%# @user.net_worth("liquid") %></p>
+<p>Total Net Worth: <%# @user.net_worth %></p>
+<p>Future Net Worth: <%# @user.future_net_worth if @user.future_net_worth %></p>
 <p><%= render 'users/future_net_worth_form' %></p>

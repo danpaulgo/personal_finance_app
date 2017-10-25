@@ -6,6 +6,7 @@ $header-hover-color: #2C4251;
 $header-background-color: #01AC3A;
 $menu-background-color: #347AB6;
 $footer-background-color: #202020;
+$divider-color: #D8D8D8;
 $link-font: "Raleway";
 
 @mixin box_sizing {
@@ -15,7 +16,7 @@ $link-font: "Raleway";
 }
 
 /* FONTS */
-@import url('https://fonts.googleapis.com/css?family=Arimo:400|Comfortaa|Handlee|Raleway|Encode+Sans+Expanded');
+@import url('https://fonts.googleapis.com/css?family=Arimo:400|Comfortaa|Handlee|Raleway:500|Encode+Sans+Expanded');
 
 /* APPLICATION */
 
@@ -41,61 +42,77 @@ h1{
   font-size: 3.5em;
 }
 
+h2{
+  font-size: 2em;
+}
+
 a{
   font-family: $link-font;
 }
 
 /* HEADER */
 
+// div.spacer{
+//   background-color: #62BDEA;
+//   width: 0.5%;
+//   height:55px;
+//   display: inline-block;
+//   float: left;
+//   border-bottom: 1px solid $universal-background;
+// }
+
+// div.logo{
+//   display:inline-block;
+//   height: 55px;
+//   width: 20%;
+//   background-color: white;
+//   border-bottom: 1px solid $universal-background;
+//   img.logo-img{
+//     // position:relative;
+//     height:100%;
+//     width: 100%
+//   }
+//   a{
+//     text-decoration:none;
+//   }
+// }
+// div.logo:hover{
+//   background-color: $header-hover-color;
+// }
+
 header{
-  background-color: $header-background-color;
+  display:inline-block;
+  background: rgb(125,185,232);
+  background: -moz-linear-gradient(left,  rgba(125,185,232,1) 0%, rgba(32,124,202,1) 0%, rgba(32,124,202,1) 0%, rgba(98,189,234,1) 0%, rgba(129,202,237,1) 50%, rgba(98,189,234,1) 100%);
+  background: -webkit-linear-gradient(left,  rgba(125,185,232,1) 0%,rgba(32,124,202,1) 0%,rgba(32,124,202,1) 0%,rgba(98,189,234,1) 0%,rgba(129,202,237,1) 50%,rgba(98,189,234,1) 100%);
+  background: linear-gradient(to right,  rgba(125,185,232,1) 0%,rgba(32,124,202,1) 0%,rgba(32,124,202,1) 0%,rgba(98,189,234,1) 0%,rgba(129,202,237,1) 50%,rgba(98,189,234,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#62bdea',GradientType=1 );
+  border-bottom: 1px solid $universal-background;
   height: 55px;
-  width: 98%;
-  margin-left: 1%;
-  margin-bottom: 65px;
-  padding: 2px 0 5px 10px;
-  box-shadow: 1px 2px 12px #404040;
-  border-bottom-right-radius:15px;
-  border-bottom-left-radius:15px;
-  a{
-    text-decoration: none;
-    div.logo{
-      margin-top: 1px;
-      height: 100%;
-      display: inline-block;
-      background-color: white;
-      img.logo-img{
-        max-height:100%;
-      }
-    }
-    div.logo:hover{
-      background-color: $header-hover-color;
-    }
-    div.header-text{
-      height: 100%;
-      display: inline-block;
-      font-style: italic;
-      font-family: "Arimo", serif;
-      color: white;
-      padding: 0;
-      p{
-        margin: 0;
-        line-height: 1;
-      }
-      p.header-finance{
-        font-size: 35px;
-      }
-      p.header-forecast{
-        font-size: 17px;
-      }
-    }
-    div.header-text:hover{
-      color: $header-hover-color;
-    }
-    div.header-text:visited{
-      color: white;
-    }
+  width: 100%;
+  float: right;
+  margin-bottom: 0;
+  padding: 0;
+  // box-shadow: 1px 2px 12px #404040;
+  // border-bottom-right-radius:15px;
+  // border-bottom-left-radius:15px;
+
+  div.logo{
+    float: left;
+    height: 55px;
+    width: 150px;
+    margin-left:10px;
+    background-color: transparent;
+    background-image: url("https://image.ibb.co/nw64yw/logo_white.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0 12px;
   }
+
+  div.logo:hover{
+    background-image: url("https://image.ibb.co/eqxYQb/logo_hover.png");
+  }
+
   nav{
     display: inline-block;
     float: right;
@@ -146,56 +163,99 @@ div.wrapper{
   text-align: center;
   div.welcome-message{
     padding: 0 7%;
-    color: #D8D8D8;
+    color: $divider-color;
   }
   div.jumbo{
     img.jumbotron-img{
       display: block;
       margin: auto;
-      margin-top:25px;
-      border-radius: 15px;
-      height: 425px;
-      width: 85%;
-      max-width: 800px;
+      margin-top:0;
+      margin-bottom: 75px;
+      // border-radius: 15px;
+      height: 400px;
+      width: 100%;
+      // max-width: 800px;
       padding: 0;
-      border: 1px solid #2C4251;
-      box-shadow: 2px 3px 12px 0 #404040;
-
+      // border: 1px solid #2C4251;
+      // box-shadow: 2px 3px 12px 0 #404040;
     }
-    a.btn{
-      position: absolute;
-      left: 66%;
-      min-width: 150px;
-      transform: translate(-50%, -50%);
-    }
-    a.sign-up-btn{
-      // background-color: $menu-background-color;
-      top: 420px;
-      
+  }
+  div.login-buttons{
+    margin-top: 40px;
+    a{
+      width: 150px;
     }
     a.login-btn{
-      top: 365px;
+      margin-right:35px;
     }
-    a.btn:hover{
-      background-color: $header-hover-color;
+    a.signup-btn{
+      margin-left:35px;
     }
+  }
+  div.first-section{
+    margin-top: 75px;
+    border-top: 2px solid $divider-color;
+    // border-top: 2px solid $footer-background-color;
+  }
+  div.homepage-section{   
+    border-bottom: 2px solid $divider-color;
+    // border-bottom: 2px solid $footer-background-color;
+    height: 250px;
+    text-align: center;
+    div.col-sm-6{
+      height: 100% !important;
+      text-align:center
+      img{
+        height: 100%;
+      }
+      img.chart-icon{
+        max-height: 100%;
+        padding: 10px 0;
+      }
+      img.calculator-icon{
+        max-height: 100%;
+        padding: 25px 10px;
+      }
+      img.calendar-icon{
+        max-height: 100%;
+        padding: 15px;
+      }
+      img.plane-icon{
+        max-height: 100%;
+        padding: 30px;
+      }
+    }
+    div.section-text{ 
+      // display: flex;
+      
+      padding-top: 25px;
+      padding-left: 70px; 
+      padding-right: 70px;
+      p{
+        // display:block;
+        padding-top: 10px;
+      }
+    }
+  }
+  div.last-section{
+    border-bottom: 0;
   }
 }
 
+// FOOTER
 
-
-footer.col-md-12{
+footer.col-sm-12{
   // display:block;
   color: white;
   background-color: $universal-background;
-  margin-top: 150px;
+  margin-top: 40px;
   height: 100%;
   text-align: center;
   padding: 0;
   div{
     background-color: $footer-background-color;
   }
-  div.col-md-4{
+  div.col-sm-4{
     height: 150px;
     padding-top:5px;
   }
@@ -249,7 +309,10 @@ footer.col-md-12{
   div.footer-right{
     padding: 12px 30px 0;
     p.footer-mission-statement{
-      font-size: 14px;
+      font-size: 12px;
+      @media screen and (min-width: 975px) {
+        font-size: 14px;
+      }
     }
   }
   div.footer-bottom{

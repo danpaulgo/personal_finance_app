@@ -4,75 +4,87 @@
 \red255\green0\blue0;\red127\green127\blue127;}
 {\*\expandedcolortbl;;\csgenericrgb\c0\c100000\c0;\csgenericrgb\c100000\c100000\c0;\csgenericrgb\c0\c0\c0;
 \csgenericrgb\c100000\c0\c0;\csgenericrgb\c49804\c49804\c49804;}
-{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid2\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid3\'02\'02.;}{\levelnumbers\'01;}\fi-360\li2160\lin2160 }{\listname ;}\listid1}}
-{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid101\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid102\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid103\'02\'02.;}{\levelnumbers\'01;}\fi-360\li2160\lin2160 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \margl1440\margr1440\vieww10800\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 TODO:\
 \
+** Real estate form: Standard, Mortgage Details, Mortgage Payment expense, appreciation, expenses (Use same views as vehicle with dynamic wording)\
+** CRUD operations for all resources\
 ** Transfer views\
-** Real estate form\
 ** Menu options: Assets, Debts, Incomes, Expenses, Account, Logout\
 ** Homepage: Current Net Worth (Liquid & Total), Future Net Worth (Liquid, Total & Date Selector), Calendar\
-\
+** Each section either:\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\'95	}Have boarders on the top and bottom to each sections, with a shadow on each one, or..\
+{\listtext	\'95	}Alternate between 2 slightly different colors, background grey and a blue, green, or darker grey\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \cb2 \
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 {\listtext	1.	}1.	Update expenses form and resource_types table so that \'93Insurance\'94 and \'93Bills\'94 are each considered 1 resource_type and the 
+\ls2\ilvl0\cf0 {\listtext	1.	}1.	Update expenses form and resource_types table so that \'93Insurance\'94 and \'93Bills\'94 are each considered 1 resource_type and the 
 \b name 
 \b0 input has an initial value of the type of insurance or bill. \cb1 \
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 \cb3 {\listtext	2.	}Bills should have a default frequency of \'93Monthly\'94.\cb1 \
+\ls2\ilvl0\cf0 \cb3 {\listtext	2.	}Bills should have a default frequency of \'93Monthly\'94.\cb1 \
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 \cb2 {\listtext	3.	}Add necessary columns (see section below)\cb1 \
+\ls2\ilvl0\cf0 \cb2 {\listtext	3.	}Add necessary columns (see section below)\cb1 \
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 \cb3 {\listtext	4.	}Complete expenses form with dynamic default values depending on 
+\ls2\ilvl0\cf0 \cb3 {\listtext	4.	}Complete expenses form with dynamic default values depending on 
 \b @type 
 \b0 (don\'92t use created \cf4 form field methods)\cb1 \
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf4 \cb5 {\listtext	5.	}Complete similar forms for incomes and debts\
+\ls2\ilvl0\cf4 \cb5 {\listtext	5.	}Complete similar forms for incomes and debts\
 {\listtext	6.	}Create form partials used to piece together dynamic forms for assets depending on the 
 \b type 
 \b0 which is stored in the 
 \b get 
 \b0 params\
 \pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
-\ls1\ilvl1\cf0 \cb2 {\listtext	\uc0\u8259 	}Make sure that each piece of data from on step of the form is still accessible at the next step and every step after. By the end of the form, all data from each step should be accessible\cb1 \
-\ls1\ilvl1\cb2 {\listtext	\uc0\u8259 	}Above step can be completed using the session hash.\cb1 \
-\ls1\ilvl1\cb2 {\listtext	\uc0\u8259 	}Car Steps:\
+\ls2\ilvl1\cf0 \cb2 {\listtext	\uc0\u8259 	}Make sure that each piece of data from on step of the form is still accessible at the next step and every step after. By the end of the form, all data from each step should be accessible\cb1 \
+\ls2\ilvl1\cb2 {\listtext	\uc0\u8259 	}Above step can be completed using the session hash.\cb1 \
+\ls2\ilvl1\cb2 {\listtext	\uc0\u8259 	}Car Steps:\
 \pard\tx1660\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li2160\fi-2160\pardirnatural\partightenfactor0
-\ls1\ilvl2\cf0 {\listtext	1.	}Basic asset form without interest\
+\ls2\ilvl2\cf0 {\listtext	1.	}Basic asset form without interest\
 {\listtext	2.	}Take into account 15% depreciation (yes, no, other rate)\
 {\listtext	3.	}Rate of depreciation\
 {\listtext	4.	}Amount owed, APR, payment amount, paid from, and payment frequency, next date\
 {\listtext	5.	}Associated expenses\cb1 \
 \pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
-\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}Real Estate Steps:\
+\ls2\ilvl1\cf0 {\listtext	\uc0\u8259 	}Real Estate Steps:\
 \pard\tx1660\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li2160\fi-2160\pardirnatural\partightenfactor0
-\ls1\ilvl2\cf0 {\listtext	1.	}Basic asset form without interest. Ask about mortgage\
+\ls2\ilvl2\cf0 {\listtext	1.	}Basic asset form without interest. Ask about mortgage\
 {\listtext	2.	}Mortgage details or payments\
 {\listtext	3.	}Take into account average state appreciation\
 {\listtext	4.	}Expenses\
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 {\listtext	7.	}Complete create, edit, update, and delete functionality resources\
+\ls2\ilvl0\cf0 {\listtext	7.	}Complete create, edit, update, and delete functionality resources\
 \pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
-\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}When updating assets, always give option to toggle liquid/illiquid even if not present during create\
+\ls2\ilvl1\cf0 {\listtext	\uc0\u8259 	}When updating assets, always give option to toggle liquid/illiquid even if not present during create\
 {\listtext	\uc0\u8259 	}\'93Are you sure?\'94 prompt if making illiquid asset liquid\
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 {\listtext	8.	}Transfers and transfer_types\
+\ls2\ilvl0\cf0 {\listtext	8.	}Transfers and transfer_types 
+\i\b (Why 3 tables instead of transfer_types)
+\i0\b0 \
 \pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
-\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}3 tables: recurring transfers, one time transfers, debt payments\
+\ls2\ilvl1\cf0 {\listtext	\uc0\u8259 	}3 tables: recurring transfers, one time transfers, debt payments\
 {\listtext	\uc0\u8259 	}on transfers index, there will be a dropdown to view all or just one at a time (unfortunately you will need to hit a submit button each time as opposed to auto updating with js)\
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 {\listtext	9.	}Delete unneeded code\
+\ls2\ilvl0\cf0 {\listtext	9.	}Delete unneeded code\
 {\listtext	10.	}Auto update mode\
 \pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
-\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}Expenses will be recalculated daily but transfers (including debt payments) will only be processed on the correct date\
+\ls2\ilvl1\cf0 {\listtext	\uc0\u8259 	}Expenses will be recalculated daily but transfers (including debt payments) will only be processed on the correct date\
+{\listtext	\uc0\u8259 	}Expenses will return to original values when taken off auto-pilot\
+{\listtext	\uc0\u8259 	}Calculated expenses will never be saved in DB but instead calculated in the controller based on each resource object\'92s \'93updated at\'94 date\
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
-\ls1\ilvl0\cf0 {\listtext	11.	}User authentication\
-{\listtext	12.	}Forgot Password\
-{\listtext	13.	}Contact page\
+\ls2\ilvl0\cf0 {\listtext	11.	}Event Calendar\
+{\listtext	12.	}User authentication\
+{\listtext	13.	}Forgot Password\
+{\listtext	14.	}Contact page\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf6 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0

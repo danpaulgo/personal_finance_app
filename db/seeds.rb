@@ -69,6 +69,7 @@ ResourceType.create(name: "Health Insurance", resource_name_id: 4)
 ResourceType.create(name: "Life Insurance", resource_name_id: 4)
 ResourceType.create(name: "Recreation", resource_name_id: 4)
 ResourceType.create(name: "Transportation", resource_name_id: 4)
+ResourceType.create(name: "Tax", resource_name_id: 4)
 ResourceType.create(name: "Other", resource_name_id: 4)
 
 

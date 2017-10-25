@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get '/design_test', to: 'application#design_test'
+  # get '/design_test', to: 'application#design_test'
 
   root to: 'users#show'
   get 'login', to: 'sessions#new'
@@ -20,16 +20,16 @@ Rails.application.routes.draw do
     get "#{r}/new/:type", to: "#{r}#new"
   end
 
-  post "assets/new/vehicle", to: "vehicle_form#process_vehicle_step_one", as: "process_vehicle_step_one"
-  get "assets/new/vehicle/2", to: "vehicle_form#vehicle_step_two", as: "vehicle_step_two"
-  post "assets/new/vehicle/2", to: "vehicle_form#process_vehicle_step_two", as: "process_vehicle_step_two"
-  get "assets/new/vehicle/3", to: "vehicle_form#vehicle_step_three", as: "vehicle_step_three"
-  post "assets/new/vehicle/3", to: "vehicle_form#process_vehicle_step_three", as: "process_vehicle_step_three"
-  get "assets/new/vehicle/4", to: "vehicle_form#vehicle_step_four", as: "vehicle_step_four"
-  post "assets/new/vehicle/4", to: "vehicle_form#process_vehicle_step_four", as: "process_vehicle_step_four"
-  get "assets/new/vehicle/5", to: "vehicle_form#vehicle_step_five", as: "vehicle_step_five"
-  post "assets/new/vehicle/5", to: "vehicle_form#process_vehicle_step_five", as: "process_vehicle_step_five"
-  # get "assets/new/vehicle/complete", to: "vehicle_form#process_vehicle_form", as: "process_vehicle_form"
+  post "assets/new/special_asset/1", to: "special_asset_form#process_step_one", as: "process_step_one"
+  get "assets/new/:special_asset/2", to: "special_asset_form#step_two", as: "step_two"
+  post "assets/new/:special_asset/2", to: "special_asset_form#process_step_two", as: "process_special_step_two"
+  get "assets/new/:special_asset/3", to: "special_asset_form#step_three", as: "step_three"
+  post "assets/new/:special_asset/3", to: "special_asset_form#process_step_three", as: "process_step_three"
+  get "assets/new/:special_asset/4", to: "special_asset_form#step_four", as: "step_four"
+  post "assets/new/:special_asset/4", to: "special_asset_form#process_step_four", as: "process_step_four"
+  get "assets/new/:special_asset/5", to: "special_asset_form#step_five", as: "step_five"
+  post "assets/new/:special_asset/5", to: "special_asset_form#process_step_five", as: "process_step_five"
+  # get "assets/new/special_asset/complete", to: "special_asset_form#process_special_asset_form", as: "process_special_asset_form"
 
   resources :future_net_worths, only: [:create]
 

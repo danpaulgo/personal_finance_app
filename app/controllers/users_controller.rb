@@ -5,7 +5,7 @@ class UsersController < ApplicationController
       @user = current_user
       # @future_net_worth = FutureNetWorth.new
     else
-      redirect_to login_path
+      render 'static/logged_out_home'
     end
   end
 

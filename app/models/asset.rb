@@ -6,4 +6,8 @@ class Asset < ApplicationRecord
   validates_inclusion_of :liquid, :primary ,:in => [true, false]
   validates_presence_of :compound_frequency, if: :interest?
 
+  def type
+    ResourceType.find(self.type_id)
+  end
+
 end

@@ -39,15 +39,11 @@ class UserResourcesController < ApplicationController
       case $resource
       when "Asset"
         # Add default params to @page_resource
-        if @type_category == "Vehicle"
+        if @type_category == "Vehicle" || @type_category == "Real Estate"
           # Add default vehicle params to @page_resource
           @owed = nil
           @paid = nil
-          @submit_path = process_vehicle_step_one_path
-          @button_text = "Next"
-        elsif @type_category == "Real Estate"
-          # Add default real_estate params to @page_resource
-          @submit_path = process_real_estate_step_two_path
+          @submit_path = process_step_one_path(params[:type])
           @button_text = "Next"
         else
           # Add additional default asset params to @page_resource

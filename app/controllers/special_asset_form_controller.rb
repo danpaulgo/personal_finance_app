@@ -1,11 +1,13 @@
-class VehicleFormController < AssetsController
+class SpecialAssetFormController < AssetsController
 
   before_action :set_vehicle_form_variables
 
-  def process_vehicle_step_one
-    clear_session_vehicle_params
-    # binding.pry
-    @vehicle = Asset.new(asset_params)
+  @@session_vehicle_defaults = [{session_name: :vehicle, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
+
+  def process_step_one
+    clear_session_params
+    binding.pry
+    @special_asset = Asset.new(asset_params)
     @vehicle.user = current_user
     @vehicle.primary = false
     @financed = params[:financed]
@@ -143,8 +145,6 @@ class VehicleFormController < AssetsController
 
   end
 
-  @@new_instances = [{session_name: :vehicle, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
-
   def process_vehicle_form
     # Check each session key for nil values. Instantiate and save objects for all values that are not nil. Reset all session keys to nil.
     create_objects_from_session
@@ -173,8 +173,8 @@ class VehicleFormController < AssetsController
     end
   end
 
-  def clear_session_vehicle_params
-    @@new_instances.each do |type_hash|
+  def clear_session_params
+    @@session_vehicle_defaults.each do |type_hash|
       session[type_hash[:session_name]] = nil
     end
   end

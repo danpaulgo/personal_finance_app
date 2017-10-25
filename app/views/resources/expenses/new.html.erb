@@ -3,7 +3,7 @@
 <h3><%= @type_category %></h3>
 <%= form_for(@page_resource) do |f| %>
 
-  <%# hidden_field_tag "type_id", @type.id %>
+  <%= hidden_field_tag "expense[type_id]", @type.id %>
   <%# hidden_field_tag "type_snake", params[:type] %>
 
   <%= f.label :name, "Name:" %>

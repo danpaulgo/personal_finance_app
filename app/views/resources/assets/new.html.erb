@@ -24,8 +24,12 @@
     <%= f.radio_button :liquid, false %>
     <br>
   <% end %>
-  <% if @type.name == "Vehicle" %>
-    <label>Is this vehicle financed?</label>
+  <% if @type.name == "Vehicle" || "Real Estate"  %>
+    <% if @type.name == "Vehicle" %>
+      <label>Is this vehicle financed?</label>
+    <% elsif  @type.name == "Real Estate" %>
+      <label>Are you currently paying a mortgage on this property?</label>
+    <% end %>
     <br>
     <label value="true" for="financed_true">Yes</label>
     <input type="radio" name="financed" id="financed_true" value="true" <%= "checked" if @owed %> />
@@ -33,7 +37,7 @@
     <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
     <br>
   <% elsif @type.name == "Real Estate" %>
-
+    
   <% else %>
     <%= f.label :interest, "Estimated rate of appreciation: " %>
     <br>
