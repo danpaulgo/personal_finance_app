@@ -1,30 +1,31 @@
 class SpecialAssetFormController < AssetsController
 
-  before_action :set_vehicle_form_variables
+  before_action :set_form_variables
 
   @@session_vehicle_defaults = [{session_name: :vehicle, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
 
   def process_step_one
     clear_session_params
-    binding.pry
+    # binding.pry
     @special_asset = Asset.new(asset_params)
-    @vehicle.user = current_user
-    @vehicle.primary = false
+    @special_asset.user = current_user
+    @special_asset.primary = false
     @financed = params[:financed]
-    if @vehicle.name.blank? || @vehicle.amount == nil || @financed == nil
-      @submit_path = process_vehicle_step_one_path
+    if @special_asset.name.blank? || @special_asset.amount == nil || @special_asset == nil
+      @page_resource = @special_asset
+      @submit_path = process_step_one_path
       @button_text = "Next"
       @owed = true if @financed == "true"
       @paid = true if @financed == "false"
-      @type_category = "Vehicle"
+      @type_category = @page_resource.type.name
       flash[:error] = ["Please fill in all fields"]
       render "resources/assets/new"
     else
-      session[:vehicle] = @vehicle
+      session[:special_asset] = @special_asset
       if @financed == "true"
-        redirect_to vehicle_step_two_path
+        redirect_to step_two_path
       else
-        redirect_to vehicle_step_three_path
+        redirect_to step_four_path
       end
     end
   end
@@ -39,7 +40,7 @@ class SpecialAssetFormController < AssetsController
     render 'resources/assets/vehicle/step_two.html.erb'
   end
 
-  def process_vehicle_step_two
+  def process_step_two
     # call .valid? on @loan and debt instead of saving. use fake destination_id on payment to validate
     @loan = Debt.new(debt_params)
     @loan.user = current_user
@@ -52,7 +53,7 @@ class SpecialAssetFormController < AssetsController
     if @loan.valid? && @payment.valid?
       session[:vehicle_loan] = @loan
       session[:vehicle_loan_payment] = @payment
-      redirect_to vehicle_step_four_path
+      redirect_to step_four_path
     else
       @payment.valid?
       flash[:error] = @loan.errors.full_messages + @payment.errors.full_messages
@@ -60,12 +61,12 @@ class SpecialAssetFormController < AssetsController
     end
   end
 
-  def vehicle_step_three
+  def step_three
     @expense = Expense.new
     render 'resources/assets/vehicle/step_three.html.erb'
   end
 
-  def process_vehicle_step_three
+  def process_step_three
     @expense = Expense.new(expense_params)
     @expense.user = current_user
     @expense.type_id = 42
@@ -79,11 +80,11 @@ class SpecialAssetFormController < AssetsController
     end
   end
 
-  def vehicle_step_four
+  def step_four
     render 'resources/assets/vehicle/step_four.html.erb'
   end
 
-  def process_vehicle_step_four
+  def process_step_four
     @vehicle = session_vehicle
     @depreciate = params[:depreciation]
     @custom_rate = params[:asset][:interest]
@@ -105,7 +106,7 @@ class SpecialAssetFormController < AssetsController
     end
   end
 
-  def vehicle_step_five
+  def step_five
     @user = current_user
     @gasoline = Expense.new
     @insurance = Expense.new
@@ -114,7 +115,7 @@ class SpecialAssetFormController < AssetsController
     render 'resources/assets/vehicle/step_five.html.erb'
   end
 
-  def process_vehicle_step_five
+  def process_step_five
 
     expense_defaults = {gasoline: {type_id: 27, frequency: "Monthly"}, insurance: {type_id: 37, frequency: "Yearly"}, maintenance: {type_id: 29, frequency: "Yearly"}, miscellaneous: {type_id: 42, frequency: "Yearly"}}
 
@@ -145,7 +146,7 @@ class SpecialAssetFormController < AssetsController
 
   end
 
-  def process_vehicle_form
+  def process_special_asset_form
     # Check each session key for nil values. Instantiate and save objects for all values that are not nil. Reset all session keys to nil.
     create_objects_from_session
     clear_session_vehicle_params
@@ -181,10 +182,11 @@ class SpecialAssetFormController < AssetsController
 
   private
 
-    def set_vehicle_form_variables
-      @type = ResourceType.find_by(name: "Vehicle")
-      @type_category = "Vehicle"
-      @vehicle = Asset.new(session[:asset_params])
+    def set_form_variables
+      binding.pry
+      @type_category = params[:special_asset].snake_to_title
+      @type = ResourceType.find_by(name: @type_category)
+      @asset = Asset.new(session[:asset_params])
       # binding.pry
     end
 
