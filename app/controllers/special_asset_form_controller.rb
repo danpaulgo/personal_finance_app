@@ -6,7 +6,7 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_one
     clear_session_params
-    # binding.pry
+    binding.pry
     @special_asset = Asset.new(asset_params)
     @special_asset.user = current_user
     @special_asset.primary = false
@@ -22,6 +22,7 @@ class SpecialAssetFormController < AssetsController
       render "resources/assets/new"
     else
       session[:special_asset] = @special_asset
+      session[:property_location] = params[:location] if @type_category == "Real Estate"
       if @financed == "true"
         redirect_to step_two_path
       else
@@ -30,11 +31,12 @@ class SpecialAssetFormController < AssetsController
     end
   end
 
-  def session_vehicle
-    Asset.new(session[:vehicle])
+  def session_speicl_asset
+    Asset.new(session[:special_asset])
   end
 
-  def vehicle_step_two
+  def step_two
+    binding.pry
     @loan = Debt.new
     @payment = Transfer.new
     render 'resources/assets/vehicle/step_two.html.erb'
@@ -44,15 +46,15 @@ class SpecialAssetFormController < AssetsController
     # call .valid? on @loan and debt instead of saving. use fake destination_id on payment to validate
     @loan = Debt.new(debt_params)
     @loan.user = current_user
-    @loan.name = "Vehicle loan (#{session_vehicle.name})"
-    @loan.type_id = 16
+    @loan.name = "#{@type_category} loan (#{session_speicl_asset.name})"
+    @loan.type_id = @type.id
     @payment = Transfer.new(payment_params)
     @payment.user = current_user
     @payment.transfer_type = "Debt Payment"
     @payment.destination_id = 1
     if @loan.valid? && @payment.valid?
-      session[:vehicle_loan] = @loan
-      session[:vehicle_loan_payment] = @payment
+      session[:special_asset_loan] = @loan
+      session[:special_asset_loan_payment] = @payment
       redirect_to step_four_path
     else
       @payment.valid?
@@ -69,11 +71,11 @@ class SpecialAssetFormController < AssetsController
   def process_step_three
     @expense = Expense.new(expense_params)
     @expense.user = current_user
-    @expense.type_id = 42
-    @expense.name = "Vehicle payment (#{session_vehicle.name})"
+    @expense.type_id = @type.id
+    @expense.name = "#{@type_category} payment (#{session_speicl_asset.name})"
     if @expense.valid?
-      session[:vehicle_payment] = @expense
-      redirect_to vehicle_step_four_path
+      session[:special_asset_payment] = @expense
+      redirect_to step_four_path
     else
       flash[:error] = @expense.errors.full_messages
       render 'resources/assets/vehicle/step_three.html.erb'
@@ -183,11 +185,19 @@ class SpecialAssetFormController < AssetsController
   private
 
     def set_form_variables
-      binding.pry
-      @type_category = params[:special_asset].snake_to_title
+      @type_category = params[:special_asset].to_title
       @type = ResourceType.find_by(name: @type_category)
       @asset = Asset.new(session[:asset_params])
-      # binding.pry
+      set_loan_name(@type_category)
+    end
+
+    def set_loan_name(type_category)
+      case type_category
+      when "Real Estate"
+        @loan_name = "mortgage"
+      when "Vehicle"
+        @loan_name = "vehicle loan"
+      end
     end
 
     def debt_params

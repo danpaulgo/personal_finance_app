@@ -27,7 +27,7 @@ class UserResourcesController < ApplicationController
 
   def new
     @page_resource = $new_resource
-    @type = ResourceType.find_by(name: params[:type].snake_to_title)
+    @type = ResourceType.find_by(name: params[:type].to_title)
     if @type && ResourceName.find_by(name: @page_resource.class.name).resource_types.include?(@type)
       if !!@type.name.match(/\sBill\z/)
         @type_category = "Bill"

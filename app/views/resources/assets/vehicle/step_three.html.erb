@@ -1,6 +1,6 @@
 <%= render 'resources/assets/form_header' %>
-<%= form_for @expense, url: process_vehicle_step_three_path do |f| %>
-  <b>Vehicle Payment Details</b>
+<%= form_for @expense, url: process_step_three_path do |f| %>
+  <b><%= @loan_name.gsub(" Loan", "").to_title %> Payment Details</b>
   <br>
   <%= f.label :amount, "Amount:" %>
   <%= form_amount(f) %>
@@ -19,4 +19,4 @@
   <br>
   <%= f.submit "Next" %>
 <% end %>
-<p><%= link_to "Back", vehicle_step_two_path %></p>
+<p><%= link_to "Back", step_two_path %></p>

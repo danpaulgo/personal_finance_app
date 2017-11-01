@@ -1,4 +1,4 @@
-<% if @type_category != "Vehicle" %>
+<% if @type_category != "Vehicle" && @type_category != "Real Estate"%>
   <%= render 'resources/errors', object: @page_resource %>
 <% end %>
 <h1>New Asset</h1>

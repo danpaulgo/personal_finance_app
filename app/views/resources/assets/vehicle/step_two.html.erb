@@ -1,6 +1,6 @@
 <%= render 'resources/assets/form_header' %>
-<%= form_for @loan, url: process_vehicle_step_two_path do |f| %>
-  <b>Vehicle Loan Details</b>
+<%= form_for @loan, url: process_step_two_path do |f| %>
+  <b><%= @loan_name.to_title %> Details</b>
   <br>
   <%= f.label :amount, "Amount owed:" %>
   <%= form_amount(f) %>
@@ -11,7 +11,7 @@
   <%= f.label :compound_frequency, "Compound Frequency:" %>
   <%= form_compound_frequency(f) %>
   <br>
-  <b>Loan Payment Details</b>
+  <b><%= @loan_name.to_title %> Payment Details</b>
   <br>
   <%= fields_for :payment, @payment do |p| %>
     <%= p.label :amount, "Payment amount: " %>
@@ -30,5 +30,5 @@
   <%= f.submit "Next" %>
   
 <% end %>
-<p><i>* If you do not have all necessary information, you may <%= link_to "enter your vehicle payments as an expense", vehicle_step_three_path %> instead or <%= link_to "skip", vehicle_step_four_path %> this step altogether</i></p>
+<p><i>* If you do not have all necessary information, you may <%= link_to "enter your #{@loan_name} payments as an expense", step_three_path %> instead or <%= link_to "skip", step_four_path %> this step altogether</i></p>
 <!-- This will link to the other page which will have a link that reads "Enter vehicle loan as a debt". vehicle_step_three_path must be replaced  -->
