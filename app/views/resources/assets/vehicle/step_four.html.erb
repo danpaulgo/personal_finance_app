@@ -1,17 +1,21 @@
 <%= render 'resources/assets/form_header' %>
-<%= form_for @vehicle, url: process_vehicle_step_four_path do |f| %>
-  <label>Would you like to take into account that vehicles depreciate in value at an average rate of 15% anually?</label>
+<%= form_for @special_asset, url: process_step_four_path do |f| %>
+  <% if @type_category == "Vehicle" %>
+    <label>Would you like to take into account that vehicles depreciate in value at an average rate of 15% anually?</label>
+  <% elsif @type_category == "Real Estate" %>
+    <label>Would you like to take into account that real estate in <%= @state %> appreciates at a historical average of <%= @rate %>% anually?</label>
+  <% end %>
   <table>
     <tr>
-      <td><label value="yes" for="depreciation_yes">Yes</label></td>
-      <td><input type="radio" name="depreciation" id="depreciation_yes" value="yes"></td>
+      <td><label value="yes" for="average_rate_yes">Yes</label></td>
+      <td><input type="radio" name="average_rate" id="average_rate_yes" value="yes"></td>
     </tr>
     <tr>
-      <td><label value="no" for="depreciation_no">No</label></td>
-      <td><input type="radio" name="depreciation" id="depreciation_no" value="no"></td>
+      <td><label value="no" for="average_rate_no">No</label></td>
+      <td><input type="radio" name="average_rate" id="average_rate_no" value="no"></td>
     </tr>
   </table>
-  Or, enter custom rate of depreciation:
+  Or, enter custom rate of <%= @type_category == "Vehicle" ? "depreciation" : "appreciation" %>:
   <br>
   <%= f.number_field :interest, value: nil, placeholder: "Custom Rate (%)", step: :any %>
   <br>

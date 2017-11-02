@@ -6,8 +6,6 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_one
     clear_session_params
-    binding.pry
-    @special_asset = Asset.new(asset_params)
     @special_asset.user = current_user
     @special_asset.primary = false
     @financed = params[:financed]
@@ -36,7 +34,6 @@ class SpecialAssetFormController < AssetsController
   end
 
   def step_two
-    binding.pry
     @loan = Debt.new
     @payment = Transfer.new
     render 'resources/assets/vehicle/step_two.html.erb'
@@ -83,28 +80,36 @@ class SpecialAssetFormController < AssetsController
   end
 
   def step_four
+    set_state_rate
+
     render 'resources/assets/vehicle/step_four.html.erb'
   end
 
   def process_step_four
-    @vehicle = session_vehicle
-    @depreciate = params[:depreciation]
+    binding.pry
+    @average_rate = params[:average_rate]
     @custom_rate = params[:asset][:interest]
-    if @custom_rate.blank? && @depreciate.blank?
+    if @custom_rate.blank? && @average_rate.blank?
+      set_state_rate
       flash[:error] = ["Please make a selection before continuing"]
       render 'resources/assets/vehicle/step_four.html.erb'
     else
+      @custom_rate = -@custom_rate if @type_category == "Vehicle"
       if !@custom_rate.blank?
-        @vehicle.interest ="-#{@custom_rate}".to_i
-        @vehicle.compound_frequency = "Yearly"
-      elsif @depreciate == "yes"
-        @vehicle.interest = -15
-        @vehicle.compound_frequency = "Yearly"
-      elsif @depreciate == "no"
-        @vehicle.interest = 0
+        @special_asset.interest = @custom_rate
+        @special_asset.compound_frequency = "Yearly"
+      elsif @average_rate == "yes"
+        if @type_category == "Vehicle"
+          @special_asset.interest = -15
+        elsif @type_category == "Real Estate"
+          @special_asset.interest = state_rate
+        end
+        @special_asset.compound_frequency = "Yearly"
+      elsif @average_rate == "no"
+        @special_asset.interest = 0
       end
-      session[:vehicle] = @vehicle
-      redirect_to vehicle_step_five_path
+      session[:special_asset] = @special_asset
+      redirect_to step_five_path
     end
   end
 
@@ -184,10 +189,21 @@ class SpecialAssetFormController < AssetsController
 
   private
 
+    def state_rate
+      RealEstateAppreciation.find_by(state: session[:property_location]).appreciation
+    end
+
+    def set_state_rate
+      if @type_category == "Real Estate"
+        redirect_to "/assets/new/real_estate" unless @state = session[:property_location]
+        @rate = state_rate
+      end
+    end
+
     def set_form_variables
       @type_category = params[:special_asset].to_title
       @type = ResourceType.find_by(name: @type_category)
-      @asset = Asset.new(session[:asset_params])
+      @special_asset = Asset.new(session[:asset_params])
       set_loan_name(@type_category)
     end
 

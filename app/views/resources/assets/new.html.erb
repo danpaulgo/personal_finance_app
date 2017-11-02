@@ -28,10 +28,6 @@
     <% if @type.name == "Vehicle" %>
       <label>Is this vehicle financed?</label>
     <% elsif  @type.name == "Real Estate" %>
-      <label>Where is this property located? (optional)</label>
-      <br>
-      <%= render 'resources/assets/special_assets/state_select' %>
-      <br>
       <label>Are you currently paying a mortgage on this property?</label>
     <% end %>
     <br>
@@ -40,6 +36,13 @@
     <label value="false" for="financed_false">No</label>
     <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
     <br>
+    <% if @type.name == "Real Estate" %>
+      <label>Where is this property located? (optional)</label>
+      <br>
+      <%= render 'resources/assets/special_assets/state_select' %>
+      <br>
+    <% end %>
+    
   <% else %>
     <%= f.label :interest, "Estimated rate of appreciation: " %>
     <br>
