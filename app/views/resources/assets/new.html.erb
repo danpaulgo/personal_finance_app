@@ -24,10 +24,10 @@
     <%= f.radio_button :liquid, false %>
     <br>
   <% end %>
-  <% if @type.name == "Vehicle" || "Real Estate"  %>
+  <% if @type.name == "Vehicle" || "Property"  %>
     <% if @type.name == "Vehicle" %>
       <label>Is this vehicle financed?</label>
-    <% elsif  @type.name == "Real Estate" %>
+    <% elsif  @type.name == "Property" %>
       <label>Are you currently paying a mortgage on this property?</label>
     <% end %>
     <br>
@@ -36,7 +36,7 @@
     <label value="false" for="financed_false">No</label>
     <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
     <br>
-    <% if @type.name == "Real Estate" %>
+    <% if @type.name == "Property" %>
       <label>Where is this property located? (optional)</label>
       <br>
       <%= render 'resources/assets/special_assets/state_select' %>

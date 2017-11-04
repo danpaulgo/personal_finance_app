@@ -32,7 +32,7 @@ ResourceType.create(name: "Bond", resource_name_id: 1)
 ResourceType.create(name: "Certificate of Deposit", resource_name_id: 1)
 ResourceType.create(name: "Commodity", resource_name_id: 1)
 
-ResourceType.create(name: "Real Estate", resource_name_id: 1)
+ResourceType.create(name: "Property", resource_name_id: 1)
 ResourceType.create(name: "Vehicle", resource_name_id: 1)
 ResourceType.create(name: "Artwork", resource_name_id: 1)
 ResourceType.create(name: "Jewelry", resource_name_id: 1)

@@ -9,7 +9,7 @@ module AssetsHelper
 
   LIQUID_ASSET_TYPES = liquid_asset_types_array
 
-  illiquid_asset_names = ["Real Estate", "Vehicle", "Artwork", "Jewelry", "Collectible"]
+  illiquid_asset_names = ["Property", "Vehicle", "Artwork", "Jewelry", "Collectible"]
   illiquid_asset_types_array = []
   illiquid_asset_names.each do |name|
     illiquid_asset_types_array += all_asset_types.where(name: name)

@@ -2,8 +2,6 @@ class SpecialAssetFormController < AssetsController
 
   before_action :set_form_variables
 
-  @@session_vehicle_defaults = [{session_name: :vehicle, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
-
   def process_step_one
     clear_session_params
     @special_asset.user = current_user
@@ -20,7 +18,7 @@ class SpecialAssetFormController < AssetsController
       render "resources/assets/new"
     else
       session[:special_asset] = @special_asset
-      session[:property_location] = params[:location] if @type_category == "Real Estate"
+      session[:property_location] = params[:location] if @type_category == "Property"
       if @financed == "true"
         redirect_to step_two_path
       else
@@ -101,7 +99,7 @@ class SpecialAssetFormController < AssetsController
       elsif @average_rate == "yes"
         if @type_category == "Vehicle"
           @special_asset.interest = -15
-        elsif @type_category == "Real Estate"
+        elsif @type_category == "Property"
           @special_asset.interest = state_rate
         end
         @special_asset.compound_frequency = "Yearly"
@@ -189,13 +187,21 @@ class SpecialAssetFormController < AssetsController
 
   private
 
+    def session_vehicle_defaults 
+     [{session_name: :vehicle, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
+    end
+
+    def session_property_defaults
+
+    end
+
     def state_rate
       RealEstateAppreciation.find_by(state: session[:property_location]).appreciation
     end
 
     def set_state_rate
-      if @type_category == "Real Estate"
-        redirect_to "/assets/new/real_estate" unless @state = session[:property_location]
+      if @type_category == "Property"
+        redirect_to "/assets/new/property" unless @state = session[:property_location]
         @rate = state_rate
       end
     end
@@ -209,7 +215,7 @@ class SpecialAssetFormController < AssetsController
 
     def set_loan_name(type_category)
       case type_category
-      when "Real Estate"
+      when "Property"
         @loan_name = "mortgage"
       when "Vehicle"
         @loan_name = "vehicle loan"
