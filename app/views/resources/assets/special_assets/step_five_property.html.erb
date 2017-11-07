@@ -8,7 +8,7 @@
       <%= i.label :amount, "How much revenue does this property generate in a month?" %>
       <br>
       <%= form_amount(i) %>
-      <%= i.label :associated_asset_id, "paid using: " %>
+      <%= i.label :associated_asset_id, "deposited into: " %>
       <%= form_select_primary_asset(i, @user) %>
     <% end %>
     <br>
@@ -32,7 +32,7 @@
   <% end %>
   <br>
   <br> 
-  <%= fields_for :ultilites, @utilities do |u| %>
+  <%= fields_for :utilities, @utilities do |u| %>
     <%= u.label :amount, "How much do you typically spend on utilities expenses in a month? (including heat, electricity, water, phone, etc.)" %>
     <br>
     <%= form_amount(u) %>
