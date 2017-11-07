@@ -142,7 +142,7 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_five
 
-    expense_defaults = {gasoline: {type_id: 27, frequency: "Monthly"}, insurance: {type_id: 37, frequency: "Yearly"}, maintenance: {type_id: 29, frequency: "Yearly"}, miscellaneous: {type_id: 42, frequency: "Yearly"}}
+    expense_defaults = {gasoline: {type_id: 27, frequency: "Monthly"}, insurance: {type_id: 31, frequency: "Yearly"}, maintenance: {type_id: 28, frequency: "Yearly"}, miscellaneous: {type_id: 35, frequency: "Yearly"}}
 
     @vehicle = session_vehicle
     @user = current_user
