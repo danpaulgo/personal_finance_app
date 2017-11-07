@@ -63,7 +63,8 @@ ActiveRecord::Schema.define(version: 20170927203902) do
   end
 
   create_table "real_estate_appreciations", force: :cascade do |t|
-    t.string "state"
+    t.string "name"
+    t.string "abbreviation"
     t.float "appreciation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

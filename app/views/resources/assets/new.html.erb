@@ -41,8 +41,14 @@
       <br>
       <%= render 'resources/assets/special_assets/state_select' %>
       <br>
+      <label>Is this an income property?</label>
+      <br>
+      <label value="true" for="income_true">Yes</label>
+      <input type="radio" name="income" id="income_true" value="true" <%= "checked" if @gain %> />
+      <label value="false" for="income_false">No</label>
+      <input type="radio" name="income" id="financed_false" value="false" <%= "checked" if @no_gain %> />
+      <br>
     <% end %>
-    
   <% else %>
     <%= f.label :interest, "Estimated rate of appreciation: " %>
     <br>

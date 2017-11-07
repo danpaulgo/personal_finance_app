@@ -39,7 +39,7 @@ class UserResourcesController < ApplicationController
       case $resource
       when "Asset"
         # Add default params to @page_resource
-        if @type_category == "Vehicle" || @type_category == "Real Estate"
+        if @type_category == "Vehicle" || @type_category == "Property"
           # Add default vehicle params to @page_resource
           @owed = nil
           @paid = nil

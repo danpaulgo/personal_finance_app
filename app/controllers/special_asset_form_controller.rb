@@ -1,24 +1,34 @@
 class SpecialAssetFormController < AssetsController
 
-  before_action :set_form_variables
+  before_action :set_type
+  before_action :set_asset, only: [:step_two, :process_step_two, :step_three, :process_step_three, :step_four, :process_step_four]
+  # before_action only: [:step_two, :process_step_two, :step_three, :process_step_three] do
+  #   set_loan_name(@type_category)
+  # end
 
   def process_step_one
     clear_session_params
+    @special_asset = Asset.new(asset_params)
     @special_asset.user = current_user
     @special_asset.primary = false
     @financed = params[:financed]
-    if @special_asset.name.blank? || @special_asset.amount == nil || @special_asset == nil
+    @income = params[:income]
+    if @special_asset.name.blank? || @special_asset.amount == nil || params[:financed] == nil || params[:income] == nil
       @page_resource = @special_asset
       @submit_path = process_step_one_path
       @button_text = "Next"
+      @state = params[:location]
       @owed = true if @financed == "true"
       @paid = true if @financed == "false"
-      @type_category = @page_resource.type.name
+      @gain = true if @income == "true"
+      @no_gain = true if @income == "false"
+      @type_category = params[:special_asset].to_title
       flash[:error] = ["Please fill in all fields"]
       render "resources/assets/new"
     else
       session[:special_asset] = @special_asset
       session[:property_location] = params[:location] if @type_category == "Property"
+      session[:income_property] = params[:income] if @type_category == "Property"
       if @financed == "true"
         redirect_to step_two_path
       else
@@ -32,9 +42,10 @@ class SpecialAssetFormController < AssetsController
   end
 
   def step_two
+    set_loan_name(@type_category)
     @loan = Debt.new
     @payment = Transfer.new
-    render 'resources/assets/vehicle/step_two.html.erb'
+    render 'resources/assets/special_assets/step_two.html.erb'
   end
 
   def process_step_two
@@ -54,13 +65,13 @@ class SpecialAssetFormController < AssetsController
     else
       @payment.valid?
       flash[:error] = @loan.errors.full_messages + @payment.errors.full_messages
-      render 'resources/assets/vehicle/step_two.html.erb'
+      render 'resources/assets/special_assets/step_two.html.erb'
     end
   end
 
   def step_three
     @expense = Expense.new
-    render 'resources/assets/vehicle/step_three.html.erb'
+    render 'resources/assets/special_assets/step_three.html.erb'
   end
 
   def process_step_three
@@ -73,18 +84,16 @@ class SpecialAssetFormController < AssetsController
       redirect_to step_four_path
     else
       flash[:error] = @expense.errors.full_messages
-      render 'resources/assets/vehicle/step_three.html.erb'
+      render 'resources/assets/special_assets/step_three.html.erb'
     end
   end
 
   def step_four
     set_state_rate
-
-    render 'resources/assets/vehicle/step_four.html.erb'
+    render 'resources/assets/special_assets/step_four.html.erb'
   end
 
   def process_step_four
-    binding.pry
     @average_rate = params[:average_rate]
     @custom_rate = params[:asset][:interest]
     if @custom_rate.blank? && @average_rate.blank?
@@ -113,12 +122,23 @@ class SpecialAssetFormController < AssetsController
 
   def step_five
     @user = current_user
-    @gasoline = Expense.new
-    @insurance = Expense.new
-    @maintenance = Expense.new
-    @miscellaneous = Expense.new
-    render 'resources/assets/vehicle/step_five.html.erb'
+    if @type_category == "Vehicle"
+      @gasoline = Expense.new
+      @car_insurance = Expense.new
+      @maintenance = Expense.new
+      @miscellaneous = Expense.new
+      render 'resources/assets/special_assets/step_five_vehicle.html.erb'
+    elsif @type_category == "Property"
+      @income = Income.new
+      @property_tax = Expense.new
+      @home_owners_insurance = Expense.new
+      @utilities = Expense.new
+      @maintenance = Expense.new
+      @miscellaneous = Expense.new
+      render 'resources/assets/special_assets/step_five_property.html.erb'
+    end
   end
+
 
   def process_step_five
 
@@ -135,7 +155,7 @@ class SpecialAssetFormController < AssetsController
       expense = instance_variable_get("@#{key}")
       if (expense.amount.blank? || expense.associated_asset_id.blank?) && !(expense.amount.blank? && expense.associated_asset_id.blank?)
         flash[:error] = ["Please enter both an amount and an asset for each question you choose to answer"]
-        render 'resources/assets/vehicle/step_five.html.erb'
+        render 'resources/assets/special_assets/step_five.html.erb'
         break
       else
         expense.name = "#{key.capitalize} (#{@vehicle.name})"
@@ -180,7 +200,7 @@ class SpecialAssetFormController < AssetsController
   end
 
   def clear_session_params
-    @@session_vehicle_defaults.each do |type_hash|
+    session_vehicle_defaults.each do |type_hash|
       session[type_hash[:session_name]] = nil
     end
   end
@@ -188,7 +208,11 @@ class SpecialAssetFormController < AssetsController
   private
 
     def session_vehicle_defaults 
-     [{session_name: :vehicle, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
+     [{session_name: :special_asset, resource_type: "Asset"}, {session_name: :vehicle_loan, resource_type: "Debt"}, {session_name: :vehicle_loan_payment, resource_type: "Transfer"}, {session_name: :vehicle_payment, resource_type: "Expense"}, {session_name: :vehicle_gasoline, resource_type: "Expense"}, {session_name: :vehicle_insurance, resource_type: "Expense"}, {session_name: :vehicle_maintenance, resource_type: "Expense"}, {session_name: :vehicle_miscellaneous, resource_type: "Expense"}]
+    end
+
+    def special_asset_defaults
+      []
     end
 
     def session_property_defaults
@@ -196,22 +220,31 @@ class SpecialAssetFormController < AssetsController
     end
 
     def state_rate
-      RealEstateAppreciation.find_by(state: session[:property_location]).appreciation
+      RealEstateAppreciation.find_by(abbreviation: session[:property_location]).appreciation if !(session[:property_location] == "NA")
     end
 
     def set_state_rate
       if @type_category == "Property"
         redirect_to "/assets/new/property" unless @state = session[:property_location]
         @rate = state_rate
+        binding.pry
       end
     end
 
-    def set_form_variables
+    def set_type
       @type_category = params[:special_asset].to_title
       @type = ResourceType.find_by(name: @type_category)
-      @special_asset = Asset.new(session[:asset_params])
-      set_loan_name(@type_category)
     end
+
+    def set_asset
+      @special_asset = Asset.new(session[:asset_params])
+    end
+
+    # def set_form_variables
+      
+      
+    #   set_loan_name(@type_category)
+    # end
 
     def set_loan_name(type_category)
       case type_category
