@@ -5,7 +5,7 @@
   <% if session[:income_property] == "true" %>
     <br>
     <%= fields_for :income, @income do |i| %>
-      <%= i.label :amount, "How much revenue does this property generate in a month?" %>
+      <%= i.label :amount, "How much revenue does this property generate in a year?" %>
       <br>
       <%= form_amount(i) %>
       <%= i.label :associated_asset_id, "deposited into: " %>
@@ -41,7 +41,7 @@
   <% end %>
   <br>
   <br> 
-  <%= fields_for :maintenance, @maintenance do |m| %>
+  <%= fields_for :property_maintenance, @maintenance do |m| %>
     <%= m.label :amount, "How much do you typically spend on maintenance and repairs in a year?" %>
     <br>
     <%= form_amount(m) %>

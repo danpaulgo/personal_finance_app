@@ -21,7 +21,7 @@
   <% end %>
   <br>
   <br> 
-  <%= fields_for :maintenance, @maintenance do |m| %>
+  <%= fields_for :vehicle_maintenance, @vehicle_maintenance do |m| %>
     <%= m.label :amount, "How much do you typically spend on maintenance and repairs in a year?" %>
     <br>
     <%= form_amount(m) %>
