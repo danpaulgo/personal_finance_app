@@ -4,7 +4,7 @@
   <br>
   <% if session[:income_property] == "true" %>
     <br>
-    <%= fields_for :income, @income do |i| %>
+    <%= fields_for :property_income, @property_income do |i| %>
       <%= i.label :amount, "How much revenue does this property generate in a year?" %>
       <br>
       <%= form_amount(i) %>
@@ -41,7 +41,7 @@
   <% end %>
   <br>
   <br> 
-  <%= fields_for :property_maintenance, @maintenance do |m| %>
+  <%= fields_for :property_maintenance, @property_maintenance do |m| %>
     <%= m.label :amount, "How much do you typically spend on maintenance and repairs in a year?" %>
     <br>
     <%= form_amount(m) %>

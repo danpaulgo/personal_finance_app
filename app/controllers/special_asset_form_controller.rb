@@ -38,7 +38,7 @@ class SpecialAssetFormController < AssetsController
   end
 
   def session_speicl_asset
-    Asset.new(session[:special_asset])
+    session[:special_asset]
   end
 
   def step_two
@@ -126,15 +126,15 @@ class SpecialAssetFormController < AssetsController
     if @type_category == "Vehicle"
       @gasoline = Expense.new
       @car_insurance = Expense.new
-      @maintenance = Expense.new
+      @vehicle_maintenance = Expense.new
       @miscellaneous = Expense.new
       render 'resources/assets/special_assets/step_five_vehicle.html.erb'
     elsif @type_category == "Property"
-      @income = Income.new
+      @property_income = Income.new
       @property_tax = Expense.new
       @home_owners_insurance = Expense.new
       @utilities = Expense.new
-      @maintenance = Expense.new
+      @property_maintenance = Expense.new
       # @miscellaneous = Expense.new
       render 'resources/assets/special_assets/step_five_property.html.erb'
     end
@@ -150,14 +150,13 @@ class SpecialAssetFormController < AssetsController
       @vehicle_maintenance = Expense.new(expense_params("vehicle_maintenance"))
       @miscellaneous = Expense.new(expense_params("miscellaneous"))
     elsif @type_category == "Property"
-      expense_defaults = {property_tax: {type_id: 34, frequency: "Yearly"}, home_owners_insurance: {type_id: 31, frequency: "Yearly"}, utilities: {type_id: 29, frequency: "monthly"}, property_maintenance: {type_id: 28, frequency: "Yearly"}, income: {type_id: 21, frequency: "Yearly"}}
+      expense_defaults = {property_tax: {type_id: 34, frequency: "Yearly"}, home_owners_insurance: {type_id: 31, frequency: "Yearly"}, utilities: {type_id: 29, frequency: "monthly"}, property_maintenance: {type_id: 28, frequency: "Yearly"}, property_income: {type_id: 21, frequency: "Yearly"}}
       @property_tax = Expense.new(expense_params("property_tax"))
       @home_owners_insurance = Expense.new(expense_params("home_owners_insurance"))
       @utilities = Expense.new(expense_params("utilities"))
       @property_maintenance = Expense.new(expense_params("property_maintenance"))
-      @income = Income.new(expense_params("income")) if !params[:income].nil?
+      @property_income = Income.new(expense_params("property_income")) if !params[:property_income].nil?
     end
-    
     expense_defaults.each do |key, value|
       expense = instance_variable_get("@#{key}")
       if !expense.nil?
@@ -196,6 +195,7 @@ class SpecialAssetFormController < AssetsController
 
   def create_objects_from_session
     flash[:success] = []
+    binding.pry
     present_params.each do |type_hash|
       session_value = session[type_hash[:session_name]]
       if session_value.is_a?(Hash)
@@ -264,7 +264,7 @@ class SpecialAssetFormController < AssetsController
     end
 
     def set_asset
-      @special_asset = Asset.new(session[:special_asset])
+      @special_asset = session[:special_asset]
     end
 
     # def set_form_variables
