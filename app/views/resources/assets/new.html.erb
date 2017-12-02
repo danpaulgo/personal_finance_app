@@ -1,8 +1,10 @@
 <%= render 'resources/assets/form_header' %>
 <%= form_for(@page_resource, url: @submit_path) do |f| %>
 
+  <%# PUT BELOW CODE IN CONTROLLER INSTEAD %>
   <%= hidden_field_tag "asset[type_id]", @type.id %>
-  <%# hidden_field_tag "asset[primary]", false %>
+  <%= hidden_field_tag "asset[compound_frequency]", "Yearly" %>
+  <%= hidden_field_tag "asset[primary]", @primary %>
 
   <%= f.label :name, "Name:" %>
   <%= form_name(f, @type_category, (@page_resource.name || @type.name)) %>
@@ -24,7 +26,7 @@
     <%= f.radio_button :liquid, false %>
     <br>
   <% end %>
-  <% if @type.name == "Vehicle" || "Property"  %>
+  <% if @type.name == "Vehicle" || @type.name == "Property"  %>
     <% if @type.name == "Vehicle" %>
       <label>Is this vehicle financed?</label>
     <% elsif  @type.name == "Property" %>

@@ -1,7 +1,8 @@
 <h1><%= "Select #{$resource} Type" %></h1>
-<ul>
-  <%= render @types %>
-  <li>
-    <%= link_to "Other", "/#{$resource_plural}/new/other" %>
-  </li>
-</ul>
+<%= form_for @page_resource, url: "/#{$resource_plural}/options" do |f| %>
+  <%= f.select(:type_id, options_for_select(@type_selections), include_blank: "Select Type") %>
+  <%= f.submit "Next" %>
+
+<% end %>
+
+

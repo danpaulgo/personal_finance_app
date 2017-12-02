@@ -1,7 +1,12 @@
 class String
 
   def to_title
-    self.split(/_|\s/).map{ |w| (w != "of" && w != "the") ? w.capitalize : w}.join(" ")
+    lowercase_words = ["of", "the", "on"]
+    self.split(/_|\s/).map{ |w| lowercase_words.include?(w) ? w : w.capitalize}.join(" ")
+  end
+
+  def to_snake
+    self.split(/_|\s/).map{|w| w.downcase}.join("_")
   end
 
 end

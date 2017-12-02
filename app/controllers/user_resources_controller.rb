@@ -21,8 +21,26 @@ class UserResourcesController < ApplicationController
   end
 
   def options
-    @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}.delete_if{|obj| obj.name == "Other"}
+    @page_resource = $new_resource
+    @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}
+    @type_selections = @types.map do |type|
+      [type.name, type.id]
+    end
+    # Sends "Other" option to end of list
+    @type_selections.each_with_index do |val, index|
+      if val[0] == "Other"
+        @type_selections.delete_at(index)
+        @type_selections.push(val)
+        break
+      end
+    end
     render "resources/options.html.erb"
+  end
+
+  def process_option
+    @type = ResourceType.find(resource_params[:type_id])
+    @slug = @type.name.to_snake
+    redirect_to "/#{$resource_plural}/new/#{@slug}"
   end
 
   def new
@@ -39,7 +57,7 @@ class UserResourcesController < ApplicationController
       case $resource
       when "Asset"
         # Add default params to @page_resource
-        if @type_category == "Vehicle" || @type_category == "Property"
+        if @type.name == "Vehicle" || @type.name == "Property"
           # Add default vehicle params to @page_resource
           @owed = nil
           @paid = nil
@@ -47,6 +65,7 @@ class UserResourcesController < ApplicationController
           @button_text = "Next"
         else
           # Add additional default asset params to @page_resource
+          @type.name == "Bank Account" || @type.name == "Cash on Hand" ? @primary = true : @primary = false
           @submit_path = assets_path
         end
         render 'resources/assets/new.html.erb'
@@ -59,7 +78,11 @@ class UserResourcesController < ApplicationController
       when "Expense"
         # Add default params to @page_resource
         render 'resources/expenses/new.html.erb'
+      when "Transfer"
+        # Add default params to @page_resource
+        render 'resources/transfers/new.html.erb'
       end
+
     else
       flash[:error] = ["Invalid #{@page_resource.class.name.downcase} type"]
       redirect_to root_path
@@ -77,6 +100,7 @@ class UserResourcesController < ApplicationController
       redirect_to "/#{$resource_plural}" 
     else
       @type = ResourceType.find(@page_resource.type_id)
+      @type.name == "Bank Account" || @type.name == "Cash on Hand" ? @primary = true : @primary = false
       render "resources/#{$resource_plural}/new" 
     end
   end

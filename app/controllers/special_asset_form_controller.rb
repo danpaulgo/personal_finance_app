@@ -53,7 +53,12 @@ class SpecialAssetFormController < AssetsController
     @loan = Debt.new(debt_params)
     @loan.user = current_user
     @loan.name = "#{@type_category} loan (#{session_speicl_asset.name})"
-    @loan.type_id = @type.id
+    case @type_category
+    when "Property"
+      @loan.type_id = 15
+    when "Vehicle"
+      @loan.type_id = 16
+    end
     @payment = Transfer.new(payment_params)
     @payment.user = current_user
     @payment.transfer_type = "Debt Payment"
@@ -78,7 +83,7 @@ class SpecialAssetFormController < AssetsController
   def process_step_three
     @expense = Expense.new(expense_params)
     @expense.user = current_user
-    @expense.type_id = @type.id
+    @expense.type_id = 35
     @expense.name = "#{@type_category} payment (#{session_speicl_asset.name})"
     if @expense.valid?
       session[:special_asset_payment] = @expense
@@ -150,7 +155,7 @@ class SpecialAssetFormController < AssetsController
       @vehicle_maintenance = Expense.new(expense_params("vehicle_maintenance"))
       @miscellaneous = Expense.new(expense_params("miscellaneous"))
     elsif @type_category == "Property"
-      expense_defaults = {property_tax: {type_id: 34, frequency: "Yearly"}, home_owners_insurance: {type_id: 31, frequency: "Yearly"}, utilities: {type_id: 29, frequency: "monthly"}, property_maintenance: {type_id: 28, frequency: "Yearly"}, property_income: {type_id: 21, frequency: "Yearly"}}
+      expense_defaults = {property_tax: {type_id: 34, frequency: "Yearly"}, home_owners_insurance: {type_id: 31, frequency: "Yearly"}, utilities: {type_id: 29, frequency: "Monthly"}, property_maintenance: {type_id: 28, frequency: "Yearly"}, property_income: {type_id: 21, frequency: "Yearly"}}
       @property_tax = Expense.new(expense_params("property_tax"))
       @home_owners_insurance = Expense.new(expense_params("home_owners_insurance"))
       @utilities = Expense.new(expense_params("utilities"))
@@ -186,7 +191,7 @@ class SpecialAssetFormController < AssetsController
     # Check each session key for nil values. Instantiate and save objects for all values that are not nil. Reset all session keys to nil.
     create_objects_from_session
     clear_session_params
-    redirect_to root_path
+    redirect_to assets_path
   end
 
   def present_params
@@ -195,7 +200,6 @@ class SpecialAssetFormController < AssetsController
 
   def create_objects_from_session
     flash[:success] = []
-    binding.pry
     present_params.each do |type_hash|
       session_value = session[type_hash[:session_name]]
       if session_value.is_a?(Hash)
@@ -235,7 +239,7 @@ class SpecialAssetFormController < AssetsController
         {session_name: :property_tax, resource_type: "Expense"}, 
         {session_name: :home_owners_insurance, resource_type: "Expense"}, 
         {session_name: :property_maintenance, resource_type: "Expense"},
-        {session_name: :utilites, resource_type: "Expense"} 
+        {session_name: :utilities, resource_type: "Expense"} 
       ]
     end
 

@@ -17,8 +17,11 @@ Rails.application.routes.draw do
   FINANCE_RESOURCES.each do |r|
     resources r, only: [:index, :create, :edit, :update, :destroy]
     get "#{r}/options", to: "#{r}#options"
+    post "#{r}/options", to: "#{r}#process_option"
     get "#{r}/new/:type", to: "#{r}#new"
   end
+
+  # post ":r/options", to: "user_resources#process_option", as: "process_option"
 
   post "assets/new/:special_asset/1", to: "special_asset_form#process_step_one", as: "process_step_one"
   get "assets/new/:special_asset/2", to: "special_asset_form#step_two", as: "step_two"

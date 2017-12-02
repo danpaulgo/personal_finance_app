@@ -12,10 +12,10 @@ state_rate_data.each do |arr|
 end
 
 dan = User.create(name: "Daniel Goldberg", username: "danpaulgo", password: "BayShore61893")
-  dan.assets.create(type_id: 1, name: "Cash", amount: 100.0, liquid: true, primary: true)
+  dan.assets.create(type_id: 1, name: "Personal Wallet", amount: 100.0, liquid: true, primary: true)
   dan.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
 john = User.create(name: "John Doe", username: "johndoe2000", password: "password")
-  john.assets.create(type_id: 1, name: "Cash", amount: 0.0, liquid: true, primary: true)
+  john.assets.create(type_id: 1, name: "Personal Wallet", amount: 0.0, liquid: true, primary: true)
   john.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
 
 ResourceName.create(name: "Asset", table_name: "assets")
@@ -23,8 +23,9 @@ ResourceName.create(name: "Asset", table_name: "assets")
 ResourceName.create(name: "Debt", table_name: "debts")
 ResourceName.create(name: "Income", table_name: "incomes")
 ResourceName.create(name: "Expense", table_name: "expenses")
+ResourceName.create(name: "Transfer", table_name: "transfers")
 
-ResourceType.create(name: "Cash", resource_name_id: 1)
+ResourceType.create(name: "Cash on Hand", resource_name_id: 1)
 ResourceType.create(name: "Bank Account", resource_name_id: 1)
 ResourceType.create(name: "Stock", resource_name_id: 1)
 ResourceType.create(name: "Fund", resource_name_id: 1)
@@ -41,8 +42,8 @@ ResourceType.create(name: "Other", resource_name_id: 1)
 
 ResourceType.create(name: "Credit Card", resource_name_id: 2)
 ResourceType.create(name: "Mortgage", resource_name_id: 2)
-ResourceType.create(name: "Car", resource_name_id: 2)
-ResourceType.create(name: "Personal", resource_name_id: 2)
+ResourceType.create(name: "Vehicle Loan", resource_name_id: 2)
+ResourceType.create(name: "Personal Debt", resource_name_id: 2)
 ResourceType.create(name: "Other", resource_name_id: 2)
 
 ResourceType.create(name: "Career Salary", resource_name_id: 3)
@@ -70,6 +71,8 @@ ResourceType.create(name: "Recreation", resource_name_id: 4)
 ResourceType.create(name: "Transportation", resource_name_id: 4)
 ResourceType.create(name: "Tax", resource_name_id: 4)
 ResourceType.create(name: "Other", resource_name_id: 4)
+ResourceType.create(name: "Asset to Asset", resource_name_id: 5)
+ResourceType.create(name: "Debt Payment", resource_name_id: 5)
 
 
 

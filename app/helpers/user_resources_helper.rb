@@ -1,7 +1,7 @@
 module UserResourcesHelper
 
   def input_fields(resource)
-    permitted_input = ["type_id", "name", "amount", "frequency", "interest", "liquid", "compound_frequency", "associated_asset_id", "next_billing_date", "next_payment_date", "discontinued", "asset_paying_id", "destination_id"]
+    permitted_input = ["type_id", "name", "amount", "frequency", "interest", "liquid", "primary", "compound_frequency", "associated_asset_id", "liquid_asset_from_id", "next_date", "discontinued"]
     permitted_input & resource.attributes.keys
   end
 

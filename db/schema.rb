@@ -94,10 +94,10 @@ ActiveRecord::Schema.define(version: 20171115093944) do
   end
 
   create_table "transfers", force: :cascade do |t|
+    t.integer "type_id"
     t.integer "user_id"
     t.integer "liquid_asset_from_id"
     t.integer "destination_id"
-    t.string "transfer_type"
     t.datetime "next_date"
     t.float "amount"
     t.string "frequency"
