@@ -2,7 +2,7 @@ class Expense < ApplicationRecord
 
   belongs_to :user
 
-  validates :type_id, :amount, :user_id, :frequency, :associated_asset_id, presence: true
+  validates :type_id, :name, :amount, :user_id, :frequency, :associated_asset_id, :next_date, presence: true
 
   def type
     ResourceType.find(self.type_id)

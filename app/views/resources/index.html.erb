@@ -9,11 +9,7 @@
   <% @all.each do |resource| %>
     <tr>
     <% table_columns.each do |column| %>
-      <% if resource.send(column).blank? %>
-        <td>N/a</td>
-      <% else %>
-        <td><%= prep_data_for_table(resource, column) %></td>
-      <% end %>
+      <td><%= prep_data_for_table(resource, column) %></td>
     <% end %>
     <td><%= link_to "edit", "/#{$resource_plural}/#{resource.id}/edit" %></td>
     <td><%= link_to "delete", "/#{$resource_plural}/#{resource.id}", method: :delete, data:{confirm: "Are you sure you would like to delete this item?"} %></td>

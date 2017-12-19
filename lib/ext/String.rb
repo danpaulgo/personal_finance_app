@@ -1,7 +1,7 @@
 class String
 
   def to_title
-    lowercase_words = ["of", "the", "on"]
+    lowercase_words = ["of", "the", "on", "to"]
     self.split(/_|\s/).map{ |w| lowercase_words.include?(w) ? w : w.capitalize}.join(" ")
   end
 

@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20171115093944) do
     t.integer "liquid_asset_from_id"
     t.integer "destination_id"
     t.datetime "next_date"
+    t.datetime "end_date"
     t.float "amount"
     t.string "frequency"
     t.datetime "created_at", null: false

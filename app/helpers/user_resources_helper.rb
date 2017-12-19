@@ -16,8 +16,7 @@ module UserResourcesHelper
     when "type_id"
       type_output(object)
     when "amount"
-      nil_to_zero(object)
-      amount_output(object)
+      amount_output(nil_to_zero(object))
     # when "liquid"
     #   liquid_output(object)
     when "interest"
@@ -88,6 +87,7 @@ module UserResourcesHelper
   def nil_to_zero(resource)
     resource.amount = 0 if resource.amount == nil
     resource.interest = 0 if resource.methods.include?("interest") && resource.interest == nil
+    resource
     # resource.payment = 0 if resource.methods.include?("payment") && resource.payment == nil    
   end
 
@@ -168,18 +168,19 @@ module UserResourcesHelper
       f.text_area :description, placeholder: "Description"
     end
 
-    def form_select_primary_asset(f, user)
+    def form_select_primary_asset(f, user, attr_name = "associated_asset_id")
       selections = user.assets.where(primary: true).map{|asset| [asset.name, asset.id]}
-      f.select(:associated_asset_id, options_for_select(selections, selected: f.object.associated_asset_id), include_blank: "Select Asset")
+      f.select(:"#{attr_name}", options_for_select(selections, selected: f.object.send(attr_name)), include_blank: "Select Asset")
     end
 
-    def form_select_liquid_asset(f, user)
+    def form_select_liquid_asset(f, user, attr_name)
       selections = user.assets.where(liquid: true).map{|asset| [asset.name, asset.id]}
-      f.select(:liquid_asset_from_id, options_for_select(selections, selected: f.object.liquid_asset_from_id), include_blank: "Select Asset")
+      f.select(:"#{attr_name}", options_for_select(selections, selected: f.object.send(attr_name)), include_blank: "Select Asset")
     end
 
-    def form_select_assets_debts(f, user)
-
+    def form_select_debt(f, user)
+      selections = user.debts.map{|debt| [debt.name, debt.id]}
+      f.select(:destination_id, options_for_select(selections, selected: f.object.destination_id), include_blank: "Select Debt")
     end
 
     def form_end_date(f)
@@ -195,6 +196,20 @@ module UserResourcesHelper
       f.radio_button :liquid, true
       f.label :liquid, "No", value: "false"
       f.radio_button :liquid, false
+    end
+
+    def first_of_next(time_measure)
+      today = Date.today
+      case time_measure
+      when "Daily"
+        today + 1
+      when "Weekly"
+        today.next_week(day= :sunday)
+      when "Monthly"
+        Date.today.at_beginning_of_month.next_month
+      when "Yearly"
+        Date.today.beginning_of_year() + 1.years
+      end
     end
 
 end

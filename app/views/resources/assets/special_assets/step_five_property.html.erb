@@ -5,7 +5,7 @@
   <% if session[:income_property] == "true" %>
     <br>
     <%= fields_for :property_income, @property_income do |i| %>
-      <%= i.label :amount, "How much revenue does this property generate in a year?" %>
+      <%= i.label :amount, "How much revenue does this property generate in a month?" %>
       <br>
       <%= form_amount(i) %>
       <%= i.label :associated_asset_id, "deposited into: " %>
@@ -33,7 +33,7 @@
   <br>
   <br> 
   <%= fields_for :utilities, @utilities do |u| %>
-    <%= u.label :amount, "How much do you typically spend on utilities expenses in a month? (including heat, electricity, water, phone, etc.)" %>
+    <%= u.label :amount, "How much do you typically spend on utilities for this property in a month? (including heat, electricity, water, phone, etc.)" %>
     <br>
     <%= form_amount(u) %>
     <%= u.label :associated_asset_id, "paid using: " %>
@@ -42,7 +42,7 @@
   <br>
   <br> 
   <%= fields_for :property_maintenance, @property_maintenance do |m| %>
-    <%= m.label :amount, "How much do you typically spend on maintenance and repairs in a year?" %>
+    <%= m.label :amount, "How much do you typically spend on maintenance and repairs for this proprty in a year?" %>
     <br>
     <%= form_amount(m) %>
     <%= m.label :associated_asset_id, "paid using: " %>

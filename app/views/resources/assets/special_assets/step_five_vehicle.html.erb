@@ -1,10 +1,10 @@
 <%= render 'resources/assets/form_header' %>
-<%= form_tag process_vehicle_step_five_path do %>
+<%= form_tag process_step_five_path do %>
   <b>Related Expenses</b>
   <br>
   <br>
   <%= fields_for :gasoline, @gasoline do |g| %>
-    <%= g.label :amount, "How much do you typically spend on gas in a month?" %>
+    <%= g.label :amount, "How much do you typically spend on gas for this vehicle in a week?" %>
     <br>
     <%= form_amount(g) %>
     <%= g.label :associated_asset_id, "paid using: " %>
@@ -12,8 +12,8 @@
   <% end %>
   <br>
   <br> 
-  <%= fields_for :insurance, @insurance do |i| %>
-    <%= i.label :amount, "How much do you pay for car insurance in a year?" %>
+  <%= fields_for :insurance, @car_insurance do |i| %>
+    <%= i.label :amount, "How much do you pay for car insurance on this vehicle anually?" %>
     <br>
     <%= form_amount(i) %>
     <%= i.label :associated_asset_id, "paid using: " %>
@@ -22,7 +22,7 @@
   <br>
   <br> 
   <%= fields_for :vehicle_maintenance, @vehicle_maintenance do |m| %>
-    <%= m.label :amount, "How much do you typically spend on maintenance and repairs in a year?" %>
+    <%= m.label :amount, "How much do you typically spend on maintenance and repairs for this vehicle in a year?" %>
     <br>
     <%= form_amount(m) %>
     <%= m.label :associated_asset_id, "paid using: " %>
@@ -31,7 +31,7 @@
   <br>
   <br> 
   <%= fields_for :miscellaneous, @miscellaneous do |mi| %>
-    <%= mi.label :amount, "How much do you typically spend on miscellaneous expenses in a year?" %>
+    <%= mi.label :amount, "How much do you typically spend on miscellaneous expenses for this vehicle in a year?" %>
     <br>
     <%= form_amount(mi) %>
     <%= mi.label :associated_asset_id, "paid using: " %>

@@ -13,8 +13,8 @@ class SpecialAssetFormController < AssetsController
     @special_asset.primary = false
     @financed = params[:financed]
     @income = params[:income]
-    if @special_asset.name.blank? || @special_asset.amount == nil || params[:financed] == nil || params[:income] == nil
-      @page_resource = @special_asset
+    income_present = true unless @income == nil && params[:special_asset] == "property"
+    if @special_asset.name.blank? || @special_asset.amount == nil || params[:financed] == nil || income_present == nil
       @submit_path = process_step_one_path
       @button_text = "Next"
       @state = params[:location]
@@ -61,7 +61,7 @@ class SpecialAssetFormController < AssetsController
     end
     @payment = Transfer.new(payment_params)
     @payment.user = current_user
-    @payment.transfer_type = "Debt Payment"
+    @payment.type_id = 37
     @payment.destination_id = 1
     if @loan.valid? && @payment.valid?
       session[:special_asset_loan] = @loan
@@ -90,7 +90,7 @@ class SpecialAssetFormController < AssetsController
       redirect_to step_four_path
     else
       flash[:error] = @expense.errors.full_messages
-      render 'resources/assets/special_assets/step_three.html.erb'
+      render 'resources/assets/special_assets/step_four.html.erb'
     end
   end
 
@@ -149,13 +149,13 @@ class SpecialAssetFormController < AssetsController
   def process_step_five
     @user = current_user
     if @type_category == "Vehicle"
-      expense_defaults = {gasoline: {type_id: 27, frequency: "Monthly"}, insurance: {type_id: 31, frequency: "Yearly"}, vehicle_maintenance: {type_id: 28, frequency: "Yearly"}, miscellaneous: {type_id: 35, frequency: "Yearly"}}
+      expense_defaults = {gasoline: {type_id: 27, frequency: "Weekly", division: 1}, car_insurance: {type_id: 31, frequency: "Monthly", division: 12}, vehicle_maintenance: {type_id: 28, frequency: "Monthly", division: 12}, miscellaneous: {type_id: 35, frequency: "Monthly", division: 12}}
       @gasoline = Expense.new(expense_params("gasoline"))
-      @insurance = Expense.new(expense_params("insurance"))
+      @car_insurance = Expense.new(expense_params("insurance"))
       @vehicle_maintenance = Expense.new(expense_params("vehicle_maintenance"))
       @miscellaneous = Expense.new(expense_params("miscellaneous"))
     elsif @type_category == "Property"
-      expense_defaults = {property_tax: {type_id: 34, frequency: "Yearly"}, home_owners_insurance: {type_id: 31, frequency: "Yearly"}, utilities: {type_id: 29, frequency: "Monthly"}, property_maintenance: {type_id: 28, frequency: "Yearly"}, property_income: {type_id: 21, frequency: "Yearly"}}
+      expense_defaults = {property_tax: {type_id: 34, frequency: "Monthly", division: 12}, home_owners_insurance: {type_id: 31, frequency: "Monthly", division: 12}, utilities: {type_id: 29, frequency: "Monthly", division: 1}, property_maintenance: {type_id: 28, frequency: "Monthly", division: 12}, property_income: {type_id: 21, frequency: "Monthly", division: 1}}
       @property_tax = Expense.new(expense_params("property_tax"))
       @home_owners_insurance = Expense.new(expense_params("home_owners_insurance"))
       @utilities = Expense.new(expense_params("utilities"))
@@ -170,10 +170,16 @@ class SpecialAssetFormController < AssetsController
           render "resources/assets/special_assets/step_five_#{@type_category.downcase}.html.erb"
           break
         elsif !expense.amount.blank? && !expense.associated_asset_id.blank?
+          if value[:division] != 1
+            new_amount = expense.amount/value[:division]
+            expense.amount = new_amount.ceil2(2)
+          end
           expense.name = "#{key.to_s.to_title} (#{@special_asset.name})"
           expense.type_id = value[:type_id]
           expense.user = @user
           expense.frequency = value[:frequency]
+          # FIX LINE BELOW
+          expense.next_date = first_of_next(expense.frequency)
           session[:"#{key}"] = expense if expense.valid?
         end
       end
@@ -231,9 +237,9 @@ class SpecialAssetFormController < AssetsController
         {session_name: :special_asset_payment, resource_type: "Expense"}, 
         # VEHICLE FORM
         {session_name: :gasoline, resource_type: "Expense"}, 
-        {session_name: :vehicle_insurance, resource_type: "Expense"}, 
+        {session_name: :car_insurance, resource_type: "Expense"}, 
         {session_name: :vehicle_maintenance, resource_type: "Expense"}, 
-        {session_name: :vehicle_miscellaneous, resource_type: "Expense"}, 
+        {session_name: :miscellaneous, resource_type: "Expense"}, 
         # PROPERTY FORM
         {session_name: :property_income, resource_type: "Income"}, 
         {session_name: :property_tax, resource_type: "Expense"}, 
@@ -243,13 +249,7 @@ class SpecialAssetFormController < AssetsController
       ]
     end
 
-    def session_vehicle_defaults
-      []
-    end
 
-    def session_property_defaults
-
-    end
 
     def state_rate
       RealEstateAppreciation.find_by(abbreviation: session[:property_location]).appreciation if !(session[:property_location] == "NA")
