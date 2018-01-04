@@ -22,6 +22,7 @@ class UserResourcesController < ApplicationController
 
   def options
     @page_resource = $new_resource
+    @title = "Create New #{$resource}"
     @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}
     @type_selections = @types.map do |type|
       [type.name, type.id]
@@ -38,9 +39,28 @@ class UserResourcesController < ApplicationController
   end
 
   def process_option
-    @type = ResourceType.find(resource_params[:type_id])
-    @slug = @type.name.to_snake
-    redirect_to "/#{$resource_plural}/new/#{@slug}"
+    @type = ResourceType.find_by(id: resource_params[:type_id])
+    if @type.nil?
+      flash[:error] = ["Please make a selection"]
+      @page_resource = $new_resource
+      @title = "Create New #{$resource}"
+      @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}
+      @type_selections = @types.map do |type|
+      [type.name, type.id]
+    end
+    # Sends "Other" option to end of list
+    @type_selections.each_with_index do |val, index|
+      if val[0] == "Other"
+        @type_selections.delete_at(index)
+        @type_selections.push(val)
+        break
+      end
+    end
+      render "resources/options.html.erb"
+    else
+      @slug = @type.name.to_snake
+      redirect_to "/#{$resource_plural}/new/#{@slug}"
+    end    
   end
 
   def new

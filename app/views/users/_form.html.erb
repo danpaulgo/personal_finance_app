@@ -1,16 +1,48 @@
 <%= render 'resources/errors', object: @user %>
-<%= form_for(@user) do |f| %>
-  <%= f.label :name, "Full Name" %>:
-  <%= f.text_field :name %>
-  <br>
-  <%= f.label :username %>:
-  <%= f.text_field :username %>
-  <br>
-  <%= f.label :password %>:
-  <%= f.password_field :password %>
-  <br>
-  <%= f.label :password_confirmation, "Confirm Password" %>:
-  <%= f.password_field :password_confirmation %>
-  <br>
-  <%= f.submit yield(:button) %>
-<% end %>
+<%= render partial: 'forms/form_header', locals: {form_title: "Sign Up", corner_link_path: "/login", corner_link_text: "Login"} %>
+    
+  <%= form_for @user, html: {class: "form-horizontal", role: "form"} do |f| %>
+
+    <div class="form-group">
+      <%= f.label :name, "Full Name", class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= f.text_field :name, class: "form-control", placeholder: "Full Name" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :username, "Username", class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= f.text_field :username, class: "form-control", placeholder: "Username" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, "Password", class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation, "Password Confirmation", class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password" %>
+      </div>
+    </div>
+    <!-- Button -->                                        
+    <div class="col-md-offset-4 col-md-4">
+      <%= f.submit yield(:button), id: "btn-signup", class: "btn btn-info" %>
+      <!-- <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button> -->
+      <!-- <span style="margin-left:8px;">or</span>   -->
+    </div>
+    <!-- <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
+      <div class="col-md-offset-3 col-md-9">
+        <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>Sign Up with Facebook</button>
+      </div>                                           
+    </div> -->
+      
+  <% end %>
+
+<%= render 'forms/form_footer' %>
+    

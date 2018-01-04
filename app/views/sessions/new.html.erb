@@ -1,12 +1,23 @@
-<h1>Login</h1>
-<%= form_tag login_path do %>
-  <%= label :session, :username %>
-  <%= text_field_tag 'session[username]' %>
-  <br>
-  <%= label :session, :password %>
-  <%= password_field_tag 'session[password]' %>
-  <br>
-  <%= submit_tag "Login" %>
-<% end %>
-<br>
-<%= link_to "Create Account", new_user_path %>
+<%= render partial: 'forms/form_header', locals: {form_title: "Sign In", corner_link_path: "/users/new", corner_link_text: "Sign Up"} %>
+  <%= form_tag login_path, html: {class: "form-horizontal", role: "form", id: "loginform"} do %>
+
+    <div class="form-group">
+      <%= label :session, :username, class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= text_field_tag 'session[username]', nil, class: 'form-control', placeholder: "Username" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= label :session, :password, class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= password_field_tag 'session[password]', nil, class: "form-control", placeholder: "Password" %>
+      </div>
+    </div>
+
+    <div class="col-md-offset-4 col-md-4">
+      <%= submit_tag "Login", id: "btn-login", class: "btn btn-info" %>
+    </div>
+
+  <% end %>
+<%= render 'forms/form_footer' %>

@@ -3,7 +3,7 @@
 
 $universal-background: #F5F5F5;
 $header-hover-color: #2C4251;
-$header-background-color: #01AC3A;
+$header-background-color: #62BDEA;
 $menu-background-color: #347AB6;
 $footer-background-color: #202020;
 $divider-color: #D8D8D8;
@@ -239,6 +239,24 @@ div.wrapper{
   }
   div.last-section{
     border-bottom: 0;
+  }
+}
+
+// FORMS
+
+form{
+  div.col-md-4{
+    padding: 16px 0;
+    .btn-info{
+      background-color: $header-background-color;
+      font-size: 16px;
+      padding: 8px 24px;
+      display: block;
+      margin: 0 auto;
+    }
+    .btn-info:hover{
+      background-color: $header-hover-color;
+    }
   }
 }
 

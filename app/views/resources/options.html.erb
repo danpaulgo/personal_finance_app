@@ -1,8 +1,14 @@
-<h1><%= "Select #{$resource} Type" %></h1>
-<%= form_for @page_resource, url: "/#{$resource_plural}/options" do |f| %>
-  <%= f.select(:type_id, options_for_select(@type_selections), include_blank: "Select Type") %>
-  <%= f.submit "Next" %>
-
-<% end %>
-
+<%= render partial: 'forms/form_header', locals: {form_title: @title, corner_link_path: "/users/new", corner_link_text: "Sign Up"} %>
+  <%= form_for @page_resource, url: "/#{$resource_plural}/options" do |f| %>
+    <div class="form-group">
+      <%= f.label :type_id, "Select #{$resource} Type", class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= f.select(:type_id, options_for_select(@type_selections), include_blank: "Select Type") %>
+      </div>
+    </div> 
+    <div class="col-md-offset-4 col-md-4">
+      <%= submit_tag "Next", id: "btn-next", class: "btn btn-info" %>
+    </div>
+  <% end %>
+<%= render 'forms/form_footer' %>
 
