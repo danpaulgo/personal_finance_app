@@ -122,6 +122,22 @@ module UserResourcesHelper
 
     # FORM HELPERS
 
+    def form_full_name(f)
+      f.text_field :name, class: "form-control", placeholder: "Full Name"
+    end
+
+    def form_username(f)
+      f.text_field :username, class: "form-control", placeholder: "Username"
+    end
+
+    def form_password(f)
+       f.password_field :password, class: "form-control", placeholder: "Password"
+    end
+
+    def form_password_confirmation(f)
+      f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password"
+    end
+
     # Preps form fields for specific attributes
     def form_name(f, type_category = nil, type_name = nil)
       if f.object.name == nil

@@ -1,37 +1,32 @@
 <%= render 'resources/errors', object: @page_resource %>
-<h1>New Transfer</h1>
-<h3><%= @type_category %></h3>
+<%= render partial: 'forms/form_header', locals: {form_title: "New Transfer"} %>
+<p class="form-category"><%= @type_category %></p>
 <%= form_for @page_resource do |f| %>
   
   <!-- Type hidden -->
-  <%= hidden_field_tag "transfer[type_id]", @type.id %>
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
+  
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :frequency, label_name: "Frequency", form_method: form_frequency(f)} %>
 
-  <%= f.label :amount, "Amount:" %>
-  <%= form_amount(f) %>
-  <br>
-  <%= f.label :frequency, "Frequency:" %>
-  <%= form_frequency(f) %>
-  <br>
   <% if @type.id == 36 %>
-    <%= f.label :liquid_asset_from_id, "From:" %>
-    <%= form_select_liquid_asset(f, current_user, "liquid_asset_from_id") %>
-    <br>
-    <%= f.label :destination_id, "To:" %>
-    <%= form_select_liquid_asset(f, current_user, "destination_id") %>
-  <% else %>
-    <%= f.label :liquid_asset_from_id, "From:" %>
-    <%= form_select_primary_asset(f, current_user, "liquid_asset_from_id") %>
-    <br>
-    <%= f.label :destination_id, "To:" %>
-    <%= form_select_debt(f, current_user) %>
-  <% end %>
-  <br>
-  <%= f.label :next_date, "Next Payment Date:" %>
-  <%= form_next_date(f) %>
-  <br>
-  <%= f.label :end_date, "End Date (optional):" %>
-  <%= form_end_date(f) %>
-  <br>
-  <%= f.submit "Add Transfer" %>
 
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :liquid_asset_from_id, label_name: "From", form_method: form_select_liquid_asset(f, current_user, "liquid_asset_from_id")} %>
+
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :destination_id, label_name: "To", form_method: form_select_liquid_asset(f, current_user, "destination_id")} %>
+
+  <% else %>
+
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :liquid_asset_from_id, label_name: "From", form_method: form_select_primary_asset(f, current_user, "liquid_asset_from_id")} %>
+
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :destination_id, label_name: "To", form_method: form_select_debt(f, current_user)} %>
+
+  <% end %>
+  
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(f)} %>
+  
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :end_date, label_name: "End Date (optional)", form_method: form_end_date(f)} %>
+  
+  <%= render partial: "shared/form_submit", locals: {button_text: "Add Transfer"} %>
 <% end %>
+
+<%= render 'forms/form_footer' %>

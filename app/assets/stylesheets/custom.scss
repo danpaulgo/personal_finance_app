@@ -124,11 +124,13 @@ header{
       min-width: 140px;
       background-color: $menu-background-color;
       color: white;
+      font-weight:300;
       border: 1px solid white;
       padding: 5px 0;
       a{
+        color:white;
         display: block;
-        font-size: 16px;
+        font-size: 14px;
         padding-left: 10%;
         line-height: 1.8;
       }
@@ -244,7 +246,38 @@ div.wrapper{
 
 // FORMS
 
+p.form-category{
+  text-align:center;
+  font-size: 16px;
+  margin-top: 8px;
+  margin-bottom:24px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
+p#mortgage-footnote{
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+}
+
 form{
+  div#options-form .col-md-9{
+    margin-bottom: 24px;
+  }
+  div.form-group{
+    text-align: center;
+    margin-bottom:18px;
+    div.col-md-9{
+      label{
+        margin-bottom: 0;
+      }
+      label.right-radio{
+        margin-left:12px;
+      }
+    }
+  }
   div.col-md-4{
     padding: 16px 0;
     .btn-info{
@@ -253,12 +286,17 @@ form{
       padding: 8px 24px;
       display: block;
       margin: 0 auto;
+      margin-bottom:12px;
     }
     .btn-info:hover{
       background-color: $header-hover-color;
     }
   }
+  .control-label{
+    margin-bottom: 12px;
+  }
 }
+
 
 // FOOTER
 

@@ -1,42 +1,25 @@
 <%= render 'resources/errors', object: @user %>
 <%= render partial: 'forms/form_header', locals: {form_title: "Sign Up", corner_link_path: "/login", corner_link_text: "Login"} %>
     
-  <%= form_for @user, html: {class: "form-horizontal", role: "form"} do |f| %>
+  <%= form_for @user do |f| %>
 
-    <div class="form-group">
-      <%= f.label :name, "Full Name", class: "col-md-3 control-label" %>
-      <div class="col-md-9">
-        <%= f.text_field :name, class: "form-control", placeholder: "Full Name" %>
-      </div>
-    </div>
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :name, label_name: "Full Name", form_method: form_full_name(f)} %>
 
-    <div class="form-group">
-      <%= f.label :username, "Username", class: "col-md-3 control-label" %>
-      <div class="col-md-9">
-        <%= f.text_field :username, class: "form-control", placeholder: "Username" %>
-      </div>
-    </div>
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :username, label_name: "Username", form_method: form_username(f)} %>
 
-    <div class="form-group">
-      <%= f.label :password, "Password", class: "col-md-3 control-label" %>
-      <div class="col-md-9">
-        <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
-      </div>
-    </div>
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :password, label_name: "Password", form_method: form_password(f)} %>
 
-    <div class="form-group">
-      <%= f.label :password_confirmation, "Password Confirmation", class: "col-md-3 control-label" %>
-      <div class="col-md-9">
-        <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password" %>
-      </div>
+    <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :password_confirmation, label_name: "Confirm Password", form_method: form_password_confirmation(f)} %>
+
+    <!-- Button -->
+
+    <%= render partial: "shared/form_submit", locals: {button_text: yield(:button)} %>                                      
+<!--     <div class="col-md-offset-4 col-md-4">
+      <%# f.submit yield(:button), id: "btn-signup", class: "btn btn-info" %>
+      <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+      <span style="margin-left:8px;">or</span>  
     </div>
-    <!-- Button -->                                        
-    <div class="col-md-offset-4 col-md-4">
-      <%= f.submit yield(:button), id: "btn-signup", class: "btn btn-info" %>
-      <!-- <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button> -->
-      <!-- <span style="margin-left:8px;">or</span>   -->
-    </div>
-    <!-- <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
+    <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
       <div class="col-md-offset-3 col-md-9">
         <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>Sign Up with Facebook</button>
       </div>                                           

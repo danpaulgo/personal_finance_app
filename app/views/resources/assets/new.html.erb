@@ -1,4 +1,6 @@
 <%= render 'resources/assets/form_header' %>
+<%= render partial: 'forms/form_header', locals: {form_title: "New Asset"} %>
+<p class="form-category"><%= @type_category %></p>
 <%= form_for(@page_resource, url: @submit_path) do |f| %>
 
   <%# PUT BELOW CODE IN CONTROLLER INSTEAD %>
@@ -6,57 +8,79 @@
   <%= hidden_field_tag "asset[compound_frequency]", "Yearly" %>
   <%= hidden_field_tag "asset[primary]", @primary %>
 
-  <%= f.label :name, "Name:" %>
-  <%= form_name(f, @type_category, (@page_resource.name || @type.name)) %>
-  <br>
-  <%= f.label :amount, "Value:" %>
-  <%= form_amount(f) %>
-  <br>
+  <div class="form-group">
+    <%= f.label :name, "Name", class: "col-md-3 control-label" %>
+    <div class="col-md-9">
+      <%= form_name(f, @type_category, (@page_resource.name || @type.name)) %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :amount, "Value", class: "col-md-3 control-label" %>
+    <div class="col-md-9">
+      <%= form_amount(f) %>
+    </div>
+  </div>
   <!-- Put below functionality into helper method so that liquidity may be set in controller before opening form -->
   <% if AssetsHelper::LIQUID_ASSET_TYPES.include?(@type) %>
     <%= hidden_field_tag "asset[liquid]", true %>
   <% elsif AssetsHelper::ILLIQUID_ASSET_TYPES.include?(@type) %>
     <%= hidden_field_tag "asset[liquid]", false %>
   <% else %>
-    <label>Liquid?</label>
-    <br>
-    <%= f.label :liquid, "Yes", value: "true" %>
-    <%= f.radio_button :liquid, true %>
-    <%= f.label :liquid, "No", value: "false" %>
-    <%= f.radio_button :liquid, false %>
-    <br>
+    <div class="form-group">
+      <label class="col-md-3 control-label">Liquid?</label>
+      <div class="col-md-9">
+        <%= f.label :liquid, "Yes", value: "true" %>
+        <%= f.radio_button :liquid, true %>
+        <%= f.label :liquid, "No", value: "false", class: "right-radio" %>
+        <%= f.radio_button :liquid, false %>
+      </div>
+    </div>
   <% end %>
+  
   <% if @type.name == "Vehicle" || @type.name == "Property"  %>
-    <% if @type.name == "Vehicle" %>
-      <label>Is this vehicle financed?</label>
-    <% elsif  @type.name == "Property" %>
-      <label>Are you currently paying a mortgage on this property?</label>
-    <% end %>
-    <br>
-    <label value="true" for="financed_true">Yes</label>
-    <input type="radio" name="financed" id="financed_true" value="true" <%= "checked" if @owed %> />
-    <label value="false" for="financed_false">No</label>
-    <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
-    <br>
+    <div class="form-group">
+      <% if @type.name == "Vehicle" %>
+        <label class="col-md-3 control-label">Is this vehicle financed?</label>
+      <% elsif  @type.name == "Property" %>
+        <label class="col-md-3 control-label">Are you currently paying a mortgage on this property?</label>
+      <% end %>
+      <div class="col-md-9">
+        <label value="true" for="financed_true">Yes</label>
+        <input type="radio" name="financed" id="financed_true" value="true" <%= "checked" if @owed %> />
+        <label value="false" for="financed_false" class="right-radio">No</label>
+        <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
+      </div>
+    </div>
     <% if @type.name == "Property" %>
-      <label>Where is this property located? (optional)</label>
-      <br>
-      <%= render 'resources/assets/special_assets/state_select' %>
-      <br>
-      <label>Is this an income property?</label>
-      <br>
-      <label value="true" for="income_true">Yes</label>
-      <input type="radio" name="income" id="income_true" value="true" <%= "checked" if @gain %> />
-      <label value="false" for="income_false">No</label>
-      <input type="radio" name="income" id="financed_false" value="false" <%= "checked" if @no_gain %> />
-      <br>
+      <div class="form-group">
+        <label class="col-md-3 control-label">Where is this property located? (optional)</label>
+        <div class="col-md-9">
+          <%= render 'resources/assets/special_assets/state_select' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3 control-label">Is this an income property?</label>
+        <div class="col-md-9">
+          <label value="true" for="income_true">Yes</label>
+          <input type="radio" name="income" id="income_true" value="true" <%= "checked" if @gain %> />
+          <label value="false" for="income_false" class="right-radio">No</label>
+          <input type="radio" name="income" id="financed_false" value="false" <%= "checked" if @no_gain %> />
+        </div>
+      </div>
     <% end %>
   <% else %>
-    <%= f.label :interest, "Estimated rate of appreciation: " %>
-    <br>
-    <%= form_interest(f) %>
-    <br>
+    <div class="form-group">
+      <%= f.label :interest, "Estimated rate of appreciation ", class: "col-md-3 control-label" %>
+      <div class="col-md-9">
+        <%= form_interest(f) %>
+      </div>
+    </div>
   <% end %>
-  <%= f.submit @button_text %>
+  <div class="col-md-offset-4 col-md-4">
+    <%= submit_tag "Add Asset", id: "btn-asset", class: "btn btn-info" %>
+  </div>
 
 <% end %>
+
+<%= render 'forms/form_footer' %>

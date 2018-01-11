@@ -3,7 +3,7 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <div class="panel-title"><%= form_title %></div>
-        <% if !corner_link_text.blank? %>
+        <% if defined?(corner_link_text) %>
           <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="<%= corner_link_path %>"><%= corner_link_text %></a></div>
         <% end %>
       </div>  
