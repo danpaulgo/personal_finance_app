@@ -1,0 +1,9 @@
+<div class="form-group">
+    <%= fields_for :"#{param_key}", instance_var do |f| %>
+      <%= f.label :amount, question, class: "col-md-3 control-label" %>
+      <br>
+      <%= form_amount(f) %>
+      <%= f.label :associated_asset_id, "paid using: " %>
+      <%= form_select_primary_asset(f, current_user) %>
+    <% end %>
+  </div>

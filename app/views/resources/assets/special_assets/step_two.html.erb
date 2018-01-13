@@ -1,46 +1,32 @@
 <%= render 'resources/assets/form_header' %>
-<%= render partial: 'forms/form_header', locals: {form_title: "New Debt"} %>
+<%= render partial: 'forms/form_header', locals: {form_title: "New Asset"} %>
 <%= form_for @loan, url: process_step_two_path do |f| %>
+
   <p class="form-category"><%= @loan_name.to_title %> Details</p>
   
-  <!-- CREATE METHOD -->
-  <div class="form-group">
-    <%= f.label :amount, "Amount Owed", class: "col-md-3 control-label" %>
-    <div class="col-md-9">
-      <%= form_amount(f) %>
-    </div>
-  </div>
-  <!-- CREATE METHOD -->
-  <!-- def form_section(label_for, label_text, form_method) -->
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
 
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :interest, label_name: "Interest", form_method: form_interest(f)} %>
 
-  <%= f.label :interest, "Interest rate:" %>
-  <%= form_interest(f) %>
-  <br>
-  <%= f.label :compound_frequency, "Compound Frequency:" %>
-  <%= form_compound_frequency(f) %>
-  <br>
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :compound_frequency, label_name: "Compound Frequency", form_method: form_compound_frequency(f)} %>
+
   <p class="form-category"><%= @loan_name.to_title %> Payment Details</p>
-  <br>
+
   <%= fields_for :payment, @payment do |p| %>
-    <%= p.label :amount, "Payment amount " %>
-    <%= form_amount(p) %>
-    <br>
-    <%= p.label :frequency, "Payment frequency " %>
-    <%= form_frequency(p) %>
-    <br>
-      <%= p.label :next_date, "Next payment date " %>
-      <%= form_next_date(p) %>
-    <br>
-    <%= p.label :liquid_asset_from_id, "Paid using " %>
-    <%= form_select_liquid_asset(p, current_user, "liquid_asset_from_id") %>
+    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :amount, label_name: "Payment Amount", form_method: form_amount(p)} %>
+
+    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :frequency, label_name: "Payment Frequency", form_method: form_frequency(p)} %>
+    
+    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(p)} %>
+
+    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :associated_asset_id, label_name: "Paid Using", form_method: form_select_primary_asset(p, current_user, "liquid_asset_from_id")} %>
   <% end %>
-  <br>
-  <div class="col-md-offset-4 col-md-4">
-    <%= submit_tag "Next", id: "btn-debt", class: "btn btn-info" %>
-  </div>
+
+  <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
   
 <% end %>
+
 <p id="mortgage-footnote">* If you do not have all necessary information, you may <%= link_to "enter your #{@loan_name} payments as an expense", step_three_path %> instead or <%= link_to "skip", step_four_path %> this step altogether</p>
+
 <%= render 'forms/form_footer' %>
 <!-- This will link to the other page which will have a link that reads "Enter vehicle loan as a debt". vehicle_step_three_path must be replaced  -->

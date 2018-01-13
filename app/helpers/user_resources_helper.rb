@@ -122,6 +122,16 @@ module UserResourcesHelper
 
     # FORM HELPERS
 
+    def is_liquid(type)
+      if AssetsHelper::LIQUID_ASSET_TYPES.include?(type)
+        true
+      elsif AssetsHelper::ILLIQUID_ASSET_TYPES.include?(type)
+        false
+      else
+        nil
+      end
+    end
+
     def form_full_name(f)
       f.text_field :name, class: "form-control", placeholder: "Full Name"
     end

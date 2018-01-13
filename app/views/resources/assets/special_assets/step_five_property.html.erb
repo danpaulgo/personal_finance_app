@@ -1,55 +1,20 @@
 <%= render 'resources/assets/form_header' %>
 <%= form_tag process_step_five_path do %>
-  <b>Related Expenses</b>
-  <br>
+
+  <p class="form-category">Related Expenses</p>
+  
   <% if session[:income_property] == "true" %>
-    <br>
-    <%= fields_for :property_income, @property_income do |i| %>
-      <%= i.label :amount, "How much revenue does this property generate in a month?" %>
-      <br>
-      <%= form_amount(i) %>
-      <%= i.label :associated_asset_id, "deposited into: " %>
-      <%= form_select_primary_asset(i, @user) %>
-    <% end %>
-    <br>
+    <%= render partial: "shared/form_step_five_block", locals: {param_key: "property_income", instance_var: @property_income, question: "How much revenue does this property generate in a month?"} %>
   <% end %>
-  <br> 
-  <%= fields_for :home_owners_insurance, @home_owners_insurance do |hoi| %>
-    <%= hoi.label :amount, "How much do you pay for for home owner's insurance on this property anually?" %>
-    <br>
-    <%= form_amount(hoi) %>
-    <%= hoi.label :associated_asset_id, "paid using: " %>
-    <%= form_select_primary_asset(hoi, @user) %>
-  <% end %>
-  <br>
-  <br> 
-  <%= fields_for :property_tax, @property_tax do |pt| %>
-    <%= pt.label :amount, "How much do you pay in taxes on this property anually?" %>
-    <br>
-    <%= form_amount(pt) %>
-    <%= pt.label :associated_asset_id, "paid using: " %>
-    <%= form_select_primary_asset(pt, @user) %>
-  <% end %>
-  <br>
-  <br> 
-  <%= fields_for :utilities, @utilities do |u| %>
-    <%= u.label :amount, "How much do you typically spend on utilities for this property in a month? (including heat, electricity, water, phone, etc.)" %>
-    <br>
-    <%= form_amount(u) %>
-    <%= u.label :associated_asset_id, "paid using: " %>
-    <%= form_select_primary_asset(u, @user) %>
-  <% end %>
-  <br>
-  <br> 
-  <%= fields_for :property_maintenance, @property_maintenance do |m| %>
-    <%= m.label :amount, "How much do you typically spend on maintenance and repairs for this proprty in a year?" %>
-    <br>
-    <%= form_amount(m) %>
-    <%= m.label :associated_asset_id, "paid using: " %>
-      <%= form_select_primary_asset(m, @user) %>
-  <% end %>
-  <br>
-  <br>
-  <%= submit_tag "Submit" %>
+
+  <%= render partial: "shared/form_step_five_block", locals: {param_key: "home_owners_insurance", instance_var: @home_owners_insurance, question: "How much do you pay for for home owner's insurance on this property anually?"} %>
+
+  <%= render partial: "shared/form_step_five_block", locals: {param_key: "property_tax", instance_var: @property_tax, question: "How much do you pay in taxes on this property anually?"} %>
+
+  <%= render partial: "shared/form_step_five_block", locals: {param_key: "utilities", instance_var: @utilities, question: "How much do you typically spend on utilities for this property in a month? (heat, electricity, water, phone, etc.)"} %>
+
+  <%= render partial: "shared/form_step_five_block", locals: {param_key: "property_maintenance", instance_var: @property_maintenance, question: "How much do you typically spend on maintenance and repairs for this proprty in a year?"} %>
+  
+  <%= render partial: "shared/form_submit", locals: {button_text: "Submit Form"} %>
   
 <% end %>

@@ -82,12 +82,14 @@ class UserResourcesController < ApplicationController
           # Add default vehicle params to @page_resource
           @owed = nil
           @paid = nil
+          @liquid = false
           @submit_path = process_step_one_path(params[:type])
           @button_text = "Next"
         else
           # Add additional default asset params to @page_resource
           @type.name == "Bank Account" || @type.name == "Cash on Hand" ? @primary = true : @primary = false
           @submit_path = assets_path
+          @button_text = "Add Asset"
         end
         render 'resources/assets/new.html.erb'
       when "Debt"

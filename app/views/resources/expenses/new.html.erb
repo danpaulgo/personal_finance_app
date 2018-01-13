@@ -12,7 +12,7 @@
 
   <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :frequency, label_name: "Frequency", form_method: form_frequency(f)} %>
 
-  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :associated_asset_id, label_name: "Pay Using", form_method: form_select_primary_asset(f, current_user)} %>
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :associated_asset_id, label_name: "Paid Using", form_method: form_select_primary_asset(f, current_user)} %>
 
   <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(f)} %>
 
