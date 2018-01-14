@@ -58,6 +58,10 @@ Tests:\
 {\listtext	\uc0\u8226 	}Connect all links\
 {\listtext	\uc0\u8226 	}Create special form for credit cards that includes limit so they may be used for expenses. Calendar will notify when limit is reached\
 {\listtext	\uc0\u8226 	}Redirects to original request after redirected to login\
+{\listtext	\uc0\u8226 	}Remember Me\
+{\listtext	\uc0\u8226 	}Account Activation\
+{\listtext	\uc0\u8226 	}Password Reset\
+{\listtext	\uc0\u8226 	}Index pagination\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf2 	\
 View:\
@@ -67,13 +71,18 @@ View:\
 \b index
 \b0  and 
 \b new\cb3 \
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
 \ls3\ilvl0
-\b0 {\listtext	\uc0\u8226 	}Remove empty space from top of page (caused by 
+\b0 \cf2 {\listtext	\uc0\u8226 	}Go through all forms and set 
+\b col 
+\b0 variable\
+{\listtext	\uc0\u8226 	}Remove empty space from top of page (caused by 
 \b render \'91resources/errors\'92
 \b0 )\
 {\listtext	\uc0\u8226 	}Line graph illustrating future net worth (CanvasJS)\
 {\listtext	\uc0\u8226 	}Complete login view\
-{\listtext	\uc0\u8226 	}Complete Resource form views\
+\ls3\ilvl0\cb5 {\listtext	\uc0\u8226 	}Complete Resource form views\
+\ls3\ilvl0\cb3 {\listtext	\uc0\u8226 	}Create partials for each resource and loop through rendering each partial on index pages\
 {\listtext	\uc0\u8226 	}Complete resource index views\
 {\listtext	\uc0\u8226 	}Complete resource show views\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
@@ -81,7 +90,7 @@ View:\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf2 \cb5 ** Real estate form: Standard, Mortgage Details, Mortgage Payment expense, appreciation, expenses (Use same views as vehicle with dynamic wording)\cf0 \cb1 \
+\cf2 \cb4 ** Real estate form: Standard, Mortgage Details, Mortgage Payment expense, appreciation, expenses (Use same views as vehicle with dynamic wording)\cf0 \cb1 \
 \cb6 ** CRUD operations for all resources (Troubleshoot create operations for Incomes and Expenses)\
 ** Next payment date must be in future\cb1 \
 \cb6 ** Transfer views\cb3 \

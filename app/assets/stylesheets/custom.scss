@@ -246,14 +246,20 @@ div.wrapper{
 
 // FORMS
 
+div.mainbox{
+  float: left;
+  width: 66.6666666667%;
+  margin-left: 16.6666666667%;
+}
+
 p.form-category{
   text-align:center;
   font-size: 16px;
   margin-top: 8px;
   margin-bottom:24px;
   font-family: sans-serif;
-  font-weight: bold;
-  font-style: italic;
+  // font-weight: bold;
+  font-style: underline;
 }
 
 p#mortgage-footnote{
@@ -268,11 +274,10 @@ form{
   }
   div.form-group{
     text-align: center;
-    margin-bottom:18px;
+    div.form-input{
+      margin-bottom: 12px;
+    }
     div.col-md-9{
-      label{
-        margin-bottom: 0;
-      }
       label.right-radio{
         margin-left:12px;
       }
@@ -293,7 +298,13 @@ form{
     }
   }
   .control-label{
-    margin-bottom: 12px;
+    max-width: 100%;
+    text-align: center;   
+  }
+  .col-md-3{
+    @media screen and (min-width: 992px) {
+     text-align: left; 
+    }
   }
 }
 

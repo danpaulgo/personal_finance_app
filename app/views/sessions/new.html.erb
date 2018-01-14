@@ -1,16 +1,18 @@
-<%= render partial: 'forms/form_header', locals: {form_title: "Sign In", corner_link_path: "/users/new", corner_link_text: "Sign Up"} %>
+<%= render partial: 'forms/form_header', locals: {form_title: "Login", corner_link_path: "/users/new", corner_link_text: "Sign Up"} %>
   <%= form_tag login_path, html: {class: "form-horizontal", role: "form", id: "loginform"} do %>
+
+    <p class="form-category">Sign In</p>
 
     <div class="form-group">
       <%= label :session, :username, class: "col-md-3 control-label" %>
-      <div class="col-md-9">
+      <div class="col-md-9 form-input">
         <%= text_field_tag 'session[username]', nil, class: 'form-control', placeholder: "Username" %>
       </div>
     </div>
 
     <div class="form-group">
       <%= label :session, :password, class: "col-md-3 control-label" %>
-      <div class="col-md-9">
+      <div class="col-md-9 form-input">
         <%= password_field_tag 'session[password]', nil, class: "form-control", placeholder: "Password" %>
       </div>
     </div>

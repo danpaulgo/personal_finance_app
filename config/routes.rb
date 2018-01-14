@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root to: 'users#show'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
-  delete 'logout', to: 'sessions#destroy'
+  delete 'logout', to: 'sessions#destroy', as: "logout"
 
   # get ':username', to: 'users#show', as: 'user_path'
   resources :users, only: [:new, :create, :edit, :update, :destroy] 

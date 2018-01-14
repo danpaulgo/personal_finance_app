@@ -2,7 +2,7 @@
 <p class="form-category"><%= "Select #{$resource} Type" %></p>
   <%= form_for @page_resource, url: "/#{$resource_plural}/options" do |f| %>
     <div id="options-form" class="form-group">
-      <div class="col-md-9">
+      <div class="option-input">
         <%= f.select(:type_id, options_for_select(@type_selections), include_blank: "Select Type") %>
       </div>
     </div> 

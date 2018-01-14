@@ -15,8 +15,22 @@ dan = User.create(name: "Daniel Goldberg", username: "danpaulgo", password: "Bay
   dan.assets.create(type_id: 1, name: "Personal Wallet", amount: 100.0, liquid: true, primary: true)
   dan.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
 john = User.create(name: "John Doe", username: "johndoe2000", password: "password")
-  john.assets.create(type_id: 1, name: "Personal Wallet", amount: 0.0, liquid: true, primary: true)
-  john.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
+  30.times do
+    asset_name = (0...10).map { ('a'..'z').to_a[rand(26)] }.join
+    asset_amount = rand(10000)/1.0
+    john.assets.create(type_id: 2, name: asset_name, amount: asset_amount, primary: true)
+    debt_type = rand(5)+14
+    debt_name = (0...8).map { ('a'..'z').to_a[rand(26)] }.join
+    debt_amount = rand(10000)/1.0
+    debt_interest = rand(100)/10.0
+    john.debts.create(
+      type_id: debt_type, 
+      name: debt_name, 
+      amount: debt_amount, 
+      interest: debt_interest, 
+      compound_frequency: "Yearly"
+      )
+  end
 
 ResourceName.create(name: "Asset", table_name: "assets")
 # ResourceName.create(name: "Assets (non-liquid)", table_name: "asset_non_liquids")
