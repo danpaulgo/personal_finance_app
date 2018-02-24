@@ -3,7 +3,7 @@
   <% @all.each do |r| %>
     <div class="resource-item clearfix" %>
       <div class="resource-box-left">
-        <p class="resource-name"><%= link_to r.name, "#{$resource_plural}/#{r.id}" %></p>
+        <p class="resource-name" id="<%= 'transfer-name' if $resource == "Transfer" %>"><%= link_to r.name, "#{$resource_plural}/#{r.id}" %></p>
         <p class="resource-type"><%= r.type.name %></p>
       </div>
       <div class="resource-box-middle">

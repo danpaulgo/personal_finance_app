@@ -11,10 +11,10 @@ state_rate_data.each do |arr|
   RealEstateAppreciation.create(name: arr[0], abbreviation: arr[1], appreciation: arr[2])
 end
 
-dan = User.create(name: "Daniel Goldberg", username: "danpaulgo", password: "BayShore61893")
+dan = User.create(first_name: "Daniel", last_name: "Goldberg", email: "danpaulgo@aol.com", password: "BayShore61893")
   dan.assets.create(type_id: 1, name: "Personal Wallet", amount: 100.0, liquid: true, primary: true)
   dan.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
-john = User.create(name: "John Doe", username: "johndoe2000", password: "password")
+john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gmail.com", password: "password")
   john.assets.create(type_id: 2, name: "Checking Account", amount: 1000.0, liquid: true, primary: true, interest: 1.1, compound_frequency: "Yearly")
   25.times do
     asset_name = (0...10).map { ('a'..'z').to_a[rand(26)] }.join

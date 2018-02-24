@@ -132,12 +132,12 @@ module UserResourcesHelper
       end
     end
 
-    def form_full_name(f)
-      f.text_field :name, class: "form-control", placeholder: "Full Name"
+    def form_user_name(f, part)
+      f.text_field :"#{part}_name", class: "form-control", placeholder: "#{part.to_s.capitalize} Name"
     end
 
-    def form_username(f)
-      f.text_field :username, class: "form-control", placeholder: "Username"
+    def form_email(f)
+      f.email_field :email, class: "form-control", placeholder: "Email"
     end
 
     def form_password(f)
