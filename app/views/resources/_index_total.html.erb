@@ -1,0 +1,1 @@
+<p class="asset-total"><%= "#{$resource} Total: #{number_to_currency @user.send($resource_plural).map{|r| r.amount}.inject(0, &:+)}" %></p>

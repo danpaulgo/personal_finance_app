@@ -1,0 +1,6 @@
+<div class="resource-show-item"><p class="item-title">Amount:</p><p class="item-value"><%= number_to_currency @resource.amount %></p></div>
+<div class="resource-show-item"><p class="item-title">Frequency:</p><p class="item-value"><%= @resource.frequency %></p></div>
+<div class="resource-show-item"><p class="item-title">From:</p><p class="item-value"><%= Asset.find_by(id: @resource.liquid_asset_from_id).name %></p></div>
+<div class="resource-show-item"><p class="item-title">To:</p><p class="item-value"><%= Asset.find_by(id: @resource.destination_id).name %></p></div>
+<div class="resource-show-item"><p class="item-title">Next Transfer Date:</p><p class="item-value"><%= @resource.next_date.strftime("%b %d, %Y") %></p></div>
+<div class="resource-show-item" id="last"><p class="item-title">Last Transfer Date:</p><p class="item-value"><%= @resource.end_date.nil? ? "Indefinite" : "#{@resource.end_date.strftime('%b %d, %Y')}" %></p></div>

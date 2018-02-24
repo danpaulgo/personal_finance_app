@@ -33,8 +33,9 @@ p{
   font-family: "Arimo",sans-serif;
 }
 
-h2,h3,h4{
+h1, h2,h3,h4{
   font-family: "Encode Sans Expanded";
+  margin-top:0;
 }
 
 h1{
@@ -48,6 +49,21 @@ h2{
 
 a{
   font-family: $link-font;
+}
+
+div.application-wrapper{
+  min-height: 600px;
+}
+
+div.container{
+  margin-top: 36px;
+  // margin-bottom: 100px;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
 }
 
 /* HEADER */
@@ -81,7 +97,7 @@ a{
 // }
 
 header{
-  display:inline-block;
+  // display:inline-block;
   background: rgb(125,185,232);
   background: -moz-linear-gradient(left,  rgba(125,185,232,1) 0%, rgba(32,124,202,1) 0%, rgba(32,124,202,1) 0%, rgba(98,189,234,1) 0%, rgba(129,202,237,1) 50%, rgba(98,189,234,1) 100%);
   background: -webkit-linear-gradient(left,  rgba(125,185,232,1) 0%,rgba(32,124,202,1) 0%,rgba(32,124,202,1) 0%,rgba(98,189,234,1) 0%,rgba(129,202,237,1) 50%,rgba(98,189,234,1) 100%);
@@ -89,8 +105,8 @@ header{
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#62bdea',GradientType=1 );
   border-bottom: 1px solid $universal-background;
   height: 55px;
+  min-width: 800px;
   width: 100%;
-  float: right;
   margin-bottom: 0;
   padding: 0;
   // box-shadow: 1px 2px 12px #404040;
@@ -308,13 +324,167 @@ form{
   }
 }
 
+// INDEX PAGES
+
+h2.index-title{
+  text-align: center;
+  font-size: 38px;
+  padding-top:40px;
+  margin-bottom:24px;
+}
+
+div.resource-listings{
+  width: 800px;
+  margin: auto;
+  margin-bottom:50px;
+  padding-right:50px;
+  padding-left:50px;
+  div.pagination{
+    float:right;
+    display: inline-block;
+    margin-top: 0;
+  }
+  div.resource-item{
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    padding-top:16px;
+    border-bottom: 1px solid black;
+    div.resource-box-left{
+      float: left;
+      display: inline-block;
+      width: 40%;
+      p#transfer-name{
+        font-size: 16px;
+        margin-bottom: 13px;
+      }
+      p.resource-name{
+        font-weight: bold;
+        font-size: 19px;
+        a:link, a:visited{
+          color:black;
+        }
+        a:hover{
+          color:$link-color;
+          text-decoration:none;
+        }
+        a:after{
+          text-decoration:none;
+        }
+      }
+      p.resource-type{
+        font-style: italic;
+        font-size: 14px;
+      }
+    }
+    div.resource-box-middle{
+      display: inline-block;
+      width: 40%;
+      p.resource-price{
+        font-size:24px;
+        // font-weight:bold;
+        margin-bottom:0;
+      }
+      p.push-down{
+        padding-top:7px;
+      }
+      p.resource-frequency{
+        font-size: 12px;
+        font-style: italic;
+        margin-top: 4px;
+        margin-bottom:0px;
+      }
+    }
+    div.resource-box-right{
+      text-align:left;
+      display: inline-block;
+      float:right;
+      width: 20%;
+      padding-top:14px;
+      a.edit-button{
+        margin-right:8px;
+      }
+    }
+  }
+  p.asset-total{
+    display:block;
+    font-size: 20px;
+    margin-top:28px;
+    margin-bottom: 24px;
+    // font-weight:bold;
+    text-align:center;
+  }
+  p.add-resource-link{
+    display: inline-block;
+    font-size: 16px;
+    margin-top:23px;
+  }
+}
+
+
+// SHOW PAGES
+div.show-wrapper{
+  margin-left:20px;
+  h2.user-show-heading{
+    padding-top:80px;
+    margin-bottom:20px;
+    font-style: italic;
+  }
+}  
+
+div.resource-show-wrapper{
+  text-align: center;
+  margin-bottom:72px;
+  div.panel-body{
+    padding: 40px;
+  }
+  div.panel-title{
+    font-size: 24px;
+    margin-bottom:7px;
+  }
+  p.resource-type{
+    font-size: 16px;
+    margin-bottom:0;
+  }
+  div.show-content{
+    margin: auto;
+    font-size:18px;
+    margin-top: 24px;
+    margin-bottom: 36px;
+    max-width: 450px;
+    div.resource-show-item{
+      height:76px;
+      border-bottom: 1px solid black;
+      padding-top:24px;
+      p.item-title{
+        float: left;
+        font-weight: bold;
+      }
+      p.item-value{
+        float: right;
+      }
+    }
+    div#last{
+      // border-bottom: 0;
+    }
+    div.edit-resource{
+      margin-top: 28px;
+      text-align: right;
+      font-size: 15px;
+      a:hover, a:after, a:visited{
+        text-decoration:none;
+      }
+    }
+  }
+}
+
 
 // FOOTER
 
 footer.col-sm-12{
   // display:block;
   color: white;
-  background-color: $universal-background;
+  background-color: $footer-background-color;
   margin-top: 40px;
   height: 100%;
   text-align: center;

@@ -1,11 +1,13 @@
-<h1><%= @user %></h1>
-<h2><%= @user.username %></h3>
-<h3>Finances</h3>
-<% ResourceName.all.each_with_index do |r, i| %>
-  <p><%= link_to r.name.pluralize, "/#{FINANCE_RESOURCES[i].to_s}" %></p>
-<% end %>
-<h4>Net Worth</h4>
-<p>Liquid Net Worth: <%# @user.net_worth("liquid") %></p>
-<p>Total Net Worth: <%# @user.net_worth %></p>
-<p>Future Net Worth: <%# @user.future_net_worth if @user.future_net_worth %></p>
-<p><%= render 'users/future_net_worth_form' %></p>
+<div class="show-wrapper">
+  <h2 class="user-show-heading"><%= "Welcome back, #{@user.name.split(" ")[0]}" %></h2>
+  <p>Username: <%= @user.username %></p>
+  <h3>Finances</h3>
+  <% ResourceName.all.each_with_index do |r, i| %>
+    <p><%= link_to r.name.pluralize, "/#{FINANCE_RESOURCES[i].to_s}" %></p>
+  <% end %>
+  <h4>Net Worth</h4>
+  <p>Liquid Net Worth: <%# @user.net_worth("liquid") %></p>
+  <p>Total Net Worth: <%# @user.net_worth %></p>
+  <p>Future Net Worth: <%# @user.future_net_worth if @user.future_net_worth %></p>
+  <p><%= render 'users/future_net_worth_form' %></p>
+</div>

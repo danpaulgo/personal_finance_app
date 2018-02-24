@@ -1,0 +1,3 @@
+<% monthly_total = @user.send("monthly_", $resource_plural) %>
+<p class="asset-total"><%= "Monthly #{$resource}: #{number_to_currency monthly_total}" %></p>
+  

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     get "#{r}/options", to: "#{r}#options"
     post "#{r}/options", to: "#{r}#process_option"
     get "#{r}/new/:type", to: "#{r}#new"
+    get "#{r}/:id", to: "#{r}#show"
   end
 
   # post ":r/options", to: "user_resources#process_option", as: "process_option"

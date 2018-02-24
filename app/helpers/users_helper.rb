@@ -98,6 +98,24 @@ module UsersHelper
     principal*(1+(rate/number_of_periods))**exponent
   end
 
+  def monthly_(direction)
+    total = 0.0
+    self.send(direction).each do |income|
+      monthly = 0.0
+      case income.frequency
+      when "Daily"
+        monthly = (income.amount * 365.0) / 12.0
+      when "Weekly"
+        monthly = income.amount * (30.625/7.0)
+      when "Monthly"
+        monthly = income.amount
+      when "Yearly"
+        monthly = income.amount/12.0
+      end
+      total += monthly
+    end
+    total
+  end
 
 
     # def compound_daily(asset, time_length)

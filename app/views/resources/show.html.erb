@@ -1,0 +1,13 @@
+<%= render partial: 'shared/show_header', locals: {title: "#{@resource.name}", type: @type} %>
+
+<div class="show-content">
+  <% ResourceName.all.each do |rn| %>
+    <% if rn.name == $resource %>
+      <%= render partial: "resources/#{rn.table_name}/show", locals: {resource: @resource} %>
+    <% end %>
+  <% end %>
+
+  <div class="edit-resource"><%= link_to "Edit", "/#{$resource_plural}/edit/#{@resource.id}" %> | <%= link_to 'Delete',  "/#{$resource_plural}/#{@resource.id}",  method: :delete, data: { confirm: "Are you sure you would like to delete this #{$resource.downcase}?" } %></div>
+</div>
+
+<%= render 'forms/form_footer' %>

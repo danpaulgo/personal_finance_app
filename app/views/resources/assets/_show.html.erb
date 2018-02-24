@@ -1,0 +1,4 @@
+<div class="resource-show-item"><p class="item-title">Value:</p><p class="item-value"><%= number_to_currency @resource.amount %></p></div>
+<div class="resource-show-item"><p class="item-title">Liquid:</p><p class="item-value"><%= @resource.liquid ? "Yes" : "No" %></p></div>
+<div class="resource-show-item"><p class="item-title">Primary Asset:</p><p class="item-value"><%= @resource.primary ? "Yes" : "No" %></p></div>
+<div class="resource-show-item" id="last"><p class="item-title">Interest:</p><p class="item-value"><%= @resource.interest.nil? ? "Not applicable" : "#{@resource.interest}\% compounded #{@resource.compound_frequency.downcase}" %></p></div>

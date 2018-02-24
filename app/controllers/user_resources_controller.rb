@@ -16,8 +16,15 @@ class UserResourcesController < ApplicationController
   end
 
   def index
-    @all = current_user.send($resource_plural)
-    render 'resources/index.html.erb'
+    @user = current_user
+    @all = @user.send($resource_plural).paginate(page: params[:page], per_page: 10)
+    render 'resources/index'
+  end
+
+  def show
+    @resource = current_user.send($resource_plural).find_by(id: params[:id])
+    @type = @resource.type.name
+    render 'resources/show'
   end
 
   def options

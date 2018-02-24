@@ -31,6 +31,8 @@ gem 'shotgun'
 gem 'pry'
 gem 'money'
 gem 'activerecord-session_store'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

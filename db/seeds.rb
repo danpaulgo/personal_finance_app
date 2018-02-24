@@ -15,10 +15,31 @@ dan = User.create(name: "Daniel Goldberg", username: "danpaulgo", password: "Bay
   dan.assets.create(type_id: 1, name: "Personal Wallet", amount: 100.0, liquid: true, primary: true)
   dan.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
 john = User.create(name: "John Doe", username: "johndoe2000", password: "password")
-  30.times do
+  john.assets.create(type_id: 2, name: "Checking Account", amount: 1000.0, liquid: true, primary: true, interest: 1.1, compound_frequency: "Yearly")
+  25.times do
     asset_name = (0...10).map { ('a'..'z').to_a[rand(26)] }.join
     asset_amount = rand(10000)/1.0
-    john.assets.create(type_id: 2, name: asset_name, amount: asset_amount, primary: true)
+    asset_primary = false
+    asset_type = (1..13).to_a.sample
+    case asset_type
+    when 1,2
+      asset_liquid = true
+      asset_primary = true
+    when 3,4
+      asset_liquid = true
+    when (8..12).to_a
+      asset_liquid = false
+    else
+      asset_liquid = [true,false].sample
+    end 
+    john.assets.create(
+      type_id: asset_type, 
+      name: asset_name,
+      liquid: asset_liquid, 
+      amount: asset_amount, 
+      primary: asset_primary,
+    )
+
     debt_type = rand(5)+14
     debt_name = (0...8).map { ('a'..'z').to_a[rand(26)] }.join
     debt_amount = rand(10000)/1.0
@@ -29,7 +50,69 @@ john = User.create(name: "John Doe", username: "johndoe2000", password: "passwor
       amount: debt_amount, 
       interest: debt_interest, 
       compound_frequency: "Yearly"
-      )
+    )
+
+    income_name = (0...8).map { ('a'..'z').to_a[rand(26)] }.join
+    income_amount = rand(500)/1.0
+    income_type = (19..24).to_a.sample
+    income_next_date = Date.today
+    income_end_date =  [Date.new(2020),Date.new(2030)].sample
+    income_frequency = ["One Time", "Monthly", "Weekly", "Yearly"].sample
+    john.incomes.create(
+      type_id: income_type,
+      name: income_name,
+      amount: income_amount,
+      associated_asset_id: 1,
+      frequency: income_frequency,
+      next_date: income_next_date,
+      end_date: income_end_date
+    )
+
+    expense_name = (0...8).map { ('a'..'z').to_a[rand(26)] }.join
+    expense_amount = rand(500)/1.0
+    expense_type = (25..35).to_a.sample
+    expense_next_date = Date.tomorrow
+    expense_end_date =  [Date.new(2020),Date.new(2030), nil].sample
+    expense_frequency = ["One Time", "Monthly", "Weekly", "Yearly"].sample
+    john.expenses.create(
+      type_id: expense_type,
+      name: expense_name,
+      amount: expense_amount,
+      associated_asset_id: 1,
+      frequency: expense_frequency,
+      next_date: expense_next_date,
+      end_date: expense_end_date
+    )
+  end
+
+  25.times do
+
+    liquid_assets = Asset.all.map{|a| a.id if a.liquid == true}.compact
+    all_assets = Asset.all.map{|a| a.id}
+    all_debts = Debt.all.map{|d| d.id}
+
+    transfer_amount = rand(1000)/1.0
+    transfer_type = [36,37].sample
+    transfer_next_date = Date.tomorrow
+    transfer_end_date =  [Date.new(2020),Date.new(2030), nil].sample
+    transfer_frequency = ["One Time", "Monthly", "Weekly", "Yearly"].sample
+    transfer_liquid_asset_id = liquid_assets.sample
+    if transfer_type == 36
+      all_assets.delete(transfer_liquid_asset_id)
+      transfer_destination_id = all_assets.sample
+    else
+      transfer_destination_id = all_debts.sample
+    end
+    transfer = john.transfers.create(
+      type_id: transfer_type,
+      amount: transfer_amount,
+      next_date: transfer_next_date,
+      end_date: transfer_end_date,
+      frequency: transfer_frequency,
+      liquid_asset_from_id: transfer_liquid_asset_id,
+      destination_id: transfer_destination_id
+    )
+
   end
 
 ResourceName.create(name: "Asset", table_name: "assets")
