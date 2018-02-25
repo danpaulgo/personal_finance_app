@@ -1,13 +1,36 @@
 <div class="show-wrapper">
-  <h2 class="user-show-heading"><%= "Welcome back, #{@user.name.split(" ")[0]}" %></h2>
-  <p>Username: <%= @user.username %></p>
-  <h3>Finances</h3>
-  <% ResourceName.all.each_with_index do |r, i| %>
-    <p><%= link_to r.name.pluralize, "/#{FINANCE_RESOURCES[i].to_s}" %></p>
-  <% end %>
-  <h4>Net Worth</h4>
-  <p>Liquid Net Worth: <%# @user.net_worth("liquid") %></p>
-  <p>Total Net Worth: <%# @user.net_worth %></p>
-  <p>Future Net Worth: <%# @user.future_net_worth if @user.future_net_worth %></p>
-  <p><%= render 'users/future_net_worth_form' %></p>
+  <div class="col-sm-12">
+    <div class="user-show-header">
+      <h2 class="user-show-title"><%= "Welcome back, #{@user.first_name}!" %></h2>
+      <div class="user-info">
+        <p class="full-name"><%= @user.full_name %></p>|<p class="email"> <%= @user.email %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5 col-sm-offset-1" id="homepage-left">
+    <div class="resource-links">
+      <% ResourceName.all.each do |r| %>
+        <div class="homepage-resource">
+          <a href='<%= "/#{r.table_name}" %>'><p class="homepage-resource-link"><%= r.name.pluralize %></p></a>
+        </div>
+      <% end %>
+    </div>
+    
+  </div>
+  <div class="col-sm-5" id="homepage-right">
+    <div class="net-worth">
+      <div class="liquid clearfix">
+        <p class="title">Liquid Net Worth:</p>
+        <p class="value">$100,000,000.00</p>
+      </div>
+      <div class="total clearfix">
+        <p class="title">Total Net Worth:</p>
+        <p class="value">$999,999,000.00</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="finance-graph">Graph will go here</div>
+    <div class="graph-selector"><p class="forecast-text">See your financial forecast for the next &nbsp;</p><%= select_tag 'user_id', options_for_select([["1 year", 1],["5 years",5],["10 years", 10],["20 years", 20],["50 years", 50]], 10) %></div>
+  </div>
 </div>

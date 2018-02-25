@@ -17,7 +17,11 @@ class User < ApplicationRecord
   attr_accessor :future_net_worth
 
   def to_s
-    self.name
+    self.full_name
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
 end

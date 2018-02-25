@@ -1,13 +1,18 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-$universal-background: #F5F5F5;
+$universal-background: white;
 $header-hover-color: #2C4251;
 $header-background-color: #62BDEA;
 $menu-background-color: #347AB6;
 $footer-background-color: #202020;
 $divider-color: #D8D8D8;
 $link-font: "Raleway";
+$money-text-green: #49E20E;
+$money-text-font: 'Montserrat';
+$homepage-background-color: #0099CC;
+$heading-font: "Oswald";
+$homepage-link-font: "Exo 2";
 
 @mixin box_sizing {
   -moz-box-sizing:    border-box;
@@ -16,7 +21,7 @@ $link-font: "Raleway";
 }
 
 /* FONTS */
-@import url('https://fonts.googleapis.com/css?family=Arimo:400|Comfortaa|Handlee|Raleway:500|Encode+Sans+Expanded');
+@import url('https://fonts.googleapis.com/css?family=Arimo:400|Comfortaa|Handlee|Raleway:500|Encode+Sans+Expanded|Montserrat:300|Oswald:300|Exo+2:300');
 
 /* APPLICATION */
 
@@ -27,6 +32,11 @@ $link-font: "Raleway";
 
 html, body{
   background-color: $universal-background !important;
+}
+
+div.application-wrapper{
+  margin: auto;
+  max-width: 1024px;
 }
 
 p{
@@ -49,6 +59,10 @@ h2{
 
 a{
   font-family: $link-font;
+}
+
+a:hover{
+  text-decoration:none;
 }
 
 div.application-wrapper{
@@ -424,14 +438,130 @@ div.resource-listings{
 
 
 // SHOW PAGES
+
+//user show
+
 div.show-wrapper{
-  margin-left:20px;
-  h2.user-show-heading{
-    padding-top:80px;
-    margin-bottom:20px;
+  text-align: center;
+  div.user-show-header{
+    display: inline-block;
+    margin: auto;
+    margin-top:48px;
+    margin-bottom: 36px;
+    border-top:3px solid black;
+    border-bottom:3px solid black;
+    padding: 10px 25px 0;
+  }
+  h2.user-show-title{
+    font-size: 32px;
+    margin-bottom:16px;
     font-style: italic;
+    font-weight: bold;
+  }
+  div.user-info{
+    display:inline-block;
+    font-size: 16px;
+    p.full-name{
+      float:left;
+      padding-right:11px;
+    }
+    p.email{
+      font-style: italic;
+      float:right;
+      padding-left:12px;
+    }
+  }
+  div#homepage-left{
+    padding-right:25px;
+  }
+  div.resource-links{
+    margin-top:20px;
+    div.homepage-resource{
+      display: block;
+      a:hover{
+        p.homepage-resource-link{
+          color: $header-hover-color;
+          box-shadow: 3px 3px 4px -1px grey;
+        }
+      }
+      a{
+        p.homepage-resource-link{
+          float: left;
+          display: inline-block;
+          font-size: 21px;
+          text-align: left;
+          padding: 10px 0;
+          width: 200px;
+          background-color: $homepage-background-color;
+          margin: 0 0 20px 20px;
+          border-radius: 5px;
+          // border: 1px solid $header-hover-color;
+          padding-left: 16px;
+          color: white;
+          font-family: $homepage-link-font; 
+        }
+      }
+    }
+  }
+  div#homepage-right{
+    padding-left: 25px;
+    // padding-top: 136px;
+  }
+  div.net-worth{
+    font-size:24px;
+    float:right;
+    width: 350px;
+    padding: 45px 50px;
+    // border: 1px solid black;
+    box-shadow: 4px 4px 6px -1px grey;
+    background-color:$homepage-background-color;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-right: 20px;
+    div.liquid{
+      border-bottom: 3px solid white;
+      padding-bottom: 10px;
+      p.value{
+        margin-bottom: 20px;
+      }
+    }
+    div.total{
+      padding-top: 10px;
+      p.title{
+        margin-top: 20px;
+      }
+
+    }
+    p.title{
+      color: white;
+      margin-bottom:15px;
+      font-family: $heading-font;
+    }
+    p.value{
+      color: $money-text-green;
+      font-family: $money-text-font;
+    }
+  }
+  div.finance-graph{
+    display: block;
+    margin: auto;
+    margin-top: 72px;
+    margin-bottom: 10px;
+    font-size: 28px;
+    height: 400px;
+    width: 625px;
+    border: 2px solid black;
+  }
+  div.graph-selector{
+    margin-bottom: 50px;
+    p.forecast-text{
+      display: inline-block;
+      font-style: italic;
+    }
   }
 }  
+
+// resource show
 
 div.resource-show-wrapper{
   text-align: center;
