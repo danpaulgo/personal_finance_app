@@ -1,7 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-$universal-background: white;
+$universal-background: #F6F9FC;
 $header-hover-color: #2C4251;
 $header-background-color: #62BDEA;
 $menu-background-color: #347AB6;
@@ -10,9 +10,12 @@ $divider-color: #D8D8D8;
 $link-font: "Raleway";
 $money-text-green: #49E20E;
 $money-text-font: 'Montserrat';
-$homepage-background-color: #0099CC;
+$homepage-background-color: white;
 $heading-font: "Oswald";
 $homepage-link-font: "Exo 2";
+$default-border-radius: 5px;
+$default-box-border: 1px solid #DADADA;
+$default-shadow: 2px 2px 4px 0px rgba(161,161,161,1);
 
 @mixin box_sizing {
   -moz-box-sizing:    border-box;
@@ -37,6 +40,7 @@ html, body{
 div.application-wrapper{
   margin: auto;
   max-width: 1024px;
+  // padding: 0 25px;
 }
 
 p{
@@ -437,107 +441,135 @@ div.resource-listings{
 }
 
 
+
+
+
+
+
 // SHOW PAGES
 
 //user show
 
 div.show-wrapper{
   text-align: center;
+  padding: 0 5px;
   div.user-show-header{
+    text-align: left;
+    width: 100%;
+    // box-shadow: $default-shadow;
+    border-radius: $default-border-radius;
     display: inline-block;
-    margin: auto;
+    background-color: white;
+    float:left;
     margin-top:48px;
-    margin-bottom: 36px;
-    border-top:3px solid black;
-    border-bottom:3px solid black;
-    padding: 10px 25px 0;
-  }
-  h2.user-show-title{
-    font-size: 32px;
-    margin-bottom:16px;
-    font-style: italic;
-    font-weight: bold;
-  }
-  div.user-info{
-    display:inline-block;
-    font-size: 16px;
-    p.full-name{
-      float:left;
-      padding-right:11px;
-    }
-    p.email{
+    margin-bottom: 48px;
+    border: $default-box-border;
+    // border-top:3px solid black;
+    // border-bottom:3px solid black;
+    padding: 10px 24px 0;
+    h2.user-show-title{
+      font-size: 32px;
+      margin-bottom:16px;
       font-style: italic;
-      float:right;
-      padding-left:12px;
+      font-weight: bold;
+    }
+    div.user-info{
+      display:inline-block;
+      font-size: 16px;
+      p.full-name{
+        float:left;
+        padding-right:11px;
+      }
+      p.email{
+        font-style: italic;
+        float:right;
+        padding-left:12px;
+      }
     }
   }
   div#homepage-left{
-    padding-right:25px;
+    // width: 300px;
+    // box-shadow: 4px 4px 6px -1px grey;
+    // border-radius: 5px;
+    // background-color: white;
+    padding-right: 25px;
+    // float: left;
   }
   div.resource-links{
-    margin-top:20px;
+    // margin: auto;
+    background-color: white;
+    // box-shadow: $default-shadow;
+    border-radius: $default-border-radius;
+    width: 80%;
+    padding-top: 8px;
+    border: $default-box-border;
+    font-weight: bold;
     div.homepage-resource{
       display: block;
       a:hover{
         p.homepage-resource-link{
-          color: $header-hover-color;
-          box-shadow: 3px 3px 4px -1px grey;
+          color: $header-background-color;
+          // box-shadow: 3px 3px 4px -1px grey;
         }
       }
       a{
         p.homepage-resource-link{
-          float: left;
-          display: inline-block;
+          // float: left;
+          display: block;
           font-size: 21px;
           text-align: left;
-          padding: 10px 0;
-          width: 200px;
+          padding: 16px 16px 24px 0;
+          // width: 300px;
           background-color: $homepage-background-color;
-          margin: 0 0 20px 20px;
-          border-radius: 5px;
-          // border: 1px solid $header-hover-color;
-          padding-left: 16px;
-          color: white;
+          margin:0 24px 8px;
+          // border-radius: 5px;
+          border-bottom: 2px solid grey;
+          color: black;
           font-family: $homepage-link-font; 
+        }
+        p#last{
+          border-bottom: none;
         }
       }
     }
   }
   div#homepage-right{
     padding-left: 25px;
-    // padding-top: 136px;
+    padding-top: 50px;
   }
   div.net-worth{
     font-size:24px;
     float:right;
-    width: 350px;
-    padding: 45px 50px;
-    // border: 1px solid black;
-    box-shadow: 4px 4px 6px -1px grey;
+    width: 100%;
+    min-width: 350px;
+    padding: 35px 50px;
+    border: $default-box-border;
+    box-shadow: $default-shadow;
     background-color:$homepage-background-color;
-    border-radius: 10px;
-    margin-top: 20px;
-    margin-right: 20px;
+    border-radius: $default-border-radius;
+    // margin-top: 20px;
+    // margin-right: 20px;
     div.liquid{
-      border-bottom: 3px solid white;
+      border-bottom: 3px solid black;
       padding-bottom: 10px;
       p.value{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
     }
     div.total{
       padding-top: 10px;
       p.title{
-        margin-top: 20px;
+        margin-top: 10px;
       }
 
     }
     p.title{
-      color: white;
+      color: black;
       margin-bottom:15px;
       font-family: $heading-font;
     }
     p.value{
+      font-size: 28px;
       color: $money-text-green;
       font-family: $money-text-font;
     }
@@ -546,11 +578,18 @@ div.show-wrapper{
     display: block;
     margin: auto;
     margin-top: 72px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-size: 28px;
-    height: 400px;
-    width: 625px;
-    border: 2px solid black;
+    height: 450px;
+    // width: 625px;
+    // box-shadow: $default-shadow;
+    border: $default-box-border;
+    border-radius: $default-border-radius;
+    img{
+      width: 100%;
+      height: 100%;
+      border-radius: $default-border-radius;
+    }
   }
   div.graph-selector{
     margin-bottom: 50px;

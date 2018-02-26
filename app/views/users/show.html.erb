@@ -7,30 +7,32 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-5 col-sm-offset-1" id="homepage-left">
+  <div class="col-sm-6" id="homepage-left">
     <div class="resource-links">
-      <% ResourceName.all.each do |r| %>
+      <% ResourceName.all.each_with_index do |r, i| %>
         <div class="homepage-resource">
-          <a href='<%= "/#{r.table_name}" %>'><p class="homepage-resource-link"><%= r.name.pluralize %></p></a>
+          <a href='<%= "/#{r.table_name}" %>'><p class="homepage-resource-link" id='<%= "last" if i == 4 %>'><%= r.name.pluralize %></p></a>
         </div>
       <% end %>
     </div>
     
   </div>
-  <div class="col-sm-5" id="homepage-right">
+  <div class="col-sm-6" id="homepage-right">
     <div class="net-worth">
       <div class="liquid clearfix">
         <p class="title">Liquid Net Worth:</p>
-        <p class="value">$100,000,000.00</p>
+        <p class="value">$1,000,000.00</p>
       </div>
       <div class="total clearfix">
         <p class="title">Total Net Worth:</p>
-        <p class="value">$999,999,000.00</p>
+        <p class="value">$9,999,000.00</p>
       </div>
     </div>
   </div>
   <div class="col-sm-12">
-    <div class="finance-graph">Graph will go here</div>
+    <div class="finance-graph">
+      <%= image_tag("js_linegraph.png") %>
+    </div>
     <div class="graph-selector"><p class="forecast-text">See your financial forecast for the next &nbsp;</p><%= select_tag 'user_id', options_for_select([["1 year", 1],["5 years",5],["10 years", 10],["20 years", 20],["50 years", 50]], 10) %></div>
   </div>
 </div>
