@@ -70,7 +70,7 @@ a:hover{
 }
 
 div.application-wrapper{
-  min-height: 600px;
+  min-height: 500px;
 }
 
 div.container{
@@ -123,7 +123,7 @@ header{
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#62bdea',GradientType=1 );
   border-bottom: 1px solid $universal-background;
   height: 55px;
-  min-width: 800px;
+  // min-width: 800px;
   width: 100%;
   margin-bottom: 0;
   padding: 0;
@@ -278,12 +278,19 @@ div.wrapper{
   }
 }
 
+
+
+
+
+
+
 // FORMS
 
 div.mainbox{
   float: left;
   width: 66.6666666667%;
   margin-left: 16.6666666667%;
+  margin-bottom: 64px;
 }
 
 p.form-category{
@@ -300,6 +307,12 @@ p#mortgage-footnote{
   font-style: italic;
   font-size: 12px;
   text-align: center;
+}
+
+div.panel{
+  p.form-category{
+    font-size: 18px;
+  }
 }
 
 form{
@@ -342,104 +355,130 @@ form{
   }
 }
 
+
+
+
+
+
+
+
 // INDEX PAGES
 
 h2.index-title{
   text-align: center;
   font-size: 38px;
-  padding-top:40px;
-  margin-bottom:24px;
+  margin-top:40px;
+  margin-bottom:40px;
 }
-
-div.resource-listings{
-  width: 800px;
+div.index-container{
+  margin: 0 20px;
+}
+div.index-wrapper{
+  max-width: 800px;
   margin: auto;
-  margin-bottom:50px;
-  padding-right:50px;
-  padding-left:50px;
-  div.pagination{
-    float:right;
-    display: inline-block;
-    margin-top: 0;
-  }
-  div.resource-item{
-    text-align: center;
+  margin-bottom: 75px;
+  div.resource-listings{
     width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
+    // padding-right:50px;
+    // padding-left:50px;
     padding: 10px;
-    padding-top:16px;
-    border-bottom: 1px solid black;
-    div.resource-box-left{
-      float: left;
-      display: inline-block;
-      width: 40%;
-      p#transfer-name{
-        font-size: 18px;
-        margin-bottom: 11px;
-      }
-      p.resource-name{
-        font-weight: bold;
-        font-size: 20px;
-        margin-bottom: 8px;
-        a:link, a:visited{
-          color:black;
-        }
-        a:hover{
-          color:$link-color;
-          text-decoration:none;
-        }
-        a:after{
-          text-decoration:none;
-        }
-      }
-      p.resource-type{
-        font-style: italic;
-        font-size: 14px;
-      }
-    }
-    div.resource-box-middle{
-      display: inline-block;
-      width: 40%;
-      p.resource-price{
-        font-size:24px;
-        // font-weight:bold;
-        margin-bottom:0;
-      }
-      p.push-down{
-        padding-top:7px;
-      }
-      p.resource-frequency{
-        font-size: 12px;
-        font-style: italic;
-        margin-top: 4px;
-        margin-bottom:0px;
-      }
-    }
-    div.resource-box-right{
-      text-align:left;
-      display: inline-block;
+    padding-bottom: 15px;
+    background: white;
+    border-radius: $default-border-radius;
+    border: $default-box-border;
+    div.pagination{
       float:right;
-      width: 20%;
-      padding-top:14px;
-      a.edit-button{
-        margin-right:8px;
+      display: inline-block;
+      margin-top: 0;
+    }
+    div#alternate-grey{
+      background-color: #E8E8E8;
+    }
+    div.resource-item{
+      text-align: center;
+      width: 100%;
+      padding: 10px;
+      padding-top:16px;
+      // border-bottom: 1px solid black;
+      div.resource-box-left{
+        float: left;
+        display: inline-block;
+        width: 40%;
+        p#transfer-name{
+          font-size: 18px;
+          margin-bottom: 11px;
+        }
+        p.resource-name{
+          font-weight: bold;
+          font-size: 20px;
+          margin-bottom: 8px;
+          a:link, a:visited{
+            color:black;
+          }
+          a:hover{
+            color:$link-color;
+            text-decoration:none;
+          }
+          a:after{
+            text-decoration:none;
+          }
+        }
+        p.resource-type{
+          font-style: italic;
+          font-size: 14px;
+        }
+      }
+      div.resource-box-middle{
+        display: inline-block;
+        width: 40%;
+        p.resource-price{
+          font-size:24px;
+          // font-weight:bold;
+          margin-bottom:0;
+        }
+        p.push-down{
+          padding-top:7px;
+        }
+        p.resource-frequency{
+          font-size: 12px;
+          font-style: italic;
+          margin-top: 4px;
+          margin-bottom:0px;
+        }
+      }
+      div.resource-box-right{
+        text-align:left;
+        display: inline-block;
+        float:right;
+        width: 20%;
+        padding-top:14px;
+        a.edit-button{
+          margin-right:8px;
+        }
       }
     }
-  }
-  p.asset-total{
-    display:block;
-    font-size: 20px;
-    margin-top:28px;
-    margin-bottom: 24px;
-    // font-weight:bold;
-    text-align:center;
+    p.asset-total{
+      display:block;
+      font-size: 20px;
+      margin-top:30px;
+      margin-bottom: 20px;
+      // font-weight:bold;
+      text-align:center;
+    }
+    
   }
   p.add-resource-link{
     display: inline-block;
     font-size: 16px;
-    margin-top:23px;
+    margin-top: 40px;
+  }
+  div.pagination-bar{
+    display: inline-block;
+    float: right;
   }
 }
-
 
 
 
@@ -619,7 +658,7 @@ div.resource-show-wrapper{
   div.show-content{
     margin: auto;
     font-size:18px;
-    margin-top: 24px;
+    margin-top: 0;
     margin-bottom: 36px;
     max-width: 450px;
     div.resource-show-item{
