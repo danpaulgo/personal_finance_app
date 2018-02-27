@@ -16,6 +16,7 @@ dan = User.create(first_name: "Daniel", last_name: "Goldberg", email: "danpaulgo
   dan.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
 john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gmail.com", password: "password")
   john.assets.create(type_id: 2, name: "Checking Account", amount: 1000.0, liquid: true, primary: true, interest: 1.1, compound_frequency: "Yearly")
+  
   25.times do
     asset_name = (0...10).map { ('a'..'z').to_a[rand(26)] }.join
     asset_amount = rand(10000)/1.0
@@ -27,7 +28,7 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
       asset_primary = true
     when 3,4
       asset_liquid = true
-    when (8..12).to_a
+    when 8,9,10,11,12
       asset_liquid = false
     else
       asset_liquid = [true,false].sample
@@ -62,7 +63,7 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
       type_id: income_type,
       name: income_name,
       amount: income_amount,
-      associated_asset_id: 1,
+      associated_asset_id: 3,
       frequency: income_frequency,
       next_date: income_next_date,
       end_date: income_end_date
@@ -78,7 +79,7 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
       type_id: expense_type,
       name: expense_name,
       amount: expense_amount,
-      associated_asset_id: 1,
+      associated_asset_id: 3,
       frequency: expense_frequency,
       next_date: expense_next_date,
       end_date: expense_end_date
@@ -95,7 +96,7 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
     transfer_type = [36,37].sample
     transfer_next_date = Date.tomorrow
     transfer_end_date =  [Date.new(2020),Date.new(2030), nil].sample
-    transfer_frequency = ["One Time", "Monthly", "Weekly", "Yearly"].sample
+    transfer_frequency = ["One-Time", "Monthly", "Weekly", "Yearly"].sample
     transfer_liquid_asset_id = liquid_assets.sample
     if transfer_type == 36
       all_assets.delete(transfer_liquid_asset_id)

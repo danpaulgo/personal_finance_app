@@ -24,6 +24,19 @@ class UserResourcesController < ApplicationController
   def show
     @resource = current_user.send($resource_plural).find_by(id: params[:id])
     @type = @resource.type.name
+    case $resource
+    when "Income", "Expense"
+      @associated_asset = Asset.find_by(id: @resource.associated_asset_id)
+    when "Transfer"
+      @out_account = Asset.find_by(id: @resource.liquid_asset_from_id)
+      if @resource.type.id == 36
+        @in_table = "assets"
+        @in_account = Asset.find_by(id: @resource.destination_id)
+      else
+        @in_table = "debts"
+        @in_account = Debt.find_by(id: @resource.destination_id)
+      end
+    end
     render 'resources/show'
   end
 

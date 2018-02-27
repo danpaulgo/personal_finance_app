@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180224072009) do
+ActiveRecord::Schema.define(version: 20180227065706) do
 
   create_table "assets", force: :cascade do |t|
     t.integer "type_id"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20180224072009) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "last_name"
+    t.boolean "intro_quiz_complete", default: false
   end
 
 end

@@ -84,6 +84,10 @@ div.container{
     display: table;
 }
 
+.hide{
+  visibility: hidden;
+}
+
 /* HEADER */
 
 // div.spacer{
@@ -394,7 +398,7 @@ div.index-wrapper{
       margin-top: 0;
     }
     div#alternate-grey{
-      background-color: #E8E8E8;
+      background-color: #ebeeee;
     }
     div.resource-item{
       text-align: center;
@@ -501,7 +505,7 @@ div.show-wrapper{
     background-color: white;
     float:left;
     margin-top:48px;
-    margin-bottom: 48px;
+    margin-bottom: 12px;
     border: $default-box-border;
     // border-top:3px solid black;
     // border-bottom:3px solid black;
@@ -526,12 +530,35 @@ div.show-wrapper{
       }
     }
   }
+
+  div.intro-quiz-notice{
+    border: $default-box-border;
+    border-radius: $default-border-radius;
+    background-color: white;
+    text-align: left;
+    // font-style: italic;
+    // margin-bottom: 48px;
+    padding: 15px;
+    font-size: 15px;
+    p.notice-bold{
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 0;
+      font-style: normal;
+      font-size: 16px;
+    }
+    a:hover{
+      text-decoration: underline;
+    }
+  }
+
   div#homepage-left{
     // width: 300px;
     // box-shadow: 4px 4px 6px -1px grey;
     // border-radius: 5px;
     // background-color: white;
     padding-right: 25px;
+    margin-top: 36px;
     // float: left;
   }
   div.resource-links{
@@ -574,7 +601,7 @@ div.show-wrapper{
   }
   div#homepage-right{
     padding-left: 25px;
-    padding-top: 50px;
+    padding-top: 86px;
   }
   div.net-worth{
     font-size:24px;
