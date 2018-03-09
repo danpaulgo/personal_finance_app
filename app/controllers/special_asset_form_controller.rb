@@ -197,7 +197,16 @@ class SpecialAssetFormController < AssetsController
     # Check each session key for nil values. Instantiate and save objects for all values that are not nil. Reset all session keys to nil.
     create_objects_from_session
     clear_session_params
-    redirect_to assets_path
+    if session[:form_type] != :intro_quiz
+      redirect_to assets_path
+    else
+      case session_speicl_asset.type.name
+      when "Property"
+        redirect_to iq_step_four_path
+      when "Vehicle"
+        redirect_to iq_step_five_path
+      end
+    end
   end
 
   def present_params
@@ -252,7 +261,12 @@ class SpecialAssetFormController < AssetsController
 
 
     def state_rate
-      RealEstateAppreciation.find_by(abbreviation: session[:property_location]).appreciation if !(session[:property_location] == "NA")
+      if session[:property_location] == "NA"
+        @na = true
+        5.4
+      else
+        RealEstateAppreciation.find_by(abbreviation: session[:property_location]).appreciation
+      end
     end
 
     def set_state_rate

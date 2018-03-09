@@ -1,0 +1,15 @@
+<%= render partial: 'forms/form_header', locals: {form_title: "Intro Quiz"} %>
+<p class="form-category">Step One: Properties</p>
+<%= form_tag iq_process_step_one_path do %>
+  <div class="form-group">
+    <label class="col-md-3 control-label">Do you own or rent your primary residence?</label>
+    <div class="col-md-9">
+      <label for="own_true">Own</label>
+      <%= radio_button_tag :own, true %>
+      <label for="own_false" class="right-radio">Rent</label>
+      <%= radio_button_tag :own, false %>
+    </div>
+  </div>
+  <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
+<% end %>
+<%= render 'forms/form_footer' %>
