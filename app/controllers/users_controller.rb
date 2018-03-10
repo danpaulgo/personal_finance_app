@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
   
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+
   def show
     if logged_in?
-      @user = current_user
       # @future_net_worth = FutureNetWorth.new
     else
-      render 'static/logged_out_home'
+      render 'static_pages/logged_out_home'
     end
   end
 
@@ -43,6 +44,10 @@ class UsersController < ApplicationController
   private 
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    end
+
+    def set_user
+      @user = current_user
     end
 
 end

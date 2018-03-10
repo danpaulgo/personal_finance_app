@@ -13,7 +13,6 @@ class IntroQuizController < ApplicationController
   end
 
   def process_step_one
-    binding.pry
     if params[:own]
       @@property_number +=1
       redirect_to iq_step_four_path

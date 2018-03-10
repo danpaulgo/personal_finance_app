@@ -1,14 +1,27 @@
-Rails.application.routes.draw do
+Rails.application.routes.draw do  
+
+  # BASIC USER NAVIGATION
 
   root to: 'users#show'
+  get 'account', to: 'users#edit', as: "account"
+
+  resources :users, only: [:new, :create, :update, :destroy] 
+  
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy', as: "logout"
 
-  resources :users, only: [:new, :create, :edit, :update, :destroy] 
+  # INTRO QUIZ
 
   get "intro_quiz/1", to: 'intro_quiz#step_one', as: "iq_step_one"
   post "intro_quiz/1", to: 'intro_quiz#process_step_one', as: "iq_process_step_one"
+
+  # STATIC PAGES
+
+  get 'static_pages/about', as: "about"
+  get 'static_pages/contact', as: "contact"
+
+  # RESOURCE RESOURCES
 
   FINANCE_RESOURCES = ResourceName.all.map{|r| r.table_name.to_sym}
 
@@ -20,6 +33,8 @@ Rails.application.routes.draw do
     get "#{r}/:id", to: "#{r}#show"
   end
 
+  # SPECIAL ASSET FORM
+
   post "assets/new/:special_asset/1", to: "special_asset_form#process_step_one", as: "process_step_one"
   get "assets/new/:special_asset/2", to: "special_asset_form#step_two", as: "step_two"
   post "assets/new/:special_asset/2", to: "special_asset_form#process_step_two", as: "process_step_two"
@@ -30,9 +45,13 @@ Rails.application.routes.draw do
   get "assets/new/:special_asset/5", to: "special_asset_form#step_five", as: "step_five"
   post "assets/new/:special_asset/5", to: "special_asset_form#process_step_five", as: "process_step_five"
 
+  # FUTURE NET WORTH
+
   resources :future_net_worths, only: [:create]
 
-  # Redirects invalid urls to root path
+  
+  # INVALID PATH REDIRECT
+
   get ':invalid', to: 'sessions#invalid'
   get ':invalid/:invalid', to: 'sessions#invalid'
   

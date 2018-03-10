@@ -10,11 +10,11 @@
 
   <body>
     <header>
-      <a href="/"><div class="logo"></div></a>
+      <a title="Home" href="/"><div class="logo"></div></a>
       <nav>
-        <a href="#" title="User"><%= image_tag("new-user-icon.png", class: "user-icon") %></a>
-        <a href="#" title="About"><%= image_tag("about-icon.png", class: "about-icon") %></a>
-        <a href="#" title="Contact"><%= image_tag("contact-icon.png", class: "contact-icon") %></a>
+        <%= link_to image_tag("new-user-icon.png", class: "user-icon"), account_path, title: "Account" %>
+        <%= link_to image_tag("about-icon.png", class: "about-icon"), about_path, title: "About" %>
+        <%= link_to image_tag("contact-icon.png", class: "contact-icon"), contact_path, title: "Contact" %>
         <a href="#" title="Main Menu" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <div class="dropdown" >
           <%=image_tag("new-menu-icon.png", class: "menu-icon") %>
@@ -53,10 +53,10 @@
       <div class="footer-left col-sm-4"> 
         <h4><b>Navigation</b></h4>
         <ul class="footer-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Account</a></li>
+          <li><%= link_to "Home", root_path %></li>
+          <li><%= link_to "About", about_path %></li>
+          <li><%= link_to "Contact", contact_path %></li>
+          <li><%= link_to "Account", account_path %></li>
         </ul>
         
       </div>

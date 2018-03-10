@@ -24,4 +24,24 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def total_assets
+    assets.map{|a| a.amount}.inject(0){|sum,x| sum + x }
+  end
+
+  def liquid_assets
+    assets.map{|a| a.amount if a.liquid}.compact.inject(0){|sum,x| sum + x }
+  end
+
+  def total_debts
+    debts.map{|d| d.amount}.inject(0){|sum,x| sum + x }
+  end
+
+  def total_net_worth
+    number_to_currency(total_assets-total_debts)
+  end
+
+  def liquid_net_worth
+    number_to_currency(liquid_assets-total_debts)
+  end
+
 end
