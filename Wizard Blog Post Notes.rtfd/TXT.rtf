@@ -7,8 +7,14 @@
 \margl1440\margr1440\vieww10800\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 Creating a Form Wizard in Rails\
+\f0\fs24 \cf0 Multi-step Forms Using Rails: Create Your Own Adventure\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2018-03-12 at 3.51.23 AM.png \width8580 \height4150 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
 \ls1\ilvl0\cf0 {\listtext	1.	}Introduction\
 \pard\tx940\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\fi-1440\pardirnatural\partightenfactor0
@@ -29,11 +35,12 @@
 \ls1\ilvl2\cf0 {\listtext	\uc0\u8259 	}May use 
 \b .valid? 
 \b0 if all questions about a single object are in the same step\
-\ls1\ilvl2{\listtext	\uc0\u8259 	}Otherwise, manually check each input\
+{\listtext	\uc0\u8259 	}Otherwise, manually check each input\
 {\listtext	\uc0\u8259 	}if invalid, put error in flash messages and render original view\
 {\listtext	\uc0\u8259 	}if valid, save object in session hash and redirect to path that generates the next step\
 {\listtext	\uc0\u8259 	}The next step may depend on input from current step (i.e. \
 \pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
 \ls1\ilvl0\cf0 {\listtext	4.	}In last step, save all created objects to database and create flash message for each successfully created object. There should be no issues since all objects are validated beforehand\
-{\listtext	5.	}In conclusion, if you ever do plan on creating a multi-step form yourself\'85 just use JavaScript.\
+{\listtext	5.	}Downside: the only way to persist the state of each step is to use the back and forward buttons. There is no way to skip around using links\
+{\listtext	6.	}In conclusion, if you ever do plan on creating a multi-step form yourself\'85 just use JavaScript.\
 }
