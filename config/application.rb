@@ -19,3 +19,9 @@ module PersonalFinanceApp
     # -- all .rb files in that directory are automatically loaded.
   end
 end
+
+module MyApp
+  class Application < Rails::Application
+    config.autoload_paths << Rails.root.join("app/models/wizards")
+  end
+end
