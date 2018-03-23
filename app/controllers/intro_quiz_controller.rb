@@ -7,6 +7,10 @@ class IntroQuizController < ApplicationController
   @@property_number = 0
   @@vehicle_number = 0
 
+  def render_step(n)
+    render "intro_quiz/step_#{n}.html.erb"
+  end
+
   def validate_step(step_params, step_number)
     step_object = "IntroQuizSteps::Step#{step_number.capitalize}".constantize.new(step_params)
     step_object.valid?
@@ -15,7 +19,7 @@ class IntroQuizController < ApplicationController
   def step_one
     # Do you rent or own or rent
     @page_resource = IntroQuizSteps::StepOne.new
-    render 'intro_quiz/step_one.html.erb'
+    render_step(:one)
   end
 
   # Try and clean this up
@@ -24,12 +28,12 @@ class IntroQuizController < ApplicationController
     if params[:intro_quiz_steps_step_one].nil?
       flash[:error] = ["Form cannot be left blank"]
       @page_resource = "IntroQuizSteps::Step#{step_number.capitalize}".constantize.new
-      render 'intro_quiz/step_one.html.erb'
+      render_step(:one)
     else
       step_params = params.require(:intro_quiz_steps_step_one).permit(:own)
       @page_resource = "IntroQuizSteps::Step#{step_number.capitalize}".constantize.new(step_params)
       if !@page_resource.valid?
-        render 'intro_quiz/step_one.html.erb'
+        render_step(:one)
       else
         if @page_resource.own
           @@property_number +=1

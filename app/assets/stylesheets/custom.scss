@@ -39,7 +39,7 @@ html, body{
 
 div.application-wrapper{
   margin: auto;
-  max-width: 1024px;
+  // max-width: 1024px;
   // padding: 0 25px;
 }
 
@@ -319,6 +319,16 @@ div.panel{
   }
 }
 
+div#error_explanation{
+  div.alert.bootstrap-override{
+    margin-bottom:10px;
+  }
+  ul{
+    list-style-type: none;
+    padding-left: 10px
+  }
+}
+
 form{
   div#options-form .col-md-9{
     margin-bottom: 24px;
@@ -496,6 +506,8 @@ div.index-wrapper{
 div.show-wrapper{
   text-align: center;
   padding: 0 5px;
+  max-width: 1024px;
+  margin: auto;
   div.user-show-header{
     text-align: left;
     width: 100%;
@@ -504,7 +516,7 @@ div.show-wrapper{
     display: inline-block;
     background-color: white;
     float:left;
-    margin-top:48px;
+    margin-top:36px;
     margin-bottom: 12px;
     border: $default-box-border;
     // border-top:3px solid black;

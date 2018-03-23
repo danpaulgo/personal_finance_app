@@ -85,7 +85,7 @@ module UserResourcesHelper
     # end
 
   def nil_to_zero(resource)
-    resource.amount = 0 if resource.amount == nil
+    # resource.amount = 0 if resource.amount == nil
     resource.interest = 0 if resource.methods.include?("interest") && resource.interest == nil
     resource
     # resource.payment = 0 if resource.methods.include?("payment") && resource.payment == nil    
@@ -149,15 +149,13 @@ module UserResourcesHelper
     end
 
     # Preps form fields for specific attributes
-    def form_name(f, type_category = nil, type_name = nil)
-      if f.object.name == nil
-        type_name = nil if !(type_category == "Bill" || type_category == "Insurance" )
-      end
-      f.text_field :name, placeholder: "Name", value: type_name
+    def form_name(f, type_category = nil, name_value = nil)
+      name_value = f.object.name if !f.object.name == nil
+      f.text_field :name, placeholder: "Name", value: name_value
     end
 
     def form_amount(f)
-      f.number_field :amount, placeholder: "Amount (USD)", step: '0.01', value: (f.object.amount.nil? ? nil : ('%.2f' % f.object.amount))
+      f.number_field :amount, placeholder: "Amount (USD)", step: '0.01', value: (f.object.amount.blank? ? nil : ('%.2f' % f.object.amount))
     end
 
     def form_interest(f)
@@ -236,6 +234,16 @@ module UserResourcesHelper
       when "Yearly"
         Date.today.beginning_of_year() + 1.years
       end
+    end
+
+    def type_category(type)
+      if !!type.name.match(/\sBill\z/)
+        "Bill"
+      elsif !!@type.name.match(/\sInsurance\z/)
+        "Insurance"
+      else
+        @type.name
+      end  
     end
 
 end

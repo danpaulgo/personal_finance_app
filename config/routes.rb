@@ -29,12 +29,13 @@ Rails.application.routes.draw do
     resources r, only: [:index, :create, :edit, :update, :destroy]
     get "#{r}/options", to: "#{r}#options"
     post "#{r}/options", to: "#{r}#process_option"
-    get "#{r}/new/:type", to: "#{r}#new"
+    get "#{r}/new/:type_id", to: "#{r}#new"
     get "#{r}/:id", to: "#{r}#show"
   end
 
   # SPECIAL ASSET FORM
 
+  get "assets/new/:special_asset/1", to: "special_asset_form#step_one", as: "step_one"
   post "assets/new/:special_asset/1", to: "special_asset_form#process_step_one", as: "process_step_one"
   get "assets/new/:special_asset/2", to: "special_asset_form#step_two", as: "step_two"
   post "assets/new/:special_asset/2", to: "special_asset_form#process_step_two", as: "process_step_two"

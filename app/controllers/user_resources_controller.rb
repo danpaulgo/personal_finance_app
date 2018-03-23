@@ -65,52 +65,31 @@ class UserResourcesController < ApplicationController
       @page_resource = $new_resource
       @title = "Create New #{$resource}"
       @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}
-      @type_selections = @types.map do |type|
-      [type.name, type.id]
-    end
-    # Sends "Other" option to end of list
-    @type_selections.each_with_index do |val, index|
-      if val[0] == "Other"
-        @type_selections.delete_at(index)
-        @type_selections.push(val)
-        break
+      @type_selections = @types.map{|type| [type.name, type.id] }
+      # Sends "Other" option to end of list
+      @type_selections.each_with_index do |val, index|
+        if val[0] == "Other"
+          @type_selections.delete_at(index)
+          @type_selections.push(val)
+          break
+        end
       end
-    end
       render "resources/options.html.erb"
+    elsif @type.id == 8 || @type.id == 9
+      redirect_to step_one_path(@type.id)
     else
-      @slug = @type.name.to_snake
-      redirect_to "/#{$resource_plural}/new/#{@slug}"
+      redirect_to "/#{$resource_plural}/new/#{@type.id}"
     end    
   end
 
   def new
     @page_resource = $new_resource
-    @possible_types = ResourceType.where(name: params[:type].to_title)
-    @type = @possible_types.find{|type| type.resource_name.name == $resource}
-    if @type && ResourceName.find_by(name: @page_resource.class.name).resource_types.include?(@type)
-      if !!@type.name.match(/\sBill\z/)
-        @type_category = "Bill"
-      elsif !!@type.name.match(/\sInsurance\z/)
-        @type_category = "Insurance"
-      else
-        @type_category = @type.name
-      end  
+    @type = ResourceType.find_by(id: params[:type_id]) 
+    if @type && ResourceName.find_by(name: $resource).resource_types.include?(@type)
+      @type_category = type_category(@type)
       case $resource
       when "Asset"
-        # Add default params to @page_resource
-        if @type.name == "Vehicle" || @type.name == "Property"
-          # Add default vehicle params to @page_resource
-          @owed = nil
-          @paid = nil
-          @liquid = false
-          @submit_path = process_step_one_path(params[:type])
-          @button_text = "Next"
-        else
-          # Add additional default asset params to @page_resource
-          @type.name == "Bank Account" || @type.name == "Cash on Hand" ? @primary = true : @primary = false
-          @submit_path = assets_path
-          @button_text = "Add Asset"
-        end
+        @type.id == 1 || @type.id == 2 ? @page_resource.primary = true : @page_resource.primary = false
         render 'resources/assets/new.html.erb'
       when "Debt"
         # Add default params to @page_resource
@@ -128,7 +107,7 @@ class UserResourcesController < ApplicationController
 
     else
       flash[:error] = ["Invalid #{@page_resource.class.name.downcase} type"]
-      redirect_to root_path
+      redirect_to "/#{$resource_plural}/options"
     end
 
     # render 'resources/new.html.erb'
@@ -137,13 +116,16 @@ class UserResourcesController < ApplicationController
   def create
     @page_resource = $resource.constantize.new(resource_params)
     @page_resource.user_id = current_user.id
+    @type = @page_resource.type
+    @type_category = type_category(@type)
+    @type.id == 1 || @type.id == 2 ? @primary = true : @primary = false
     nil_to_zero(@page_resource)
     if @page_resource.save
       flash[:success] = ["#{$resource} saved"]
       redirect_to "/#{$resource_plural}" 
     else
-      @type = ResourceType.find(@page_resource.type_id)
-      @type.name == "Bank Account" || @type.name == "Cash on Hand" ? @primary = true : @primary = false
+      @button_text = "Add Asset"
+      @submit_path = assets_path
       render "resources/#{$resource_plural}/new" 
     end
   end

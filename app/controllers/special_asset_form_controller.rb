@@ -6,39 +6,39 @@ class SpecialAssetFormController < AssetsController
   #   set_loan_name(@type_category)
   # end
 
+  def step_one
+    @page_resource = step_one_resource(@type)
+    @owed = nil
+    @paid = nil
+    @liquid = false
+    @submit_path = process_step_one_path(@type.id)
+    @button_text = "Next"
+    render 'resources/assets/special_assets/step_one.html.erb'
+  end
+
   def process_step_one
     clear_session_params
-    @special_asset = Asset.new(asset_params)
-    @special_asset.user = current_user
-    @special_asset.primary = false
-    @financed = params[:financed]
-    @income = params[:income]
-    income_present = true unless @income == nil && params[:special_asset] == "property"
-    if @special_asset.name.blank? || @special_asset.amount == nil || params[:financed] == nil || income_present == nil
-      @submit_path = process_step_one_path
-      @button_text = "Next"
-      @state = params[:location]
-      @owed = true if @financed == "true"
-      @paid = true if @financed == "false"
-      @gain = true if @income == "true"
-      @no_gain = true if @income == "false"
-      @type_category = params[:special_asset].to_title
-      flash[:error] = ["Please fill in all fields"]
-      render "resources/assets/new"
-    else
-      session[:special_asset] = @special_asset
-      session[:property_location] = params[:location] if @type_category == "Property"
-      session[:income_property] = params[:income] if @type_category == "Property"
-      if @financed == "true"
+    if @type.id == 9
+      @step_one = SpecialAssetSteps::StepOneVehicle.new(step_one_vehicle_params)
+    elsif @type.id == 8
+      @step_one = SpecialAssetSteps::StepOneProperty.new(step_one_property_params)
+    end
+    @step_one.financed = params[:financed]
+    if @step_one.valid?
+      session[:special_asset_step_one] = @step_one
+      if @step_one.financed.to_boolean
         redirect_to step_two_path
       else
         redirect_to step_four_path
       end
+    else
+      @page_resource = @step_one
+      @owed = true if @step_one.financed.to_boolean == true
+      @paid = true if @step_one.financed.to_boolean == false
+      @gain = true if @step_one.income.to_boolean == true
+      @no_gain = true if @step_one.income.to_boolean == false
+      render 'resources/assets/special_assets/step_one.html.erb'
     end
-  end
-
-  def session_speicl_asset
-    session[:special_asset]
   end
 
   def step_two
@@ -277,8 +277,8 @@ class SpecialAssetFormController < AssetsController
     end
 
     def set_type
-      @type_category = params[:special_asset].to_title
-      @type = ResourceType.find_by(name: @type_category)
+      @type = ResourceType.find_by(id: params[:special_asset])
+      @type_category = @type.name.to_title
     end
 
     def set_asset
@@ -300,6 +300,15 @@ class SpecialAssetFormController < AssetsController
       end
     end
 
+    def step_one_resource(type)
+      case type.id
+      when 8
+        SpecialAssetSteps::StepOneProperty.new
+      when 9
+        SpecialAssetSteps::StepOneVehicle.new
+      end
+    end
+
     def debt_params
       params.require(:debt).permit(:type_id, :name, :amount, :interest, :compound_frequency)
     end
@@ -310,6 +319,14 @@ class SpecialAssetFormController < AssetsController
 
     def expense_params(expense_name = "expense")
       params.require(:"#{expense_name}").permit(:amount, :frequency, :associated_asset_id, :next_date, :end_date)
+    end
+
+    def step_one_vehicle_params
+      params.require(:special_asset_steps_step_one_vehicle).permit(:name, :amount, :financed)
+    end
+
+    def step_one_property_params
+      params.require(:special_asset_steps_step_one_property).permit(:name, :amount, :financed, :location, :income)
     end
 
 end
