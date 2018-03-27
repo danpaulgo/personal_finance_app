@@ -16,17 +16,21 @@ class SpecialAssetFormController < AssetsController
     render 'resources/assets/special_assets/step_one.html.erb'
   end
 
+  def step_one_redirect(step_one)
+    if step_one.financed.to_boolean
+      redirect_to step_two_path
+    else
+      redirect_to step_four_path
+    end
+  end
+
   def process_step_one
     clear_session_params
     @step_one = "SpecialAssetSteps::StepOne#{@type_category}".constantize.new(self.send("step_one_#{@type_category.downcase}_params"))
     @step_one.financed = params[:financed]
     if @step_one.valid?
       session[:special_asset_step_one] = @step_one
-      if @step_one.financed.to_boolean
-        redirect_to step_two_path
-      else
-        redirect_to step_four_path
-      end
+      step_one_redirect
     else
       @page_resource = @step_one
       if !@step_one.financed.nil?
