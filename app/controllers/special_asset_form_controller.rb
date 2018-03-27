@@ -18,11 +18,7 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_one
     clear_session_params
-    if @type.id == 9
-      @step_one = SpecialAssetSteps::StepOneVehicle.new(step_one_vehicle_params)
-    elsif @type.id == 8
-      @step_one = SpecialAssetSteps::StepOneProperty.new(step_one_property_params)
-    end
+    @step_one = "SpecialAssetSteps::StepOne#{@type_category}".constantize.new(self.send("step_one_#{@type_category.downcase}_params"))
     @step_one.financed = params[:financed]
     if @step_one.valid?
       session[:special_asset_step_one] = @step_one
@@ -33,10 +29,17 @@ class SpecialAssetFormController < AssetsController
       end
     else
       @page_resource = @step_one
-      @owed = true if @step_one.financed.to_boolean == true
-      @paid = true if @step_one.financed.to_boolean == false
-      @gain = true if @step_one.income.to_boolean == true
-      @no_gain = true if @step_one.income.to_boolean == false
+      if !@step_one.financed.nil?
+        @owed = true if @step_one.financed.to_boolean == true
+        @paid = true if @step_one.financed.to_boolean == false
+      end
+      if @type_category == "Property"
+        @state = @step_one.location
+        if !@step_one.income.nil?
+          @gain = true if @step_one.income.to_boolean == true
+          @no_gain = true if @step_one.income.to_boolean == false
+        end
+      end
       render 'resources/assets/special_assets/step_one.html.erb'
     end
   end

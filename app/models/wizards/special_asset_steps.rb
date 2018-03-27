@@ -16,7 +16,13 @@ module SpecialAssetSteps
 
     attr_accessor :location, :income
 
-    validates :income, inclusion: { in: [ "true", "false" ] }
+    validates :income, presence: true
+
+  end
+
+  class SteoTwo < Base
+
+    # attr_accessor :
 
   end
 

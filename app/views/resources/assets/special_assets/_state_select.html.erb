@@ -3,5 +3,5 @@
   <% RealEstateAppreciation.order(:name).each do |state| %>
     <option value="<%= state.abbreviation %>" <%= "selected" if @state == state.abbreviation %>><%= state.name %></option>  
   <% end %>
-  <option value="NA" <%= "selected" if @state == "NA" %>>Outside U.S.</option>
+  <option value="OU" <%= "selected" if @state == "OU" %>>Outside U.S.</option>
 </select>   
