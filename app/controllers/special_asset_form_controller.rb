@@ -7,10 +7,9 @@ class SpecialAssetFormController < AssetsController
   # end
 
   def step_one
-    @page_resource = step_one_resource(@type)
+    @page_resource = "SpecialAssetSteps::StepOne#{@type_category}".constantize.new
     @owed = nil
     @paid = nil
-    @liquid = false
     @submit_path = process_step_one_path(@type.id)
     @button_text = "Next"
     render 'resources/assets/special_assets/step_one.html.erb'
@@ -30,7 +29,7 @@ class SpecialAssetFormController < AssetsController
     @step_one.financed = params[:financed]
     if @step_one.valid?
       session[:special_asset_step_one] = @step_one
-      step_one_redirect
+      step_one_redirect(@step_one)
     else
       @page_resource = @step_one
       if !@step_one.financed.nil?
@@ -304,15 +303,6 @@ class SpecialAssetFormController < AssetsController
         @loan_name = "mortgage"
       when "Vehicle"
         @loan_name = "vehicle loan"
-      end
-    end
-
-    def step_one_resource(type)
-      case type.id
-      when 8
-        SpecialAssetSteps::StepOneProperty.new
-      when 9
-        SpecialAssetSteps::StepOneVehicle.new
       end
     end
 

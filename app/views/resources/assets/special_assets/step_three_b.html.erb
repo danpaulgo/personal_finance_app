@@ -1,0 +1,24 @@
+<%= render 'resources/assets/form_header' %>
+<%= render partial: 'forms/form_header', locals: {form_title: "New Asset"} %>
+<%= form_for @expense, url: process_step_three_path do |f| %>
+<p class="form-category"><%= @loan_name.gsub(" Loan", "").to_title %> Payment Details</p>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :name, label_name: "Name", form_method: form_name(f, @type_category, @type.name)} %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :frequency, label_name: "Frequency", form_method: form_frequency(f)} %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :associated_asset_id, label_name: "Paid Using", form_method: form_select_primary_asset(f, current_user)} %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(f)} %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :end_date, label_name: "End Date (optional)", form_method: form_end_date(f)} %>
+  
+  <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
+
+<% end %>
+
+<p><%= link_to "Back", step_two_path %></p>
+
+<%= render 'forms/form_footer' %>

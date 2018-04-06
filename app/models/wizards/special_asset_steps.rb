@@ -22,7 +22,9 @@ module SpecialAssetSteps
 
   class SteoTwo < Base
 
-    # attr_accessor :
+    attr_accessor :mortgage_amount, :mortgage_interest, :mortgage_compound_frequency, :payment_amount, :payment_frequency, :next_payment_date, :paid_using
+
+    validates :mortgage_amount, :mortgage_interest, :mortgage_compound_frequency, :payment_amount, :payment_frequency, :next_payment_date, :paid_using, presence: true
 
   end
 

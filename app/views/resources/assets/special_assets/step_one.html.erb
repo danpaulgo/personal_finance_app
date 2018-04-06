@@ -7,38 +7,38 @@
   <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
 
   <div class="form-group">
-      <% if @type.name == "Vehicle" %>
-        <label class="col-md-3 control-label">Is this vehicle financed?</label>
-      <% elsif  @type.name == "Property" %>
-        <label class="col-md-3 control-label">Are you currently paying a mortgage on this property?</label>
-      <% end %>
+    <% if @type.name == "Vehicle" %>
+      <label class="col-md-3 control-label">Is this vehicle financed?</label>
+    <% elsif  @type.name == "Property" %>
+      <label class="col-md-3 control-label">Are you currently paying a mortgage on this property?</label>
+    <% end %>
+    <div class="col-md-9">
+      <label value="true" for="financed_true">Yes</label>
+      <input type="radio" name="financed" id="financed_true" value="true" <%= "checked" if @owed %> />
+      <label value="false" for="financed_false" class="right-radio">No</label>
+      <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
+    </div>
+  </div>
+
+  <% if @type.name == "Property" %>
+    <div class="form-group">
+      <label class="col-md-3 control-label">Where is this property located? (optional)</label>
       <div class="col-md-9">
-        <label value="true" for="financed_true">Yes</label>
-        <input type="radio" name="financed" id="financed_true" value="true" <%= "checked" if @owed %> />
-        <label value="false" for="financed_false" class="right-radio">No</label>
-        <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
+        <%= render 'resources/assets/special_assets/state_select' %>
       </div>
     </div>
-
-    <% if @type.name == "Property" %>
-      <div class="form-group">
-        <label class="col-md-3 control-label">Where is this property located? (optional)</label>
-        <div class="col-md-9">
-          <%= render 'resources/assets/special_assets/state_select' %>
-        </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label">Is this an income property?</label>
+      <div class="col-md-9">
+        <label value="true" for="income_true">Yes</label>
+        <input type="radio" name="special_asset_steps_step_one_property[income]" id="income_true" value="true" <%= "checked" if @gain %> />
+        <label value="false" for="income_false" class="right-radio">No</label>
+        <input type="radio" name="special_asset_steps_step_one_property[income]" id="financed_false" value="false" <%= "checked" if @no_gain %> />
       </div>
-      <div class="form-group">
-        <label class="col-md-3 control-label">Is this an income property?</label>
-        <div class="col-md-9">
-          <label value="true" for="income_true">Yes</label>
-          <input type="radio" name="special_asset_steps_step_one_property[income]" id="income_true" value="true" <%= "checked" if @gain %> />
-          <label value="false" for="income_false" class="right-radio">No</label>
-          <input type="radio" name="special_asset_steps_step_one_property[income]" id="financed_false" value="false" <%= "checked" if @no_gain %> />
-        </div>
-      </div>
-    <% end %>
+    </div>
+  <% end %>
 
-    <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
+  <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
 
 <% end %>
 
