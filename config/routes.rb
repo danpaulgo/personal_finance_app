@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resources r, only: [:index, :create, :edit, :update, :destroy]
     get "#{r}/options", to: "#{r}#options"
     post "#{r}/options", to: "#{r}#process_option"
+    get "#{r}/new", to: "#{r}#new_redirect"
     get "#{r}/new/:type_id", to: "#{r}#new"
     get "#{r}/:id", to: "#{r}#show"
   end

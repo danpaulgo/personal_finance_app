@@ -42,7 +42,7 @@ class UserResourcesController < ApplicationController
 
   def options
     @page_resource = $new_resource
-    @title = "Create New #{$resource}"
+    @title = "New #{$resource}"
     @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}
     @type_selections = @types.map do |type|
       [type.name, type.id]
@@ -80,6 +80,10 @@ class UserResourcesController < ApplicationController
     else
       redirect_to "/#{$resource_plural}/new/#{@type.id}"
     end    
+  end
+
+  def new_redirect
+    redirect_to "/#{$resource_plural}/options"
   end
 
   def new

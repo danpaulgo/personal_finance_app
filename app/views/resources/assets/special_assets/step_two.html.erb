@@ -1,6 +1,6 @@
 <%= render 'resources/assets/form_header' %>
 <%= render partial: 'forms/form_header', locals: {form_title: "New Asset"} %>
-<%= form_for @loan, url: process_step_two_path do |f| %>
+<%= form_for @page_resource, url: process_step_two_path do |f| %>
 
   <p class="form-category"><%= @loan_name.to_title %> Details</p>
   
@@ -10,23 +10,11 @@
 
   <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :compound_frequency, label_name: "Compound Frequency", form_method: form_compound_frequency(f)} %>
 
-  <p class="form-category"><%= @loan_name.to_title %> Payment Details</p>
-
-  <%= fields_for :payment, @payment do |p| %>
-    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :amount, label_name: "Payment Amount", form_method: form_amount(p)} %>
-
-    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :frequency, label_name: "Payment Frequency", form_method: form_frequency(p)} %>
-    
-    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(p)} %>
-
-    <%= render partial: "shared/form_section", locals: {form_object: p, label_for: :associated_asset_id, label_name: "Paid Using", form_method: form_select_primary_asset(p, current_user, "liquid_asset_from_id")} %>
-  <% end %>
-
   <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
   
 <% end %>
 
-<p id="mortgage-footnote">* If you do not have all necessary information, you may <%= link_to "enter your #{@loan_name} payments as an expense", step_three_path %> instead or <%= link_to "skip", step_four_path %> this step altogether</p>
+<p class="loan-footnote">* If you do not have all necessary information, you may <%= link_to "enter your #{@loan_name} payments as an expense", step_three_path %> instead or <%= link_to "skip", step_four_path %> this step altogether</p>
 
 <%= render 'forms/form_footer' %>
 <!-- This will link to the other page which will have a link that reads "Enter vehicle loan as a debt". vehicle_step_three_path must be replaced  -->

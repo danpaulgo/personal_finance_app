@@ -1,0 +1,15 @@
+<div class="form-group">
+  <label class="col-md-3 control-label">Where is this property located? (optional)</label>
+  <div class="col-md-9">
+    <%= render 'resources/assets/special_assets/state_select' %>
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-md-3 control-label">Is this an income property?</label>
+  <div class="col-md-9">
+    <label value="true" for="income_true">Yes</label>
+    <input type="radio" name="special_asset_steps_step_one_property[income]" id="income_true" value="true" <%= "checked" if @gain %> />
+    <label value="false" for="income_false" class="right-radio">No</label>
+    <input type="radio" name="special_asset_steps_step_one_property[income]" id="financed_false" value="false" <%= "checked" if @no_gain %> />
+  </div>
+</div>

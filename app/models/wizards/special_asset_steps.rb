@@ -20,12 +20,23 @@ module SpecialAssetSteps
 
   end
 
-  class SteoTwo < Base
+  # Loan Details
+  class StepTwo < Base
 
-    attr_accessor :mortgage_amount, :mortgage_interest, :mortgage_compound_frequency, :payment_amount, :payment_frequency, :next_payment_date, :paid_using
-
-    validates :mortgage_amount, :mortgage_interest, :mortgage_compound_frequency, :payment_amount, :payment_frequency, :next_payment_date, :paid_using, presence: true
+    attr_accessor :amount, :interest, :compound_frequency
+    
+    validates :amount, :interest, :compound_frequency, presence: true
 
   end
+
+  # Loan Payment Details
+  class StepThree < Base
+
+    attr_accessor :amount, :frequency, :paid_using, :next_date, :end_date
+
+    validates :amount, :frequency, :paid_using, :next_date, presence: true
+
+  end
+
 
 end

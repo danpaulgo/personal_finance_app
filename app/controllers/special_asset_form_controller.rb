@@ -48,56 +48,47 @@ class SpecialAssetFormController < AssetsController
   end
 
   def step_two
+    @page_resource = SpecialAssetSteps::StepTwo.new
     set_loan_name(@type_category)
-    @loan = Debt.new
-    @payment = Transfer.new
+    # @loan = Debt.new
+    # @payment = Transfer.new
     render 'resources/assets/special_assets/step_two.html.erb'
   end
 
   def process_step_two
-    # call .valid? on @loan and debt instead of saving. use fake destination_id on payment to validate
-    @loan = Debt.new(debt_params)
-    @loan.user = current_user
-    @loan.name = "#{@type_category} loan (#{session_speicl_asset.name})"
-    case @type_category
-    when "Property"
-      @loan.type_id = 15
-    when "Vehicle"
-      @loan.type_id = 16
-    end
-    @payment = Transfer.new(payment_params)
-    @payment.user = current_user
-    @payment.type_id = 37
-    @payment.destination_id = 1
-    if @loan.valid? && @payment.valid?
-      session[:special_asset_loan] = @loan
-      session[:special_asset_loan_payment] = @payment
-      redirect_to step_four_path
+    @step_two = SpecialAssetSteps::StepTwo.new(step_two_params)
+    if @step_two.valid?
+      session[:special_asset_step_two] = @step_two
+      redirect_to step_three_path
     else
-      @payment.valid?
-      flash[:error] = @loan.errors.full_messages + @payment.errors.full_messages
+      @page_resource = @step_two
+      set_loan_name(@type_category)
       render 'resources/assets/special_assets/step_two.html.erb'
     end
   end
 
   def step_three
     set_loan_name(@type_category)
-    @expense = Expense.new
+    @page_resource = SpecialAssetSteps::StepThree.new
     render 'resources/assets/special_assets/step_three.html.erb'
   end
 
   def process_step_three
-    @expense = Expense.new(expense_params)
-    @expense.user = current_user
-    @expense.type_id = 35
-    @expense.name = "#{@type_category} payment (#{session_speicl_asset.name})"
-    if @expense.valid?
-      session[:special_asset_payment] = @expense
-      redirect_to step_four_path
-    else
-      flash[:error] = @expense.errors.full_messages
-      render 'resources/assets/special_assets/step_four.html.erb'
-    end
+    
+
+
+
+    # @expense = Expense.new(expense_params)
+    # @expense.user = current_user
+    # @expense.type_id = 35
+    # @expense.name = "#{@type_category} payment (#{session_speicl_asset.name})"
+    # if @expense.valid?
+    #   session[:special_asset_payment] = @expense
+    #   redirect_to step_four_path
+    # else
+    #   flash[:error] = @expense.errors.full_messages
+    #   render 'resources/assets/special_assets/step_four.html.erb'
+    # end
   end
 
   def step_four
@@ -324,6 +315,10 @@ class SpecialAssetFormController < AssetsController
 
     def step_one_property_params
       params.require(:special_asset_steps_step_one_property).permit(:name, :amount, :financed, :location, :income)
+    end
+
+    def step_two_params
+      params.require(:special_asset_steps_step_two).permit(:amount, :interest, :compound_frequency)
     end
 
 end
