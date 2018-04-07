@@ -4,7 +4,7 @@ module SpecialAssetSteps
     include ActiveModel::Model
   end
 
-  class StepOneVehicle < Base
+  class Step1Vehicle < Base
 
     attr_accessor :name, :amount, :financed 
 
@@ -12,7 +12,7 @@ module SpecialAssetSteps
 
   end
 
-  class StepOneProperty < StepOneVehicle
+  class Step1Property < Step1Vehicle
 
     attr_accessor :location, :income
 
@@ -21,7 +21,7 @@ module SpecialAssetSteps
   end
 
   # Loan Details
-  class StepTwo < Base
+  class Step2 < Base
 
     attr_accessor :amount, :interest, :compound_frequency
     
@@ -30,7 +30,7 @@ module SpecialAssetSteps
   end
 
   # Loan Payment Details
-  class StepThree < Base
+  class Step3 < Base
 
     attr_accessor :amount, :frequency, :paid_using, :next_date, :end_date
 

@@ -76,7 +76,7 @@ class UserResourcesController < ApplicationController
       end
       render "resources/options.html.erb"
     elsif @type.id == 8 || @type.id == 9
-      redirect_to step_one_path(@type.id)
+      redirect_to special_asset_step_1_path(@type.id)
     else
       redirect_to "/#{$resource_plural}/new/#{@type.id}"
     end    

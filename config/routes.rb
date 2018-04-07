@@ -36,16 +36,22 @@ Rails.application.routes.draw do
 
   # SPECIAL ASSET FORM
 
-  get "assets/new/:special_asset/1", to: "special_asset_form#step_one", as: "step_one"
-  post "assets/new/:special_asset/1", to: "special_asset_form#process_step_one", as: "process_step_one"
-  get "assets/new/:special_asset/2", to: "special_asset_form#step_two", as: "step_two"
-  post "assets/new/:special_asset/2", to: "special_asset_form#process_step_two", as: "process_step_two"
-  get "assets/new/:special_asset/3", to: "special_asset_form#step_three", as: "step_three"
-  post "assets/new/:special_asset/3", to: "special_asset_form#process_step_three", as: "process_step_three"
-  get "assets/new/:special_asset/4", to: "special_asset_form#step_four", as: "step_four"
-  post "assets/new/:special_asset/4", to: "special_asset_form#process_step_four", as: "process_step_four"
-  get "assets/new/:special_asset/5", to: "special_asset_form#step_five", as: "step_five"
-  post "assets/new/:special_asset/5", to: "special_asset_form#process_step_five", as: "process_step_five"
+  5.times do |n|
+    n = n+1
+    get "assets/new/:asset_type_id/#{n}", to: "special_asset_form#step_#{n}", as: "special_asset_step_#{n}"
+    post "assets/new/:asset_type_id/#{n}", to: "special_asset_form#process_step_#{n}", as: "process_special_asset_step_#{n}"
+  end
+
+  # get "assets/new/:special_asset/1", to: "special_asset_form#step_one", as: "step_one"
+  # post "assets/new/:special_asset/1", to: "special_asset_form#process_step_one", as: "process_step_one"
+  # get "assets/new/:special_asset/2", to: "special_asset_form#step_two", as: "step_two"
+  # post "assets/new/:special_asset/2", to: "special_asset_form#process_step_two", as: "process_step_two"
+  # get "assets/new/:special_asset/3", to: "special_asset_form#step_three", as: "step_three"
+  # post "assets/new/:special_asset/3", to: "special_asset_form#process_step_three", as: "process_step_three"
+  # get "assets/new/:special_asset/4", to: "special_asset_form#step_four", as: "step_four"
+  # post "assets/new/:special_asset/4", to: "special_asset_form#process_step_four", as: "process_step_four"
+  # get "assets/new/:special_asset/5", to: "special_asset_form#step_five", as: "step_five"
+  # post "assets/new/:special_asset/5", to: "special_asset_form#process_step_five", as: "process_step_five"
 
   # FUTURE NET WORTH
 

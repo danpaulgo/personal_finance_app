@@ -1,6 +1,6 @@
 <%= render partial: 'forms/form_header', locals: {form_title: "New Asset"} %>
 <p class="form-category"><%= @type_category %></p>
-<%= form_for @page_resource, url: process_step_one_path do |f| %>
+<%= form_for @page_resource, url: process_special_asset_step_1_path do |f| %>
 
   <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :name, label_name: "Name", form_method: form_name(f, @type_category, @page_resource.name)} %>
   
@@ -21,7 +21,7 @@
   </div>
 
   <% if @type.name == "Property" %>
-    <%= render partial: "resources/assets/special_assets/step_one_property_ext" %>
+    <%= render partial: "resources/assets/special_assets/step_1_property_ext" %>
   <% end %>
 
   <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
