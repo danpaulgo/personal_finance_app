@@ -1,10 +1,6 @@
 class SpecialAssetFormController < AssetsController
 
   before_action :set_type
-  # before_action :set_asset, only: [:step_2, :process_step_2, :step_3, :process_step_3, :step_four, :process_step_four, :process_step_five]
-  # before_action only: [:step_2, :process_step_2, :step_3, :process_step_3] do
-  #   set_loan_name(@type_category)
-  # end
 
   def step_1
     @page_resource = "SpecialAssetSteps::Step1#{@type_category}".constantize.new
@@ -25,7 +21,8 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_1
     clear_session_params
-    @step_1 = "SpecialAssetSteps::Step1#{@type_category}".constantize.new(self.send("step_1_#{@type_category.downcase}_params"))
+    step_type = "1_#{@type_category.downcase}"
+    @step_1 = "SpecialAssetSteps::Step1#{@type_category}".constantize.new(self.send(:step_params, step_type))
     @step_1.financed = params[:financed]
     if @step_1.valid?
       session[:special_asset_step_1] = @step_1
@@ -51,13 +48,11 @@ class SpecialAssetFormController < AssetsController
     session[:special_asset_step_2] = nil
     @page_resource = SpecialAssetSteps::Step2.new
     set_loan_name(@type_category)
-    # @loan = Debt.new
-    # @payment = Transfer.new
     render 'resources/assets/special_assets/step_2.html.erb'
   end
 
   def process_step_2
-    @step_2 = SpecialAssetSteps::Step2.new(step_2_params)
+    @step_2 = SpecialAssetSteps::Step2.new(step_params(2))
     if @step_2.valid?
       session[:special_asset_step_2] = @step_2
       redirect_to step_3_path
@@ -76,20 +71,8 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_3
 
+    @step_3 = SpecialAssetSteps::Step3.new(step_params(3))
 
-
-
-    # @expense = Expense.new(expense_params)
-    # @expense.user = current_user
-    # @expense.type_id = 35
-    # @expense.name = "#{@type_category} payment (#{session_speicl_asset.name})"
-    # if @expense.valid?
-    #   session[:special_asset_payment] = @expense
-    #   redirect_to step_four_path
-    # else
-    #   flash[:error] = @expense.errors.full_messages
-    #   render 'resources/assets/special_assets/step_four.html.erb'
-    # end
   end
 
   def step_four
@@ -233,34 +216,9 @@ class SpecialAssetFormController < AssetsController
       n = n+1
       session[:"special_asset_step_#{n}"] = nil
     end
-    # present_params.each do |type_hash|
-    #   session[type_hash[:session_name]] = nil
-    # end
   end
 
   private
-
-    # def special_asset_defaults 
-    #   [
-    #     {session_name: :special_asset, resource_type: "Asset"}, 
-    #     {session_name: :special_asset_loan, resource_type: "Debt"}, 
-    #     {session_name: :special_asset_loan_payment, resource_type: "Transfer"}, 
-    #     {session_name: :special_asset_payment, resource_type: "Expense"}, 
-    #     # VEHICLE FORM
-    #     {session_name: :gasoline, resource_type: "Expense"}, 
-    #     {session_name: :car_insurance, resource_type: "Expense"}, 
-    #     {session_name: :vehicle_maintenance, resource_type: "Expense"}, 
-    #     {session_name: :miscellaneous, resource_type: "Expense"}, 
-    #     # PROPERTY FORM
-    #     {session_name: :property_income, resource_type: "Income"}, 
-    #     {session_name: :property_tax, resource_type: "Expense"}, 
-    #     {session_name: :home_owners_insurance, resource_type: "Expense"}, 
-    #     {session_name: :property_maintenance, resource_type: "Expense"},
-    #     {session_name: :utilities, resource_type: "Expense"} 
-    #   ]
-    # end
-
-
 
     def state_rate
       if session[:property_location] == "NA"
@@ -283,16 +241,6 @@ class SpecialAssetFormController < AssetsController
       @type_category = @type.name.to_title
     end
 
-    # def set_asset
-    #   @special_asset = session[:special_asset]
-    # end
-
-    # def set_form_variables
-      
-      
-    #   set_loan_name(@type_category)
-    # end
-
     def set_loan_name(type_category)
       case type_category
       when "Property"
@@ -301,29 +249,22 @@ class SpecialAssetFormController < AssetsController
         @loan_name = "vehicle loan"
       end
     end
-
-    def debt_params
-      params.require(:debt).permit(:type_id, :name, :amount, :interest, :compound_frequency)
-    end
-
-    def payment_params
-      params.require(:payment).permit(:amount, :frequency, :liquid_asset_from_id, :next_date)
-    end
-
-    def expense_params(expense_name = "expense")
-      params.require(:"#{expense_name}").permit(:amount, :frequency, :associated_asset_id, :next_date, :end_date)
-    end
-
-    def step_1_vehicle_params
-      params.require(:special_asset_steps_step1_vehicle).permit(:name, :amount, :financed)
-    end
-
-    def step_1_property_params
-      params.require(:special_asset_steps_step1_property).permit(:name, :amount, :financed, :location, :income)
-    end
-
-    def step_2_params
-      params.require(:special_asset_steps_step2).permit(:amount, :interest, :compound_frequency)
+  
+    define_method "step_params" do |step|
+      step_number = step.to_s[0,1].to_i
+      case step_number
+      when 1
+        permitted_array = :name, :amount, :financed, :location, :income
+      when 2
+        permitted_array = :amount, :interest, :compound_frequency
+      when 3
+        permitted_array = []
+      when 4
+        permitted_array = []
+      when 5
+        permitted_array = []
+      end
+      params.require(:"special_asset_steps_step#{step}").permit(permitted_array)
     end
 
     def create_special_asset

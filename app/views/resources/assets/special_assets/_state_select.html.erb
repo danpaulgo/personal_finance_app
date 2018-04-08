@@ -1,4 +1,4 @@
-<select name="special_asset_steps_step_one_property[location]">
+<select name="special_asset_steps_step1_property[location]">
   <option value="NA" selected>Select State</option>
   <% RealEstateAppreciation.order(:name).each do |state| %>
     <option value="<%= state.abbreviation %>" <%= "selected" if @state == state.abbreviation %>><%= state.name %></option>  
