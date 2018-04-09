@@ -13,9 +13,9 @@ class SpecialAssetFormController < AssetsController
 
   def step_1_redirect(step_1)
     if step_1.financed.to_boolean
-      redirect_to step_2_path
+      redirect_to special_asset_step_2_path
     else
-      redirect_to step_four_path
+      redirect_to special_asset_step_4_path
     end
   end
 
@@ -23,7 +23,6 @@ class SpecialAssetFormController < AssetsController
     clear_session_params
     step_type = "1_#{@type_category.downcase}"
     @step_1 = "SpecialAssetSteps::Step1#{@type_category}".constantize.new(self.send(:step_params, step_type))
-    @step_1.financed = params[:financed]
     if @step_1.valid?
       session[:special_asset_step_1] = @step_1
       step_1_redirect(@step_1)
@@ -55,7 +54,7 @@ class SpecialAssetFormController < AssetsController
     @step_2 = SpecialAssetSteps::Step2.new(step_params(2))
     if @step_2.valid?
       session[:special_asset_step_2] = @step_2
-      redirect_to step_3_path
+      redirect_to special_asset_step_3_path
     else
       @page_resource = @step_2
       set_loan_name(@type_category)
@@ -70,14 +69,22 @@ class SpecialAssetFormController < AssetsController
   end
 
   def process_step_3
-
     @step_3 = SpecialAssetSteps::Step3.new(step_params(3))
-
+    if @step_3.valid?
+      session[:special_asset_step_3] = @step_3
+      redirect_to special_asset_step_4_path
+    else
+      @page_resource = @step_3
+      set_loan_name(@type_category)
+      render 'resources/assets/special_assets/step_3.html.erb'
+    end
   end
 
-  def step_four
-    set_state_rate
-    render 'resources/assets/special_assets/step_four.html.erb'
+  def step_4
+    @page_resource = SpecialAssetSteps::Step4.new
+    location = session[:special_asset_step_1].location
+    set_state(location)
+    render 'resources/assets/special_assets/step_4.html.erb'
   end
 
   def process_step_four
@@ -211,28 +218,12 @@ class SpecialAssetFormController < AssetsController
     end
   end
 
-  def clear_session_params
-    5.times do |n|
-      n = n+1
-      session[:"special_asset_step_#{n}"] = nil
-    end
-  end
-
   private
 
-    def state_rate
-      if session[:property_location] == "NA"
-        @na = true
-        5.4
-      else
-        RealEstateAppreciation.find_by(abbreviation: session[:property_location]).appreciation
-      end
-    end
-
-    def set_state_rate
-      if @type_category == "Property"
-        redirect_to "/assets/new/property" unless @state = session[:property_location]
-        @rate = state_rate
+    def clear_session_params
+      5.times do |n|
+        n = n+1
+        session[:"special_asset_step_#{n}"] = nil
       end
     end
 
@@ -249,6 +240,17 @@ class SpecialAssetFormController < AssetsController
         @loan_name = "vehicle loan"
       end
     end
+
+    def set_state(location)
+      if location == "NA"
+        @na = true
+        @rate = 5.4
+      else
+        state = RealEstateAppreciation.find_by(abbreviation: location)
+        @rate = state.appreciation
+        @state_name = state.name
+      end
+    end
   
     define_method "step_params" do |step|
       step_number = step.to_s[0,1].to_i
@@ -258,7 +260,7 @@ class SpecialAssetFormController < AssetsController
       when 2
         permitted_array = :amount, :interest, :compound_frequency
       when 3
-        permitted_array = []
+        permitted_array = :amount, :frequency, :paid_using, :next_date, :end_date
       when 4
         permitted_array = []
       when 5
@@ -286,7 +288,5 @@ class SpecialAssetFormController < AssetsController
     def create_expense(type)
 
     end
-
-
 
 end

@@ -14,9 +14,9 @@
     <% end %>
     <div class="col-md-9">
       <label value="true" for="financed_true">Yes</label>
-      <input type="radio" name="financed" id="financed_true" value="true" <%= "checked" if @owed %> />
+      <input type="radio" name="special_asset_steps_step1_<%= @type_category.downcase %>[financed]" id="financed_true" value="true" <%= "checked" if @owed %> />
       <label value="false" for="financed_false" class="right-radio">No</label>
-      <input type="radio" name="financed" id="financed_false" value="false" <%= "checked" if @paid %> />
+      <input type="radio" name="special_asset_steps_step1_<%= @type_category.downcase %>[financed]" id="financed_false" value="false" <%= "checked" if @paid %> />
     </div>
   </div>
 

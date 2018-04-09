@@ -1,5 +1,4 @@
 <%= render 'resources/assets/form_header' %>
-<% binding.pry %>
 <%= render partial: 'forms/form_header', locals: {form_title: "New Asset"} %>
 <%= form_for @page_resource, url: process_special_asset_step_3_path do |f| %>
 <p class="form-category"><%= @loan_name.to_title %> Payment Details</p>
@@ -12,13 +11,13 @@
 
   <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(f)} %>
 
-  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :end_date, label_name: "End Date (optional)", form_method: form_end_date(f)} if session[:special_asset_step_two] == nil %>
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :end_date, label_name: "End Date (optional)", form_method: form_end_date(f)} if session[:special_asset_step_2] == nil %>
   
   <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
 
 <% end %>
 
-<% if session[:special_asset_step_two] == nil %>
+<% if session[:special_asset_step_2] == nil %>
   <p class="loan-footnote"><%= link_to "Enter Loan Details", special_asset_step_2_path %></p>
 <% end %>
 

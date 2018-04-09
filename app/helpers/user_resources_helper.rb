@@ -212,7 +212,7 @@ module UserResourcesHelper
     end
 
     def form_next_date(f)
-      f.date_field :next_date
+      f.date_field :next_date, value: f.object.next_date
     end
 
     def form_liquid(f)

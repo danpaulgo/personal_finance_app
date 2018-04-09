@@ -38,5 +38,11 @@ module SpecialAssetSteps
 
   end
 
+  class Step4 < Base
+
+    attr_accessor :average_rate, :custom_rate
+
+  end
+
 
 end
