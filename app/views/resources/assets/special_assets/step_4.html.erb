@@ -24,7 +24,7 @@
   <div class="form-group">
     <label class="col-md-3 control-label">Or, enter custom rate of <%= @type_category == "Vehicle" ? "depreciation" : "appreciation" %></label>
     <div class="col-md-9">
-      <%= f.number_field :interest, value: nil, placeholder: "Custom Rate (%)", step: :any %>
+      <%= f.number_field :custom_rate, value: nil, placeholder: "Custom Rate (%)", step: :any %>
     </div>
   </div>
   

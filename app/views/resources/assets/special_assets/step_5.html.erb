@@ -1,0 +1,33 @@
+<%= render 'resources/assets/form_header' %>
+
+<%= form_for @page_resource, url: process_special_asset_step_5_path do |f| %>
+
+  <%= f.label :amount, "How much revenue does this property generate in a month?", class: "control-label" %>
+  <br>
+  <%= f.number_field :income[:amount], placeholder: "Amount (USD)", step: '0.01', value: (f.object.amount.blank? ? nil : ('%.2f' % f.object.amount)) %>
+  <%= f.label :associated_asset_id, "paid using: " %>
+  <%= f.select(:income[:associated_asset_id], options_for_select(@asset_selections, selected: f.object.send(attr_name)), include_blank: "Select Asset") %>
+
+<% end %>
+
+<%= render 'forms/form_footer' %>
+
+<%# form_tag process_step_five_path do %>
+
+  <!-- <p class="form-category">Related Expenses</p> -->
+  
+  <%# if session[:income_property] == "true" %>
+    <%# render partial: "shared/form_step_five_block", locals: {param_key: "property_income", instance_var: @property_income, question: "How much revenue does this property generate in a month?"} %>
+  <%# end %>
+
+  <%# render partial: "shared/form_step_five_block", locals: {param_key: "home_owners_insurance", instance_var: @home_owners_insurance, question: "How much do you pay for for home owner's insurance on this property anually?"} %>
+
+  <%# render partial: "shared/form_step_five_block", locals: {param_key: "property_tax", instance_var: @property_tax, question: "How much do you pay in taxes on this property anually?"} %>
+
+  <%# render partial: "shared/form_step_five_block", locals: {param_key: "utilities", instance_var: @utilities, question: "How much do you typically spend on utilities for this property in a month? (heat, electricity, water, phone, etc.)"} %>
+
+  <%# render partial: "shared/form_step_five_block", locals: {param_key: "property_maintenance", instance_var: @property_maintenance, question: "How much do you typically spend on maintenance and repairs for this proprty in a year?"} %>
+  
+  <%# render partial: "shared/form_submit", locals: {button_text: "Submit Form"} %>
+  
+<%# end %>

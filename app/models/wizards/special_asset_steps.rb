@@ -1,7 +1,20 @@
 module SpecialAssetSteps
 
   class Base
+    
     include ActiveModel::Model
+
+    def all_attributes
+      attrs = []
+      methods.each do |var|
+        str = var.to_s.gsub /^@/, ''
+        if respond_to? "#{str}=" 
+          attrs.push str.to_sym if str.match /\A\w/
+        end
+      end
+      attrs
+    end
+  
   end
 
   class Step1Vehicle < Base
@@ -41,6 +54,38 @@ module SpecialAssetSteps
   class Step4 < Base
 
     attr_accessor :average_rate, :custom_rate
+
+    validate :average_or_custom
+
+    def average_or_custom
+      if average_rate.blank? && custom_rate.blank?
+        errors.add(:base, "Form may not be left blank")
+      end
+    end
+
+  end
+
+  class Step5 < Base 
+
+    attr_accessor :insurance, :misc
+
+    def both_or_neither
+      all_attributes.each do |attr|
+
+      end
+    end
+
+  end
+
+  class Step5Vehicle < Step5
+
+    attr_accessor :gasoline, :maintenance
+
+  end
+
+  class Step5Property < Step5
+
+    attr_accessor :tax, :utilities, :income
 
   end
 

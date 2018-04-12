@@ -87,50 +87,43 @@ class SpecialAssetFormController < AssetsController
     render 'resources/assets/special_assets/step_4.html.erb'
   end
 
-  def process_step_four
-    @average_rate = params[:average_rate]
-    @custom_rate = params[:asset][:interest]
-    if @custom_rate.blank? && @average_rate.blank?
-      set_state_rate
-      flash[:error] = ["Please make a selection before continuing"]
-      render 'resources/assets/vehicle/step_four.html.erb'
+  def process_step_4
+    @step_4 = SpecialAssetSteps::Step4.new(step_params(4))
+    if @step_4.valid?
+      session[:special_asset_step_4] = @step_4
+      redirect_to special_asset_step_5_path
     else
-      @custom_rate = -@custom_rate if @type_category == "Vehicle"
-      if !@custom_rate.blank?
-        @special_asset.interest = @custom_rate
-        @special_asset.compound_frequency = "Yearly"
-      elsif @average_rate == "yes"
-        if @type_category == "Vehicle"
-          @special_asset.interest = -15
-        elsif @type_category == "Property"
-          @special_asset.interest = state_rate
-        end
-        @special_asset.compound_frequency = "Yearly"
-      elsif @average_rate == "no"
-        @special_asset.interest = 0
-      end
-      session[:special_asset] = @special_asset
-      redirect_to step_five_path
+      @page_resource = @step_4
+      location = session[:special_asset_step_1].location
+      set_state(location)
+      render 'resources/assets/special_assets/step_4.html.erb'
     end
   end
 
-  def step_five
-    @user = current_user
-    if @type_category == "Vehicle"
-      @gasoline = Expense.new
-      @car_insurance = Expense.new
-      @vehicle_maintenance = Expense.new
-      @miscellaneous = Expense.new
-      render 'resources/assets/special_assets/step_five_vehicle.html.erb'
-    elsif @type_category == "Property"
-      @property_income = Income.new
-      @property_tax = Expense.new
-      @home_owners_insurance = Expense.new
-      @utilities = Expense.new
-      @property_maintenance = Expense.new
-      # @miscellaneous = Expense.new
-      render 'resources/assets/special_assets/step_five_property.html.erb'
-    end
+  def step_5
+    @page_resource = "SpecialAssetSteps::Step5#{@type_category}".constantize.new
+    @asset_selections = current_user.assets.where(liquid: true).map{|asset| [asset.name, asset.id]}
+    # @expenses = @page_resource.all_attributes
+    # @expenses.delete(:income) if @type_category == "Property" && !session[:special_asset_step_1].income.to_boolean
+    render 'resources/assets/special_assets/step_5.html.erb'
+    # binding.pry
+
+    # @user = current_user
+    # if @type_category == "Vehicle"
+    #   @gasoline = Expense.new
+    #   @car_insurance = Expense.new
+    #   @vehicle_maintenance = Expense.new
+    #   @miscellaneous = Expense.new
+    #   render 'resources/assets/special_assets/step_five_vehicle.html.erb'
+    # elsif @type_category == "Property"
+    #   @property_income = Income.new
+    #   @property_tax = Expense.new
+    #   @home_owners_insurance = Expense.new
+    #   @utilities = Expense.new
+    #   @property_maintenance = Expense.new
+    #   # @miscellaneous = Expense.new
+    #   render 'resources/assets/special_assets/step_five_property.html.erb'
+    # end
   end
 
 
@@ -251,21 +244,9 @@ class SpecialAssetFormController < AssetsController
         @state_name = state.name
       end
     end
-  
-    define_method "step_params" do |step|
-      step_number = step.to_s[0,1].to_i
-      case step_number
-      when 1
-        permitted_array = :name, :amount, :financed, :location, :income
-      when 2
-        permitted_array = :amount, :interest, :compound_frequency
-      when 3
-        permitted_array = :amount, :frequency, :paid_using, :next_date, :end_date
-      when 4
-        permitted_array = []
-      when 5
-        permitted_array = []
-      end
+
+    def step_params(step)
+      permitted_array = "SpecialAssetSteps::Step#{step.to_s.camelize}".constantize.new.all_attributes
       params.require(:"special_asset_steps_step#{step}").permit(permitted_array)
     end
 

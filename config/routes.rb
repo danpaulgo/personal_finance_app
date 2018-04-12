@@ -23,9 +23,9 @@ Rails.application.routes.draw do
 
   # RESOURCE RESOURCES
 
-  FINANCE_RESOURCES = ResourceName.all.map{|r| r.table_name.to_sym}
+  # FINANCE_RESOURCES = ResourceName.all.map{|r| r.table_name.to_sym}
 
-  FINANCE_RESOURCES.each do |r|
+  ResourceName.all.map{|r| r.table_name.to_sym}.each do |r|
     resources r, only: [:index, :create, :edit, :update, :destroy]
     get "#{r}/options", to: "#{r}#options"
     post "#{r}/options", to: "#{r}#process_option"
