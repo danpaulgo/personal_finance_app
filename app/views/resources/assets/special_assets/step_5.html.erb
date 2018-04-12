@@ -3,13 +3,12 @@
 
 <%= form_for @page_resource, url: process_special_asset_step_5_path do |f| %>
   <p class="form-category">Associated Expenses</p>
-  <div class="form-group">
-    <%= f.label :amount, "How much revenue does this property generate in a month?", class: "control-label" %>
-    <br>
-    <%= f.number_field "income[amount]", placeholder: "Amount (USD)", step: '0.01', value: (f.object.income[:amount].blank? ? nil : ('%.2f' % f.object.income[:amount])) %>
-    <%= f.label :associated_asset_id, "paid using: " %>
-    <%= select(:special_asset_steps_step5, "income[paid_using]", options_for_select(@asset_selections, selected: f.object.income[:paid_using]), include_blank: "Select Asset") %>
-  </div>
+  
+  <% @expenses.each do |expense| %>
+
+    <%= render partial: "resources/assets/special_assets/step_5_block", locals: {expense_type: expense, form_object: f} %>
+  
+  <% end %>
 
   <%= render partial: "shared/form_submit", locals: {button_text: "Submit Form"} %>
   
@@ -17,6 +16,8 @@
 <% end %>
 
 <%= render 'forms/form_footer' %>
+
+
 
 <%# form_tag process_step_five_path do %>
 

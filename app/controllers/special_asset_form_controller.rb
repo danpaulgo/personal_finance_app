@@ -101,8 +101,16 @@ class SpecialAssetFormController < AssetsController
   end
 
   def step_5
+    @questions = {
+      insurance: "How much do you pay for insurance on this #{@type_category.downcase} anually?",
+      misc: "About how much do you spend on miscellaneous expenses pertaining to this #{@type_category.downcase} anually?",
+      gaoline: "About how much do you spend on gasoline for this vehicle in a month?",
+      maintenance: "About how much do you spend on maintenance for this vehicle in a year?",
+      tax: "How much do you pay in taxes on this property anually?",
+      income: "How much income does this property generate anually?"
+    }
     @page_resource = "SpecialAssetSteps::Step5#{@type_category}".constantize.new
-    @asset_selections = current_user.assets.where(liquid: true).map{|asset| [asset.name, asset.id]}
+    @asset_selections = current_user.assets.where(primary: true).map{|asset| [asset.name, asset.id]}
     @expenses = @page_resource.all_attributes
     @expenses.delete(:income) if @type_category == "Property" && !session[:special_asset_step_1].income.to_boolean
     @expenses.each do |expense|

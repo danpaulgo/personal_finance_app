@@ -1,0 +1,9 @@
+<div class="form-group">
+  <%= form_object.label "#{expense_type}[amount]", "How much revenue does this property generate in a month?", class: "control-label" %>
+  <br>
+  <%= form_object.number_field "#{expense_type}[amount]", placeholder: "Amount (USD)", step: '0.01', value: (f.object.income[:amount].blank? ? nil : ('%.2f' % f.object.income[:amount])) %>
+  <label for="special_asset_steps_step5_#{expense_type}[paid_using]">
+    <%= expense_type == :income ? "deposited into" : "paid using" %>:
+  </label>
+  <%= select(:special_asset_steps_step5, "#{expense_type}[paid_using]", options_for_select(@asset_selections, selected: form_object.object.income[:paid_using]), include_blank: "Select Asset") %>
+</div>
