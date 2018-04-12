@@ -1,12 +1,18 @@
 <%= render 'resources/assets/form_header' %>
+<%= render partial: 'forms/form_header', locals: {form_title: "New Asset"} %>
 
 <%= form_for @page_resource, url: process_special_asset_step_5_path do |f| %>
+  <p class="form-category">Associated Expenses</p>
+  <div class="form-group">
+    <%= f.label :amount, "How much revenue does this property generate in a month?", class: "control-label" %>
+    <br>
+    <%= f.number_field "income[amount]", placeholder: "Amount (USD)", step: '0.01', value: (f.object.income[:amount].blank? ? nil : ('%.2f' % f.object.income[:amount])) %>
+    <%= f.label :associated_asset_id, "paid using: " %>
+    <%= select(:special_asset_steps_step5, "income[paid_using]", options_for_select(@asset_selections, selected: f.object.income[:paid_using]), include_blank: "Select Asset") %>
+  </div>
 
-  <%= f.label :amount, "How much revenue does this property generate in a month?", class: "control-label" %>
-  <br>
-  <%= f.number_field :income[:amount], placeholder: "Amount (USD)", step: '0.01', value: (f.object.amount.blank? ? nil : ('%.2f' % f.object.amount)) %>
-  <%= f.label :associated_asset_id, "paid using: " %>
-  <%= f.select(:income[:associated_asset_id], options_for_select(@asset_selections, selected: f.object.send(attr_name)), include_blank: "Select Asset") %>
+  <%= render partial: "shared/form_submit", locals: {button_text: "Submit Form"} %>
+  
 
 <% end %>
 

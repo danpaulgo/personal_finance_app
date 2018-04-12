@@ -154,8 +154,8 @@ module UserResourcesHelper
       f.text_field :name, placeholder: "Name", value: name_value
     end
 
-    def form_amount(f)
-      f.number_field :amount, placeholder: "Amount (USD)", step: '0.01', value: (f.object.amount.blank? ? nil : ('%.2f' % f.object.amount))
+    def form_amount(f, attr_name = "amount")
+      f.number_field attr_name, placeholder: "Amount (USD)", step: '0.01', value: (f.object.amount.blank? ? nil : ('%.2f' % f.object.amount))
     end
 
     def form_interest(f)

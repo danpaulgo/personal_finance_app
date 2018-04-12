@@ -103,8 +103,12 @@ class SpecialAssetFormController < AssetsController
   def step_5
     @page_resource = "SpecialAssetSteps::Step5#{@type_category}".constantize.new
     @asset_selections = current_user.assets.where(liquid: true).map{|asset| [asset.name, asset.id]}
-    # @expenses = @page_resource.all_attributes
-    # @expenses.delete(:income) if @type_category == "Property" && !session[:special_asset_step_1].income.to_boolean
+    @expenses = @page_resource.all_attributes
+    @expenses.delete(:income) if @type_category == "Property" && !session[:special_asset_step_1].income.to_boolean
+    @expenses.each do |expense|
+      @page_resource.send("#{expense}=", Hash.new)
+    end
+    # binding.pry
     render 'resources/assets/special_assets/step_5.html.erb'
     # binding.pry
 
