@@ -3,9 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def show
-    if logged_in?
-      # @future_net_worth = FutureNetWorth.new
-    else
+    if !logged_in?
       render 'static_pages/logged_out_home'
     end
   end

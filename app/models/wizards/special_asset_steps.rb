@@ -58,9 +58,7 @@ module SpecialAssetSteps
     validate :average_or_custom
 
     def average_or_custom
-      if average_rate.blank? && custom_rate.blank?
-        errors.add(:base, "Form may not be left blank")
-      end
+      errors.add(:base, "Form may not be left blank") if average_rate.blank? && custom_rate.blank?
     end
 
   end
@@ -69,9 +67,15 @@ module SpecialAssetSteps
 
     attr_accessor :insurance, :misc
 
-    def both_or_neither
-      all_attributes.each do |attr|
+    validate :both_or_neither
 
+    def both_or_neither
+      all_attributes.each do |attribute|
+        amount = send(attribute)[:amount] if !send(attribute).blank?
+        paid_using = send(attribute)[:paid_using] if !send(attribute).blank?
+        if (amount.blank? && !paid_using.blank?) || (!amount.blank? && paid_using.blank?)
+          errors.add("#{attribute}:", "Must answer both parts of question or leave completely blank")
+        end
       end
     end
 

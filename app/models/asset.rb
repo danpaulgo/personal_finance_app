@@ -10,4 +10,8 @@ class Asset < ApplicationRecord
     ResourceType.find(self.type_id)
   end
 
+  def to_s
+    name
+  end
+
 end
