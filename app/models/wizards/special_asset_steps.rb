@@ -65,8 +65,8 @@ module SpecialAssetSteps
 
   class Step5 < Base 
 
-    attr_accessor :insurance, :misc
-
+    attr_accessor :insurance, :miscellaneous
+    
     validate :both_or_neither
 
     def both_or_neither

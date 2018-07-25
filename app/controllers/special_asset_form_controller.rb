@@ -11,7 +11,7 @@ class SpecialAssetFormController < AssetsController
   def process_step_1
     clear_session_params
     step_type = "1_#{@type_category.downcase}"
-    @step_1 = "SpecialAssetSteps::Step1#{@type_category}".constantize.new(send(:step_params, step_type))
+    @step_1 = "SpecialAssetSteps::Step1#{@type_category}".constantize.new(step_params(step_type))
     validate_step @step_1
   end
 
@@ -48,6 +48,7 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_4
     @step_4 = SpecialAssetSteps::Step4.new(step_params(4))
+    binding.pry
     validate_step(@step_4)
   end
 
@@ -63,7 +64,7 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_5
     step_type = "5_#{@type_category.downcase}"
-    @step_5 = "SpecialAssetSteps::Step5#{@type_category}".constantize.new(self.send(:step_params, step_type))
+    @step_5 = "SpecialAssetSteps::Step5#{@type_category}".constantize.new(step_params(step_type))
     validate_step @step_5
   end
 
@@ -122,12 +123,12 @@ class SpecialAssetFormController < AssetsController
     def step_5_set_vars
       @questions = {
         insurance: "How much do you pay for insurance on this #{@type_category.downcase} anually?",
-        misc: "How much do you typically spend on miscellaneous expenses pertaining to this #{@type_category.downcase} anually?",
+        miscellaneous: "How much do you typically spend on miscellaneous expenses pertaining to this #{@type_category.downcase} anually?",
         gasoline: "How much do you typically spend on gasoline for this vehicle in a month?",
         maintenance: "How much do you typically spend on maintenance for this vehicle in a year?",
         tax: "How much do you pay in taxes on this property anually?",
         utilities: "How much do you typically pay for utilities (gas, electricity, water) in a month?",
-        income: "How much income does this property generate anually?"
+        income: "How much income does this property generate monthly?"
       }
       @asset_selections = current_user.assets.where(primary: true).map{|asset| [asset.name, asset.id]}
       @expenses = @page_resource.all_attributes
@@ -157,6 +158,7 @@ class SpecialAssetFormController < AssetsController
     def validate_step(step)
       step_number = step.class.to_s.match(/\:\:Step\d/)[0].last.to_i
       if step.valid?
+        flash.discard
         session[:"special_asset_step_#{step_number}"] = step
         successful_redirect(step_number)
       else
@@ -206,13 +208,13 @@ class SpecialAssetFormController < AssetsController
     def create_objects_from_session
       flash[:success] = []
       create_special_asset
-      binding.pry
       if present_steps == 1
         create_loan_expense
       elsif present_steps == 2
         create_loan
         create_loan_expense(:transfer)
       end
+      binding.pry
       present_expenses.each do |expense|
         create_expense(expense)
       end
@@ -229,24 +231,29 @@ class SpecialAssetFormController < AssetsController
     end
 
     def present_expenses
-      @step_5 = session[:special_asset_step_5]
+      # @step_5 = session[:special_asset_step_5]
       expenses = []
       @step_5.all_attributes.each do |attribute|
-        expenses.push attribute if !@step_5.send(attribute).nil?
+        expenses.push attribute if !@step_5.send(attribute).values.all?{|v| v.blank?}
       end
       expenses
     end
 
-    def step_params(step)
-      permitted_array = "SpecialAssetSteps::Step#{step.to_s.camelize}".constantize.new.all_attributes
-      if step.to_s[0,1] == "5"
-        initial = permitted_array
-        permitted_array = []
-        initial.each do |attr|
-          permitted_array.push eval "{#{attr}: [:amount, :paid_using]}"
-        end
+    def step_params(step_number)
+      
+      if step_number.to_s[0,1] == "5"
+        params.require(:"special_asset_steps_step#{step_number}").permit!
+      else
+        permitted_array = "SpecialAssetSteps::Step#{step_number.to_s.camelize}".constantize.new.all_attributes
+        params.require(:"special_asset_steps_step#{step_number}").permit(permitted_array)
+      #   initial = permitted_array
+      #   permitted_array = []
+      #   initial.each do |attr|
+      #     permitted_array.push eval "{#{attr}: [:amount, :paid_using]}"
+      #   end
+      # end
       end
-      params.require(:"special_asset_steps_step#{step}").permit(permitted_array)
+      
     end
 
     def save_resource(resource)
@@ -268,6 +275,7 @@ class SpecialAssetFormController < AssetsController
       @special_asset.amount = session[:special_asset_step_1].amount.to_f
       @special_asset = add_interest_to(@special_asset)
       save_resource(@special_asset)
+      session[:special_asset_id] = @special_asset.id
     end
 
     def add_interest_to(special_asset)
@@ -314,14 +322,31 @@ class SpecialAssetFormController < AssetsController
       if type == :transfer
         resource.liquid_asset_from_id = session[:special_asset_step_3].paid_using.to_i
         resource.destination_id = session[:special_asset_loan_id]
+        resource.type_id = 37
       elsif type == nil
         resource.associated_asset_id = session[:special_asset_step_3].paid_using.to_i
+        resource.type_id = 35
       end
       save_resource(resource)
     end
 
-    def create_expense(resource)
-      # ...
+    def create_expense(present_expense)
+      special_asset_name = Asset.find(session[:special_asset_id]).name
+      present_expense == :income ? resource = Income.new : resource = Expense.new 
+      resource.user = current_user
+      resource.name = "#{@type_category} #{present_expense.to_s} (#{special_asset_name})"
+      resource.amount = @step_5.send(present_expense)[:amount]
+      resource.associated_asset_id = @step_5.send(present_expense)[:paid_using]
+      type = ResourceType.find_by(name: present_expense.to_s.capitalize)
+      type.nil? ? resource.type_id = 35 : resource.type_id = type.id
+      case present_expense
+      when :insurance, :maintenance, :tax
+        resource.next_date = Date.today.at_beginning_of_year.next_year
+        resource.frequency = "Yearly"
+      else
+        resource.next_date = Date.today.at_beginning_of_month.next_month
+        resource.frequency = "Monthly"
+      end
       save_resource(resource)
     end
 
