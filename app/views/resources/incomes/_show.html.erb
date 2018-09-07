@@ -1,3 +1,4 @@
+<!-- SPECIFIC DATA INSERTED INTO GENERAL RESOURCES SHOW -->
 <div class="resource-show-item"><p class="item-title">Amount:</p><p class="item-value"><%= number_to_currency @resource.amount %></p></div>
 <div class="resource-show-item"><p class="item-title">Frequency:</p><p class="item-value"><%= @resource.frequency %></p></div>
 <div class="resource-show-item"><p class="item-title">Directed Into:</p><p class="item-value"><%= link_to @associated_asset.name, "/assets/#{@associated_asset.id}" %></p></div>

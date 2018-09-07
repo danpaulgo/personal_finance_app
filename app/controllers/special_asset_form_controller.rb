@@ -48,7 +48,6 @@ class SpecialAssetFormController < AssetsController
 
   def process_step_4
     @step_4 = SpecialAssetSteps::Step4.new(step_params(4))
-    binding.pry
     validate_step(@step_4)
   end
 
@@ -214,7 +213,6 @@ class SpecialAssetFormController < AssetsController
         create_loan
         create_loan_expense(:transfer)
       end
-      binding.pry
       present_expenses.each do |expense|
         create_expense(expense)
       end
