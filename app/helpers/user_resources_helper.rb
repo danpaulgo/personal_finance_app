@@ -1,7 +1,7 @@
 module UserResourcesHelper
 
   def input_fields(resource)
-    permitted_input = ["type_id", "name", "amount", "frequency", "interest", "liquid", "primary", "compound_frequency", "associated_asset_id", "liquid_asset_from_id", "next_date", "discontinued"]
+    permitted_input = ["type_id", "name", "amount", "frequency", "interest", "liquid", "primary", "compound_frequency", "associated_asset_id", "liquid_asset_from_id", "destination_id", "next_date", "end_date", "discontinued"]
     permitted_input & resource.attributes.keys
   end
 
@@ -208,11 +208,11 @@ module UserResourcesHelper
     end
 
     def form_end_date(f)
-      f.date_field :end_date
+      f.date_field :end_date, value: (f.object.end_date.to_date if f.object.end_date)
     end
 
     def form_next_date(f)
-      f.date_field :next_date, value: f.object.next_date
+      f.date_field :next_date, value: (f.object.next_date.to_date if f.object.next_date)
     end
 
     def form_liquid(f)

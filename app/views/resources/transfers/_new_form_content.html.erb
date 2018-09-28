@@ -1,0 +1,24 @@
+<!-- Type hidden -->
+<%= hidden_field_tag "transfer[type_id]", @type.id %>
+
+<%= render partial: "shared/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
+
+<%= render partial: "shared/form_section", locals: {form_object: f, label_for: :frequency, label_name: "Frequency", form_method: form_frequency(f)} %>
+
+<% if @type.id == 36 %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :liquid_asset_from_id, label_name: "From", form_method: form_select_liquid_asset(f, current_user, "liquid_asset_from_id")} %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :destination_id, label_name: "To", form_method: form_select_liquid_asset(f, current_user, "destination_id")} %>
+
+<% else %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :liquid_asset_from_id, label_name: "From", form_method: form_select_primary_asset(f, current_user, "liquid_asset_from_id")} %>
+
+  <%= render partial: "shared/form_section", locals: {form_object: f, label_for: :destination_id, label_name: "To", form_method: form_select_debt(f, current_user)} %>
+
+<% end %>
+
+<%= render partial: "shared/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(f)} %>
+
+<%= render partial: "shared/form_section", locals: {form_object: f, label_for: :end_date, label_name: "End Date (optional)", form_method: form_end_date(f)} %>

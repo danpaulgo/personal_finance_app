@@ -1,0 +1,11 @@
+<%= render partial: 'forms/form_header', locals: {form_title: "#{@form_type.capitalize} #{$resource}"} %>
+<p class="form-category"><%= @type_category %></p>
+<%= form_for(@page_resource) do |f| %>
+
+<%= render partial: "resources/#{$resource_plural}/#{@form_type}_form_content", locals: {f: f} %>
+
+<%= render partial: "shared/form_submit", locals: {button_text: "Add #{$resource}"} %>
+
+<% end %>
+
+<%= render 'forms/form_footer' %>

@@ -91,51 +91,36 @@ class UserResourcesController < ApplicationController
     @type = ResourceType.find_by(id: params[:type_id]) 
     if @type && ResourceName.find_by(name: $resource).resource_types.include?(@type)
       @type_category = type_category(@type)
-      case $resource
-      when "Asset"
-        @type.id == 1 || @type.id == 2 ? @page_resource.primary = true : @page_resource.primary = false
-        render 'resources/assets/new.html.erb'
-      when "Debt"
-        # Add default params to @page_resource
-        render 'resources/debts/new.html.erb'
-      when "Income"
-        # Add default params to @page_resource
-        render 'resources/incomes/new.html.erb'
-      when "Expense"
-        # Add default params to @page_resource
-        render 'resources/expenses/new.html.erb'
-      when "Transfer"
-        # Add default params to @page_resource
-        render 'resources/transfers/new.html.erb'
-      end
-
+      @form_type = "new"
+      render "resources/form_page"
     else
       flash[:error] = ["Invalid #{@page_resource.class.name.downcase} type"]
       redirect_to "/#{$resource_plural}/options"
     end
-
-    # render 'resources/new.html.erb'
   end
 
   def create
     @page_resource = $resource.constantize.new(resource_params)
     @page_resource.user_id = current_user.id
     @type = @page_resource.type
-    @type_category = type_category(@type)
-    @type.id == 1 || @type.id == 2 ? @primary = true : @primary = false
+    if $resource == "Asset"
+      @type.id == 1 || @type.id == 2 ? @page_resource.primary = true : @page_resource.primary = false
+    end
     nil_to_zero(@page_resource)
     if @page_resource.save
       flash[:success] = ["#{$resource} saved"]
       redirect_to "/#{$resource_plural}" 
     else
-      @button_text = "Add Asset"
-      @submit_path = assets_path
-      render "resources/#{$resource_plural}/new" 
+      @type_category = type_category(@type)
+      @button_text = "Add #{$resource}"
+      @submit_path = "/#{$resource_plural}"
+      @form_type = "new"
+      render "resources/form_page" 
     end
   end
 
   def edit
-    render 'resources/edit.html.erb'
+    render partial: "resources/form_page", locals:{form_type: "new"} 
   end
 
   def update
@@ -145,7 +130,7 @@ class UserResourcesController < ApplicationController
       flash[:success] = ["#{$resource} updated"]
       redirect_to "/#{$resource_plural}" 
     else
-      render 'resources/edit'
+      render partial: "resources/form_page", locals:{form_type: "new"} 
     end
   end
 
