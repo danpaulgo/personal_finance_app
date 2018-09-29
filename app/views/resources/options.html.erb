@@ -1,14 +1,10 @@
 <%= render partial: 'forms/form_header', locals: {form_title: @title} %>
 <p class="form-category"><%= "Select #{$resource} Type" %></p>
   <%= form_for @page_resource, url: "/#{$resource_plural}/options" do |f| %>
-    <div id="options-form" class="form-group">
-      <div class="option-input">
-        <%= f.select(:type_id, options_for_select(@type_selections), include_blank: "Select Type") %>
-      </div>
-    </div> 
-    <div class="col-md-offset-4 col-md-4">
-      <%= submit_tag "Next", id: "btn-next", class: "btn btn-info" %>
+    <div class="form-group form-input col-md-9">
+      <%= form_select_type(f, "Asset") %>
     </div>
+    <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
   <% end %>
 <%= render 'forms/form_footer' %>
 

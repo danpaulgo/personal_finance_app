@@ -43,18 +43,14 @@ class UserResourcesController < ApplicationController
   def options
     @page_resource = $new_resource
     @title = "New #{$resource}"
-    @types = ResourceName.find_by(name: $resource).resource_types.sort_by{|type| type.name}
-    @type_selections = @types.map do |type|
-      [type.name, type.id]
-    end
     # Sends "Other" option to end of list
-    @type_selections.each_with_index do |val, index|
-      if val[0] == "Other"
-        @type_selections.delete_at(index)
-        @type_selections.push(val)
-        break
-      end
-    end
+    # @type_selections.each_with_index do |val, index|
+    #   if val[0] == "Other"
+    #     @type_selections.delete_at(index)
+    #     @type_selections.push(val)
+    #     break
+    #   end
+    # end
     render "resources/options.html.erb"
   end
 
@@ -92,7 +88,7 @@ class UserResourcesController < ApplicationController
     if @type && ResourceName.find_by(name: $resource).resource_types.include?(@type)
       @type_category = type_category(@type)
       @form_type = "new"
-      render "resources/form_page"
+      set_button_text(@form_type)
     else
       flash[:error] = ["Invalid #{@page_resource.class.name.downcase} type"]
       redirect_to "/#{$resource_plural}/options"
@@ -115,23 +111,20 @@ class UserResourcesController < ApplicationController
       @button_text = "Add #{$resource}"
       @submit_path = "/#{$resource_plural}"
       @form_type = "new"
+      set_button_text(@form_type)
       render "resources/form_page" 
     end
   end
 
   def edit
-    render partial: "resources/form_page", locals:{form_type: "new"} 
+    @page_resource = current_user.send($resource_plural).find_by(id: params[:id])
+    @form_type = "edit"
+    set_button_text(@form_type)
+    render "resources/form_page" 
   end
 
   def update
-    @page_resource.update_attributes(resource_params)
-    nil_to_zero(@page_resource)
-    if @page_resource.save
-      flash[:success] = ["#{$resource} updated"]
-      redirect_to "/#{$resource_plural}" 
-    else
-      render partial: "resources/form_page", locals:{form_type: "new"} 
-    end
+    binding.pry
   end
 
   def destroy
@@ -158,6 +151,15 @@ class UserResourcesController < ApplicationController
       if !(@page_resource.user ==  current_user)
         flash[:error] = ["Invalid User"]
         redirect_to root_path
+      end
+    end
+
+    def set_button_text(form_type)
+      case form_type
+      when "new"
+        @button_text = "Add #{$resource}"
+      when "edit"
+        @button_text = "Update #{$resource}"
       end
     end
 

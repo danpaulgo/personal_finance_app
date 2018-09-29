@@ -1,3 +1,5 @@
+# THIS IS NEW
+
 module UserResourcesHelper
 
   def input_fields(resource)
@@ -28,75 +30,12 @@ module UserResourcesHelper
     end
   end
 
-
-  #   if column == "liquid"
-  #     liquid_output(object)
-  #   elsif column == "amount" || column == "payment"
-  #     nil_to_zero(object)
-  #     amount_output(object)
-  #   elsif column == "interest"
-  #     interest_output(object)
-  #   elsif object[column].blank?
-  #     "N/a"
-  #   else
-  #     object[column]
-  #   end
-  # end
-
-  # def form_field(f, attribute)
-  #   case attribute
-  #   when "amount"
-  #     form_amount(f)
-  #   when "interest"
-  #     form_interest(f)
-  #   when "compound_frequency"
-  #     form_compound_frequency(f)
-  #   when "frequency"
-  #     form_frequency(f)
-  #   when "frequency"
-  #     form_liquid(f)
-  #   # when "payment"
-  #   #   form_payment(f)
-  #   # when "payment_frequency"
-  #   #   form_payment_frequency(f)
-  #   when "description"
-  #     form_description(f)
-  #   else
-  #     f.text_field attribute.to_sym, placeholder: attribute.capitalize
-  #   end
-  # end
-
-    # if attribute == "amount" 
-    #   form_amount(f)
-    # elsif attribute == "interest"
-    #   form_interest(f)
-    # elsif attribute == "compound_frequency"
-    #   form_compound_frequency(f)
-    # elsif attribute == "frequency"
-    #   form_frequency(f)
-    # elsif attribute == "description"
-    #   form_description(f)
-    # elsif attribute == "payment"
-    #   form_payment(f)
-    # elsif attribute == "payment_frequency"
-    #   form_payment_frequency(f)
-    # else
-    #   f.text_field attribute.to_sym, placeholder: attribute.capitalize
-    # end
-
   def nil_to_zero(resource)
-    # resource.amount = 0 if resource.amount == nil
     resource.interest = 0 if resource.methods.include?("interest") && resource.interest == nil
-    resource
-    # resource.payment = 0 if resource.methods.include?("payment") && resource.payment == nil    
+    resource    
   end
 
   private
-      
-    # Preps individual pieces of data to be displayed on index page
-    # def liquid_output(object)
-    #   object.liquid == true ? "Yes" : "No"
-    # end
 
     # DATA DISPLAY HELPERS
 
@@ -205,6 +144,18 @@ module UserResourcesHelper
     def form_select_debt(f, user)
       selections = user.debts.map{|debt| [debt.name, debt.id]}
       f.select(:destination_id, options_for_select(selections, selected: f.object.destination_id), include_blank: "Select Debt")
+    end
+
+    def form_select_type(f, resource_name)
+      selections = ResourceType.all.where(resource_name_id: ResourceName.find_by(name: resource_name).id).sort_by{|rn| rn.name}.map{|type| [type.name, type.id]}
+      selections.each_with_index do |val, index|
+        if val[0] == "Other"
+          selections.delete_at(index)
+          selections.push(val)
+          break
+        end
+      end
+      f.select(:type_id, options_for_select(selections, selected: f.object.type_id), include_blank: "Select Type")
     end
 
     def form_end_date(f)
