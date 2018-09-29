@@ -1,5 +1,3 @@
-# THIS IS NEW
-
 module UserResourcesHelper
 
   def input_fields(resource)

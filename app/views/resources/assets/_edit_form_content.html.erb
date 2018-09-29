@@ -1,1 +1,13 @@
-<%= render partial: "shared/form_section", locals: {form_object: f, label_for: :type, label_name: "Select Asset Type", form_method: form_select_type(f, "Asset")} %>
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :type, label_name: "Select Asset Type", form_method: form_select_type(f, "Asset")} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :name, label_name: "Name", form_method: form_name(f, @type_category, @page_resource.name)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :amount, label_name: "Current Value (USD)", form_method: form_amount(f)} %>
+
+<%= render partial: "forms/liquid_question", locals: {form_object: f} %>
+
+<%= render partial: "forms/primary_question", locals: {form_object: f} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :interest, label_name: "Estimated Rate of Appreciation (%)", form_method: form_interest(f)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :compound_frequency, label_name: "Compound Frequency", form_method: form_compound_frequency(f)} %>

@@ -1,0 +1,9 @@
+<div class="form-group">
+  <label class="col-md-3 control-label">Liquid?</label>
+  <div class="col-md-9">
+    <%= form_object.label :liquid, "Yes", value: "true" %>
+    <%= form_object.radio_button :liquid, true %>
+    <%= form_object.label :liquid, "No", value: "false", class: "right-radio" %>
+    <%= form_object.radio_button :liquid, false %>
+  </div>
+</div>

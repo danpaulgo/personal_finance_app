@@ -5,19 +5,19 @@
 
     <p class="form-category">Create New Account</p>
 
-    <%= render partial: "shared/form_section", locals: {col: true, form_object: f, label_for: :first_name, label_name: "First Name", form_method: form_user_name(f, :first)} %>
+    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :first_name, label_name: "First Name", form_method: form_user_name(f, :first)} %>
 
-    <%= render partial: "shared/form_section", locals: {col: true, form_object: f, label_for: :last_name, label_name: "Last Name", form_method: form_user_name(f, :last)} %>
+    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :last_name, label_name: "Last Name", form_method: form_user_name(f, :last)} %>
 
-    <%= render partial: "shared/form_section", locals: {col: true, form_object: f, label_for: :email, label_name: "Email", form_method: form_email(f)} %>
+    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :email, label_name: "Email", form_method: form_email(f)} %>
 
-    <%= render partial: "shared/form_section", locals: {col: true, form_object: f, label_for: :password, label_name: "Password", form_method: form_password(f)} %>
+    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :password, label_name: "Password", form_method: form_password(f)} %>
 
-    <%= render partial: "shared/form_section", locals: {col: true, form_object: f, label_for: :password_confirmation, label_name: "Confirm Password", form_method: form_password_confirmation(f)} %>
+    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :password_confirmation, label_name: "Confirm Password", form_method: form_password_confirmation(f)} %>
 
     <!-- Button -->
 
-    <%= render partial: "shared/form_submit", locals: {button_text: yield(:button)} %>                                      
+    <%= render partial: "forms/form_submit", locals: {button_text: yield(:button)} %>                                      
 <!--     <div class="col-md-offset-4 col-md-4">
       <%# f.submit yield(:button), id: "btn-signup", class: "btn btn-info" %>
       <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>

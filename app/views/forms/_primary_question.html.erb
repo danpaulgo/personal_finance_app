@@ -1,0 +1,9 @@
+<div class="form-group">
+  <label class="col-md-3 control-label">Primary Asset?</label>
+  <div class="col-md-9">
+    <%= form_object.label :primary, "Yes", value: "true" %>
+    <%= form_object.radio_button :primary, true %>
+    <%= form_object.label :primary, "No", value: "false", class: "right-radio" %>
+    <%= form_object.radio_button :primary, false %>
+  </div>
+</div>

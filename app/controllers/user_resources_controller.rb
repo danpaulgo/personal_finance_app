@@ -89,6 +89,7 @@ class UserResourcesController < ApplicationController
       @type_category = type_category(@type)
       @form_type = "new"
       set_button_text(@form_type)
+      render "resources/form_page"
     else
       flash[:error] = ["Invalid #{@page_resource.class.name.downcase} type"]
       redirect_to "/#{$resource_plural}/options"
@@ -105,7 +106,7 @@ class UserResourcesController < ApplicationController
     nil_to_zero(@page_resource)
     if @page_resource.save
       flash[:success] = ["#{$resource} saved"]
-      redirect_to "/#{$resource_plural}" 
+      redirect_to "/#{$resource_plural}/#{@page_resource.id}" 
     else
       @type_category = type_category(@type)
       @button_text = "Add #{$resource}"
@@ -124,7 +125,14 @@ class UserResourcesController < ApplicationController
   end
 
   def update
-    binding.pry
+    if @page_resource.update(resource_params)
+      flash[:success] = ["#{$resource} successfully updated"]
+      redirect_to "/#{$resource_plural}/#{@page_resource.id}" 
+    else
+      @form_type = "edit"
+      set_button_text(@form_type)
+      render "resources/form_page" 
+    end
   end
 
   def destroy
