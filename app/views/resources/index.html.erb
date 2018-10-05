@@ -4,20 +4,24 @@
     <div class="resource-listings">
       <% @all.each_with_index do |r,i| %>
         <div class="resource-item clearfix" id="<%= 'alternate-grey' if i%2 !=0 %>">
+          
           <div class="resource-box-left">
             <p class="resource-name" id="<%= 'transfer-name' if $resource == "Transfer" %>"><%= link_to r.name, "#{$resource_plural}/#{r.id}" %></p>
             <p class="resource-type"><%= r.type.name %></p>
           </div>
+
           <div class="resource-box-middle">
             <p class="resource-price <%= "push-down" if $resource == "Asset" || $resource == "Debt" %>"><%= number_to_currency(r.amount) %></p>
             <% if $resource == "Income" || $resource == "Expense" || $resource == "Transfer" %>
               <p class="resource-frequency"><%= r.frequency %></p>
             <% end %>
           </div>
+          
           <div class="resource-box-right">
             <%= link_to "edit", "/#{$resource_plural}/#{r.id}/edit", class: "edit-button" %>
             <%= link_to 'delete',  "/#{$resource_plural}/#{r.id}",  method: :delete, data: { confirm: "Are you sure you would like to delete this #{$resource.downcase}?" } %>
           </div>
+
         </div>
       <% end %>
       <% case $resource %>

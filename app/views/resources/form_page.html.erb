@@ -1,10 +1,14 @@
-<%= render partial: 'forms/form_header', locals: {form_title: "#{@form_type.capitalize} #{$resource}"} %>
+<%= render partial: 'forms/form_header', locals: {form_title: "#{@title_text} #{$resource}"} %>
 
 <p class="form-category"><%= @type_category %></p>
 
 <%= form_for(@page_resource) do |f| %>
 
-<%= render partial: "resources/#{$resource_plural}/#{@form_type}_form_content", locals: {f: f} %>
+<% if @form_type == "edit" && $resource != "Transfer" %>
+  <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :type, label_name: "Select #{$resource} Type", form_method: form_select_type(f, $resource)} %>
+<% end %>
+
+<%= render partial: "resources/#{$resource_plural}/#{@form_type}form_content", locals: {f: f} %>
 
 <%= render partial: "forms/form_submit", locals: {button_text: @button_text} %>
 

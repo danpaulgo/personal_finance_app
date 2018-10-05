@@ -1,11 +1,11 @@
 <!-- Type hidden -->
-<%= hidden_field_tag "transfer[type_id]", @type.id %>
+<%= hidden_field_tag "transfer[type_id]", @page_resource.type_id if @page_resource.id.nil? %>
 
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
 
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :frequency, label_name: "Frequency", form_method: form_frequency(f)} %>
 
-<% if @type.id == 36 %>
+<% if @page_resource.type_id == 36 %>
 
   <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :liquid_asset_from_id, label_name: "From", form_method: form_select_liquid_asset(f, current_user, "liquid_asset_from_id")} %>
 

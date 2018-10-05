@@ -1,5 +1,3 @@
-<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :type, label_name: "Select Asset Type", form_method: form_select_type(f, "Asset")} %>
-
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :name, label_name: "Name", form_method: form_name(f, @type_category, @page_resource.name)} %>
 
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :amount, label_name: "Current Value (USD)", form_method: form_amount(f)} %>

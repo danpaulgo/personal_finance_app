@@ -12,9 +12,16 @@ class Transfer < ApplicationRecord
     Asset.find_by(id: liquid_asset_from_id).liquid == true
   end
 
+  def origin
+    Asset.find(liquid_asset_from_id)
+  end
+
+  def destination
+    type_id == 36 ? Asset.find_by(id: destination_id) : Debt.find_by(id: destination_id)
+  end
+
   def name
-    type_id == 36 ? destination = Asset.find_by(id: destination_id) : destination = Debt.find_by(id: destination_id)
-    "#{Asset.find_by(id: liquid_asset_from_id).name} > #{destination.name}"
+    "#{origin.name} > #{destination.name}"
   end
 
 end

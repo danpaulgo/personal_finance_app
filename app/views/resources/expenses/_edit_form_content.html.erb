@@ -1,0 +1,11 @@
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :name, label_name: "Name", form_method: form_name(f, @type_category, @page_resource.name)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :amount, label_name: "Current Value (USD)", form_method: form_amount(f)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :frequency, label_name: "Frequency", form_method: form_frequency(f)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :associated_asset_id, label_name: "Paid Using", form_method: form_select_primary_asset(f, current_user)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(f)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :end_date, label_name: "End Date (optional)", form_method: form_end_date(f)} %>

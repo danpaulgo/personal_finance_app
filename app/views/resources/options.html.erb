@@ -2,9 +2,9 @@
 <p class="form-category"><%= "Select #{$resource} Type" %></p>
   <%= form_for @page_resource, url: "/#{$resource_plural}/options" do |f| %>
     <div class="form-group form-input col-md-9">
-      <%= form_select_type(f, "Asset") %>
+      <%= form_select_type(f, $resource) %>
     </div>
-    <%= render partial: "shared/form_submit", locals: {button_text: "Next"} %>
+    <%= render partial: "forms/form_submit", locals: {button_text: "Next"} %>
   <% end %>
 <%= render 'forms/form_footer' %>
 

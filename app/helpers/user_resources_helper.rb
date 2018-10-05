@@ -17,8 +17,6 @@ module UserResourcesHelper
       type_output(object)
     when "amount"
       amount_output(nil_to_zero(object))
-    # when "liquid"
-    #   liquid_output(object)
     when "interest"
       interest_output(object)      
     when "liquid"
@@ -99,13 +97,8 @@ module UserResourcesHelper
       f.number_field :interest, placeholder: "Interest Rate (%)", step: :any
     end
 
-    # def form_compound_frequency(f)
-    #   frequency_selections = ["Daily", "Weekly", "Monthly", "Yearly"]
-    #   f.select(:compound_frequency, options_for_select(frequency_selections, selected: f.object.compound_frequency), include_blank: "Compound Frequency")
-    # end
-
     def form_frequency(f)
-      frequency_selections = ["One-time", "Daily", "Weekly", "Monthly", "Yearly"]
+      frequency_selections = ["One-Time", "Daily", "Weekly", "Monthly", "Yearly"]
       f.select(:frequency, options_for_select(frequency_selections, selected: f.object.frequency), include_blank: "Select Frequency")
     end
 
@@ -119,14 +112,13 @@ module UserResourcesHelper
       f.number_field :payment, placeholder: "Payment Amount (USD)", step: '0.01', value: (f.object.amount.nil? ? nil : ('%.2f' % f.object.amount))
     end
 
-    # def form_payment_frequency(f)
-    #   frequency_selections = ["Daily", "Weekly", "Monthly", "Yearly"]
-    #   f.select(:payment_frequency, options_for_select(frequency_selections, selected: f.object.payment_frequency), include_blank: "Payment Frequency")
-
-    # end
-
     def form_description(f)
       f.text_area :description, placeholder: "Description"
+    end
+
+    def form_select_asset(f, user)
+      selections = user.assets
+      f.select(:destination_id, options_for_select(selections, selected: f.object.destination_id), include_blank: "Select Asset")
     end
 
     def form_select_primary_asset(f, user, attr_name = "associated_asset_id")

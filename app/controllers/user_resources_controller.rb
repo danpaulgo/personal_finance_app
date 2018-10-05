@@ -1,6 +1,5 @@
 class UserResourcesController < ApplicationController
-  # require_relative 'user_resources_module.rb'
-  # include UserResources
+
   include SessionsHelper
   include UserResourcesHelper
 
@@ -10,8 +9,6 @@ class UserResourcesController < ApplicationController
   def self.set_resource(resource)
     $resource = resource
     $resource_plural = $resource.downcase.pluralize
-    # $resource_name = ResourceName.find_by(table_name: $resource_plural).name
-    # $resource_name_singular = $resource.split("_")[0].capitalize
     $new_resource = $resource.downcase.camelize.constantize.new
   end
 
@@ -43,14 +40,6 @@ class UserResourcesController < ApplicationController
   def options
     @page_resource = $new_resource
     @title = "New #{$resource}"
-    # Sends "Other" option to end of list
-    # @type_selections.each_with_index do |val, index|
-    #   if val[0] == "Other"
-    #     @type_selections.delete_at(index)
-    #     @type_selections.push(val)
-    #     break
-    #   end
-    # end
     render "resources/options.html.erb"
   end
 
@@ -87,8 +76,9 @@ class UserResourcesController < ApplicationController
     @type = ResourceType.find_by(id: params[:type_id]) 
     if @type && ResourceName.find_by(name: $resource).resource_types.include?(@type)
       @type_category = type_category(@type)
-      @form_type = "new"
-      set_button_text(@form_type)
+      @form_type = "new_"
+      @title_text = "New"
+      set_button_text(@title_text)
       render "resources/form_page"
     else
       flash[:error] = ["Invalid #{@page_resource.class.name.downcase} type"]
@@ -111,16 +101,18 @@ class UserResourcesController < ApplicationController
       @type_category = type_category(@type)
       @button_text = "Add #{$resource}"
       @submit_path = "/#{$resource_plural}"
-      @form_type = "new"
-      set_button_text(@form_type)
+      @form_type = "new_"
+      @title_text = "New"
+      set_button_text(@title_text)
       render "resources/form_page" 
     end
   end
 
   def edit
     @page_resource = current_user.send($resource_plural).find_by(id: params[:id])
-    @form_type = "edit"
-    set_button_text(@form_type)
+    $resource == "Transfer" ? @form_type = "" : @form_type = "edit_"
+    @title_text = "Edit"
+    set_button_text(@title_text)
     render "resources/form_page" 
   end
 
@@ -129,15 +121,24 @@ class UserResourcesController < ApplicationController
       flash[:success] = ["#{$resource} successfully updated"]
       redirect_to "/#{$resource_plural}/#{@page_resource.id}" 
     else
-      @form_type = "edit"
-      set_button_text(@form_type)
+      @form_type = "edit_"
+      @title_text = "Edit"
+      set_button_text(@title_text)
       render "resources/form_page" 
     end
   end
 
   def destroy
+    # resource_name = @page_resource.name
+    associated_transfers = associated_transfers(@page_resource.id)
+    transfer_names = associated_transfers.map{|t| t.name}
     if @page_resource.destroy
-      flash[:success] = ["#{$resource} deleted"]
+      flash[:success] = ["#{$resource} deleted (#{@page_resource.name})"]
+      associated_transfers.each_with_index do |t, i|
+        t.destroy
+        flash[:success] += ["Associated transfer deleted (#{transfer_names[i]})"]
+      end
+
       redirect_to "/#{$resource_plural}"
     end
   end
@@ -164,10 +165,22 @@ class UserResourcesController < ApplicationController
 
     def set_button_text(form_type)
       case form_type
-      when "new"
+      when "New"
         @button_text = "Add #{$resource}"
-      when "edit"
+      when "Edit"
         @button_text = "Update #{$resource}"
+      end
+    end
+
+    def associated_transfers(resource_id)
+      if $resource == "Asset"
+        transfers_a = Transfer.where(liquid_asset_from_id: resource_id)
+        transfers_b = Transfer.where(type_id: 36).where(destination_id: resource_id)
+        transfers_a + transfers_b
+      elsif $resource == "Debt"
+        Transfer.where(type_id: 37).where(destination_id: resource_id)
+      else
+        []
       end
     end
 

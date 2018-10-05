@@ -1,0 +1,7 @@
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :name, label_name: "Name", form_method: form_name(f, @type_category, @page_resource.name)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount (USD)", form_method: form_amount(f)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :interest, label_name: "Interest Rate (%)", form_method: form_interest(f)} %>
+
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :compound_frequency, label_name: "Compound Frequency", form_method: form_compound_frequency(f)} %>

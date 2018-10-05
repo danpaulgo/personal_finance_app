@@ -58,7 +58,7 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
     income_type = (19..24).to_a.sample
     income_next_date = Date.today
     income_end_date =  [Date.new(2020),Date.new(2030)].sample
-    income_frequency = ["One Time", "Monthly", "Weekly", "Yearly"].sample
+    income_frequency = ["One-Time", "Monthly", "Weekly", "Yearly"].sample
     john.incomes.create(
       type_id: income_type,
       name: income_name,
@@ -74,7 +74,7 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
     expense_type = (25..35).to_a.sample
     expense_next_date = Date.tomorrow
     expense_end_date =  [Date.new(2020),Date.new(2030), nil].sample
-    expense_frequency = ["One Time", "Monthly", "Weekly", "Yearly"].sample
+    expense_frequency = ["One-Time", "Monthly", "Weekly", "Yearly"].sample
     john.expenses.create(
       type_id: expense_type,
       name: expense_name,
@@ -88,6 +88,7 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
 
   25.times do
 
+    primary_assets = Asset.all.map{|a| a.id if a.primary == true}.compact
     liquid_assets = Asset.all.map{|a| a.id if a.liquid == true}.compact
     all_assets = Asset.all.map{|a| a.id}
     all_debts = Debt.all.map{|d| d.id}
@@ -99,9 +100,11 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
     transfer_frequency = ["One-Time", "Monthly", "Weekly", "Yearly"].sample
     transfer_liquid_asset_id = liquid_assets.sample
     if transfer_type == 36
-      all_assets.delete(transfer_liquid_asset_id)
-      transfer_destination_id = all_assets.sample
+      transfer_origin_id = liquid_assets.sample
+      liquid_assets.delete(transfer_origin_id)
+      transfer_destination_id = liquid_assets.sample
     else
+      transfer_origin_id = primary_assets.sample
       transfer_destination_id = all_debts.sample
     end
     transfer = john.transfers.create(
