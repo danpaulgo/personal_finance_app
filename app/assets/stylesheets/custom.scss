@@ -724,6 +724,17 @@ div.resource-show-wrapper{
       }
     }
   }
+  div#signupbox{
+    p.add-resource-link{
+      text-align: left;
+      display: block;
+      font-size: 16px;
+      margin-top: 40px;
+      a{
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 

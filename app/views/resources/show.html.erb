@@ -10,4 +10,5 @@
   <div class="edit-resource"><%= link_to "Edit", "/#{$resource_plural}/#{@resource.id}/edit" %> | <%= link_to 'Delete',  "/#{$resource_plural}/#{@resource.id}",  method: :delete, data: { confirm: "Are you sure you would like to delete this #{$resource.downcase}?" } %></div>
 </div>
 
-<%= render 'forms/form_footer' %>
+<%= render 'shared/show_footer' %>
+

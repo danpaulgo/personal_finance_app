@@ -1,7 +1,8 @@
-<%= render 'resources/errors', object: @user %>
 <%= render partial: 'forms/form_header', locals: {form_title: "Sign Up", corner_link_path: "/login", corner_link_text: "Login"} %>
     
   <%= form_for @user do |f| %>
+
+    <%= render 'resources/errors', object: @user %>
 
     <p class="form-category">Create New Account</p>
 
