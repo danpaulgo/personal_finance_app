@@ -1,5 +1,5 @@
 <!-- Type hidden -->
-<%= hidden_field_tag "transfer[type_id]", @page_resource.type_id if @page_resource.id.nil? %>
+<%= hidden_field_tag "transfer[type_id]", @page_resource.type_id %>
 
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
 
@@ -19,6 +19,6 @@
 
 <% end %>
 
-<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Payment Date", form_method: form_next_date(f)} %>
+<%= render partial: "forms/form_section", locals: {form_object: f, label_for: :next_date, label_name: "Next Transfer Date", form_method: form_next_date(f)} %>
 
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :end_date, label_name: "End Date (optional)", form_method: form_end_date(f)} %>

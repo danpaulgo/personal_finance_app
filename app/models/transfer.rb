@@ -4,9 +4,7 @@ class Transfer < ApplicationRecord
 
   validates :user_id, :liquid_asset_from_id, :destination_id, :type_id, :next_date, :amount, :frequency, presence: true
 
-  def type
-    ResourceType.find(self.type_id)
-  end
+  include UserResource
 
   def asset_liquid?
     Asset.find_by(id: liquid_asset_from_id).liquid == true

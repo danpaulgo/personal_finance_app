@@ -73,10 +73,11 @@ class UserResourcesController < ApplicationController
 
   def new
     @page_resource = $new_resource
-    @type = ResourceType.find_by(id: params[:type_id]) 
+    @type = ResourceType.find_by(id: params[:type_id])
+    @page_resource.type_id = @type.id 
     if @type && ResourceName.find_by(name: $resource).resource_types.include?(@type)
       @type_category = type_category(@type)
-      @form_type = "new_"
+      $resource == "Transfer" ? @form_type = "" : @form_type = "new_"
       @title_text = "New"
       set_button_text(@title_text)
       render "resources/form_page"
@@ -101,7 +102,7 @@ class UserResourcesController < ApplicationController
       @type_category = type_category(@type)
       @button_text = "Add #{$resource}"
       @submit_path = "/#{$resource_plural}"
-      @form_type = "new_"
+      $resource == "Transfer" ? @form_type = "" : @form_type = "new_"
       @title_text = "New"
       set_button_text(@title_text)
       render "resources/form_page" 
@@ -121,7 +122,7 @@ class UserResourcesController < ApplicationController
       flash[:success] = ["#{$resource} successfully updated"]
       redirect_to "/#{$resource_plural}/#{@page_resource.id}" 
     else
-      @form_type = "edit_"
+      $resource == "Transfer" ? @form_type = "" : @form_type = "edit_"
       @title_text = "Edit"
       set_button_text(@title_text)
       render "resources/form_page" 

@@ -2,7 +2,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :incomes, dependent: :destroy
+  has_many :incomes, dependent: :destroy # dependent: :destroy makes sure all user's incomes are deleted if user is deleted
   has_many :expenses, dependent: :destroy
   has_many :debts, dependent: :destroy
   has_many :assets, dependent: :destroy
@@ -42,6 +42,26 @@ class User < ApplicationRecord
 
   def liquid_net_worth
     number_to_currency(liquid_assets-total_debts)
+  end
+
+  def future_net_worth(date)
+
+  end
+
+  def future_asset_value(date)
+
+  end
+
+  def future_debt_value(date)
+
+  end
+
+  def future_single_asset_value(date)
+    
+  end
+
+  def future_single_debt_value(date)
+
   end
 
 end

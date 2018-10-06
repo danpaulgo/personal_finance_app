@@ -65,7 +65,7 @@ module SpecialAssetSteps
 
   class Step5 < Base 
 
-    attr_accessor :insurance, :miscellaneous
+    attr_accessor :insurance, :maintenance, :miscellaneous
     
     validate :both_or_neither
 
@@ -83,7 +83,7 @@ module SpecialAssetSteps
 
   class Step5Vehicle < Step5
 
-    attr_accessor :gasoline, :maintenance
+    attr_accessor :gasoline
 
   end
 

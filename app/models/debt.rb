@@ -4,8 +4,10 @@ class Debt < ApplicationRecord
 
   validates :type_id, :name, :amount, :user_id, :interest, :compound_frequency, :presence => true
 
-  def type
-    ResourceType.find(self.type_id)
+  include UserResource
+
+  def associated_transfers
+    Transfer.where(type_id: 37).where(destination_id: id)
   end
 
 end

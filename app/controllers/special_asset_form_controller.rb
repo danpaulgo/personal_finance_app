@@ -124,7 +124,7 @@ class SpecialAssetFormController < AssetsController
         insurance: "How much do you pay for insurance on this #{@type_category.downcase} anually?",
         miscellaneous: "How much do you typically spend on miscellaneous expenses pertaining to this #{@type_category.downcase} anually?",
         gasoline: "How much do you typically spend on gasoline for this vehicle in a month?",
-        maintenance: "How much do you typically spend on maintenance for this vehicle in a year?",
+        maintenance: "How much do you typically spend on repairs and maintenance for this #{@type_category.downcase} anually?",
         tax: "How much do you pay in taxes on this property anually?",
         utilities: "How much do you typically pay for utilities (gas, electricity, water) in a month?",
         income: "How much income does this property generate monthly?"
@@ -338,7 +338,7 @@ class SpecialAssetFormController < AssetsController
       type = ResourceType.find_by(name: present_expense.to_s.capitalize)
       type.nil? ? resource.type_id = 35 : resource.type_id = type.id
       case present_expense
-      when :insurance, :maintenance, :tax
+      when :insurance, :maintenance, :tax, :miscellaneous
         resource.next_date = Date.today.at_beginning_of_year.next_year
         resource.frequency = "Yearly"
       else

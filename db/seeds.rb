@@ -144,6 +144,7 @@ ResourceType.create(name: "Other", resource_name_id: 1)
 ResourceType.create(name: "Credit Card", resource_name_id: 2)
 ResourceType.create(name: "Mortgage", resource_name_id: 2)
 ResourceType.create(name: "Vehicle Loan", resource_name_id: 2)
+ResourceType.create(name: "Personal Loan", resource_name_id: 2)
 ResourceType.create(name: "Personal Debt", resource_name_id: 2)
 ResourceType.create(name: "Other", resource_name_id: 2)
 

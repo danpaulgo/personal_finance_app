@@ -1,9 +1,31 @@
-class UserResource < ApplicationRecord
-
-  belongs_to :user
+module UserResource
 
   def type
     ResourceType.find(self.type_id)
+  end
+
+  def action_dates(no_of_years)
+    if defined? next_date
+      dates_array = []
+      date = next_date.to_date
+      end_date.nil? ? last_date = date + 1000.years : last_date = end_date.to_date
+      while (date <= (Date.today + no_of_years.years)) && (date <= last_date)
+        dates_array.push({date: date, amount: amount})
+        case frequency
+        when "One-Time"
+          break
+        when "Daily"
+          date +=  1.day
+        when "Weekly"
+          date += 1.week
+        when "Monthly"
+          date += 1.month
+        when "Yearly"
+          date += 1.year
+        end
+      end
+      dates_array
+    end
   end
 
 end
