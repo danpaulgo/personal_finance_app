@@ -4,12 +4,12 @@ module UserResource
     ResourceType.find(self.type_id)
   end
 
-  def action_dates(no_of_years)
+  def action_dates(last_date)
     if defined? next_date
       dates_array = []
       date = next_date.to_date
-      end_date.nil? ? last_date = date + 1000.years : last_date = end_date.to_date
-      while (date <= (Date.today + no_of_years.years)) && (date <= last_date)
+      end_date.nil? ? ending_date = date + 1000.years : ending_date = end_date.to_date
+      while (date <= last_date) && (date <= ending_date)
         dates_array.push({date: date, amount: amount})
         case frequency
         when "One-Time"
