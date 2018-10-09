@@ -17,7 +17,7 @@ class Asset < ApplicationRecord
   end
 
   def associated_transfers_incoming
-    Transfer.where(type_id: 36).where(destination_id: id)
+    Transfer.where(type_id: 37).where(destination_id: id)
   end
 
   def associated_incomes

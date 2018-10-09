@@ -2,7 +2,7 @@ class Transfer < ApplicationRecord
 
   belongs_to :user
 
-  validates :user_id, :liquid_asset_from_id, :destination_id, :type_id, :next_date, :amount, :frequency, presence: true
+  validates :name, :user_id, :liquid_asset_from_id, :destination_id, :type_id, :next_date, :amount, :frequency, presence: true
 
   include UserResource
 
@@ -15,11 +15,11 @@ class Transfer < ApplicationRecord
   end
 
   def destination
-    type_id == 36 ? Asset.find_by(id: destination_id) : Debt.find_by(id: destination_id)
+    type_id == 37 ? Asset.find_by(id: destination_id) : Debt.find_by(id: destination_id)
   end
 
-  def name
-    "#{origin.name} > #{destination.name}"
-  end
+  # def name
+  #   "#{origin.name} > #{destination.name}"
+  # end
 
 end

@@ -1,2 +1,4 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<%= render partial: 'forms/form_header', locals: {form_title: "Account Settings"} %>
+
+<%= provide(:button, "Update") %>
+<%= render 'form' %>

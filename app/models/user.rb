@@ -8,9 +8,10 @@ class User < ApplicationRecord
   has_many :assets, dependent: :destroy
   has_many :transfers, dependent: :destroy
 
-  validates :first_name, :last_name, :email, :password, presence: true
+  validates :first_name, :last_name, :email, :birthday, presence: true
   email_regex = /\A[\w+\-.]+@[a-zA-Z\d\-]+(\.[a-z\d\-]+)*\.[a-zA-Z]+\z/
   validates :email, presence: true, uniqueness: {case_sensitive: false}, length: {minimum: 2, maximum: 255}, format: {with: email_regex}
+  validates :password, presence: true, length: {minimum: 6}, allow_blank: true
 
   include UsersHelper
 

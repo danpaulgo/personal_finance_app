@@ -320,7 +320,7 @@ class SpecialAssetFormController < AssetsController
       if type == :transfer
         resource.liquid_asset_from_id = session[:special_asset_step_3].paid_using.to_i
         resource.destination_id = session[:special_asset_loan_id]
-        resource.type_id = 37
+        resource.type_id = 38
       elsif type == nil
         resource.associated_asset_id = session[:special_asset_step_3].paid_using.to_i
         resource.type_id = 35

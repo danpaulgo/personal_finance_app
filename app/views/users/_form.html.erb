@@ -1,36 +1,23 @@
-<%= render partial: 'forms/form_header', locals: {form_title: "Sign Up", corner_link_path: "/login", corner_link_text: "Login"} %>
-    
-  <%= form_for @user do |f| %>
+<%= form_for @user do |f| %>
 
-    <%= render 'resources/errors', object: @user %>
+  <%= render 'resources/errors', object: @user %>
 
-    <p class="form-category">Create New Account</p>
+  <p class="form-category">Create New Account</p>
 
-    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :first_name, label_name: "First Name", form_method: form_user_name(f, :first)} %>
+  <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :first_name, label_name: "First Name", form_method: form_user_name(f, :first)} %>
 
-    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :last_name, label_name: "Last Name", form_method: form_user_name(f, :last)} %>
+  <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :last_name, label_name: "Last Name", form_method: form_user_name(f, :last)} %>
 
-    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :email, label_name: "Email", form_method: form_email(f)} %>
+  <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :email, label_name: "Email", form_method: form_email(f)} %>
 
-    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :password, label_name: "Password", form_method: form_password(f)} %>
+  <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :birthday, label_name: "Birthday", form_method: form_birthday(f)} %>
 
-    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :password_confirmation, label_name: "Confirm Password", form_method: form_password_confirmation(f)} %>
+  <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :password, label_name: "Password", form_method: form_password(f)} %>
 
-    <!-- Button -->
+  <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :password_confirmation, label_name: "Confirm Password", form_method: form_password_confirmation(f)} %>
 
-    <%= render partial: "forms/form_submit", locals: {button_text: yield(:button)} %>                                      
-<!--     <div class="col-md-offset-4 col-md-4">
-      <%# f.submit yield(:button), id: "btn-signup", class: "btn btn-info" %>
-      <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
-      <span style="margin-left:8px;">or</span>  
-    </div>
-    <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
-      <div class="col-md-offset-3 col-md-9">
-        <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>Sign Up with Facebook</button>
-      </div>                                           
-    </div> -->
-      
-  <% end %>
+  <%= render partial: "forms/form_submit", locals: {button_text: yield(:button)} %>                                      
+<% end %>
 
-<%= render 'forms/form_footer' %>
+<%= render partial: 'forms/form_footer', locals: {remove_bottom_link: true} %>
     

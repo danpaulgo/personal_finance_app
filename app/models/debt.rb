@@ -7,7 +7,7 @@ class Debt < ApplicationRecord
   include UserResource
 
   def associated_transfers
-    Transfer.where(type_id: 37).where(destination_id: id)
+    Transfer.where(type_id: 38).where(destination_id: id)
   end
 
 end

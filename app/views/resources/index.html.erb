@@ -1,4 +1,11 @@
 <h2 class="index-title"><%= $resource.pluralize %></h1>
+<div class="sort-select" >
+  <%= form_tag "/#{$resource_plural}/index", method: :get do %>
+    <%= select_tag :attribute, options_for_select(@sort_options, @option_value) %>
+    <%= select_tag :direction, options_for_select(@sort_direction, @direction_value) %>
+    <%= submit_tag "Go" %>
+  <% end %>
+</div>
 <div class="index-container">
   <div class="index-wrapper">
     <div class="resource-listings">

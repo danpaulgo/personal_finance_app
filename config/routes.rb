@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     post "#{r}/options", to: "#{r}#process_option"
     get "#{r}/new", to: "#{r}#new_redirect"
     get "#{r}/new/:type_id", to: "#{r}#new"
+    get "#{r}/index", to: "#{r}#sort_index"
     get "#{r}/:id", to: "#{r}#show"
     get "#{r}/:id/edit", to: "#{r}#edit"
   end

@@ -15,19 +15,11 @@
         <%= link_to image_tag("new-user-icon.png", class: "user-icon"), account_path, title: "Account" %>
         <%= link_to image_tag("about-icon.png", class: "about-icon"), about_path, title: "About" %>
         <%= link_to image_tag("contact-icon.png", class: "contact-icon"), contact_path, title: "Contact" %>
-        <a href="#" title="Main Menu" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <div class="dropdown" >
-          <%=image_tag("new-menu-icon.png", class: "menu-icon") %>
-        </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-            <% ResourceName.all.each do |r| %>
-              <%= link_to r.name.pluralize, "/#{r.table_name}", class: "dropdown-item" %>
-            <% end %>
-            <div class="dropdown-divider"></div>
-            <%= link_to 'Account', root_path %>
-            <%= link_to 'Log Out', logout_path, method: :delete %>
-          </div>
-        </div>
+        <% if current_user.nil? %>
+          <%= render partial: "shared/logged_out_menu" %>
+        <% else %>
+          <%= render partial: "shared/logged_in_menu" %>
+        <% end %>
       </nav>
     </header>
 

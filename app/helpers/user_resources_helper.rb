@@ -75,6 +75,10 @@ module UserResourcesHelper
       f.email_field :email, class: "form-control", placeholder: "Email"
     end
 
+    def form_birthday(f)
+      f.date_field :birthday, class: "form-control"
+    end
+
     def form_password(f)
        f.password_field :password, class: "form-control", placeholder: "Password"
     end
@@ -103,7 +107,7 @@ module UserResourcesHelper
     end
 
     def form_compound_frequency(f)
-      frequency_selections = ["Daily", "Weekly", "Monthly", "Quarterly", "Yearly", "I don't know"]
+      frequency_selections = ["Daily", "Weekly", "Monthly", "Quarterly", "Yearly", "I don't know", "Not Applicable"]
       f.select(:compound_frequency, options_for_select(frequency_selections, selected: f.object.compound_frequency), include_blank: "Select Frequency")
     end
 

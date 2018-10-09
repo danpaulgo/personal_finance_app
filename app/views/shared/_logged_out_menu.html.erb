@@ -1,0 +1,11 @@
+<a href="#" title="Main Menu" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<div class="dropdown" >
+  <%=image_tag("new-menu-icon.png", class: "menu-icon") %>
+</a>
+  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+    <%= link_to 'About Us', about_path, class: "dropdown-item" %>
+    <%= link_to 'Contact', contact_path, class: "dropdown-item" %>
+    <%= link_to 'Log In', login_path, class: "dropdown-item" %>
+    <%= link_to 'Sign Up', new_user_path, class: "dropdown-item" %>
+  </div>
+</div>

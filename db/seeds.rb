@@ -11,10 +11,10 @@ state_rate_data.each do |arr|
   RealEstateAppreciation.create(name: arr[0], abbreviation: arr[1], appreciation: arr[2])
 end
 
-dan = User.create(first_name: "Daniel", last_name: "Goldberg", email: "danpaulgo@aol.com", password: "BayShore61893")
+dan = User.create(first_name: "Daniel", last_name: "Goldberg", birthday: "18-06-1993".to_date, email: "danpaulgo@aol.com", password: "BayShore61893")
   dan.assets.create(type_id: 1, name: "Personal Wallet", amount: 100.0, liquid: true, primary: true)
   dan.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
-john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gmail.com", password: "password")
+john = User.create(first_name: "John", last_name: "Doe", birthday: "01-01-2000".to_date, email: "johndoe2000@gmail.com", password: "password")
   john.assets.create(type_id: 2, name: "Checking Account", amount: 1000.0, liquid: true, primary: true, interest: 1.1, compound_frequency: "Yearly")
   
   25.times do
@@ -88,32 +88,35 @@ john = User.create(first_name: "John", last_name: "Doe", email: "johndoe2000@gma
 
   25.times do
 
-    primary_assets = Asset.all.map{|a| a.id if a.primary == true}.compact
-    liquid_assets = Asset.all.map{|a| a.id if a.liquid == true}.compact
-    all_assets = Asset.all.map{|a| a.id}
-    all_debts = Debt.all.map{|d| d.id}
+    primary_assets = john.assets.all.map{|a| a.id if a.primary == true}.compact
+    liquid_assets = john.assets.all.map{|a| a.id if a.liquid == true}.compact
+    all_assets = john.assets.all.map{|a| a.id}
+    all_debts = john.debts.all.map{|d| d.id}
 
     transfer_amount = rand(1000)/1.0
-    transfer_type = [36,37].sample
+    transfer_type = [37,38].sample
     transfer_next_date = Date.tomorrow
     transfer_end_date =  [Date.new(2020),Date.new(2030), nil].sample
     transfer_frequency = ["One-Time", "Monthly", "Weekly", "Yearly"].sample
     transfer_liquid_asset_id = liquid_assets.sample
-    if transfer_type == 36
+    if transfer_type == 37
       transfer_origin_id = liquid_assets.sample
       liquid_assets.delete(transfer_origin_id)
       transfer_destination_id = liquid_assets.sample
-    else
+      destination_name = Asset.find(transfer_destination_id)
+    elsif transfer_type == 38
       transfer_origin_id = primary_assets.sample
       transfer_destination_id = all_debts.sample
+      destination_name = Debt.find(transfer_destination_id).name
     end
     transfer = john.transfers.create(
       type_id: transfer_type,
+      name: "#{Asset.find(transfer_origin_id).name} -> #{destination_name}",
       amount: transfer_amount,
       next_date: transfer_next_date,
       end_date: transfer_end_date,
       frequency: transfer_frequency,
-      liquid_asset_from_id: transfer_liquid_asset_id,
+      liquid_asset_from_id: transfer_origin_id,
       destination_id: transfer_destination_id
     )
 

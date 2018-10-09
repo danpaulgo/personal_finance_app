@@ -1,11 +1,15 @@
 <!-- Type hidden -->
 <%= hidden_field_tag "transfer[type_id]", @page_resource.type_id %>
 
+<% if @title_text == "Edit" %>
+  <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :name, label_name: "Name", form_method: form_name(f, @type_category, @page_resource.name)} %>
+<% end %>
+
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :amount, label_name: "Amount", form_method: form_amount(f)} %>
 
 <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :frequency, label_name: "Frequency", form_method: form_frequency(f)} %>
 
-<% if @page_resource.type_id == 36 %>
+<% if @page_resource.type_id == 37 %>
 
   <%= render partial: "forms/form_section", locals: {form_object: f, label_for: :liquid_asset_from_id, label_name: "From", form_method: form_select_liquid_asset(f, current_user, "liquid_asset_from_id")} %>
 

@@ -1,4 +1,7 @@
       </div>
     </div> 
+    <% unless defined?(remove_bottom_link) && remove_bottom_link == true %>
+      <p class="add-resource-link"><%= link_to "Back to #{$resource}s", "/#{$resource_plural}" %></p>
+    <% end %>
   </div> 
 </div>
