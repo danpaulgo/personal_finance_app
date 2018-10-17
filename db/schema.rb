@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181009053333) do
+ActiveRecord::Schema.define(version: 20181009204027) do
 
   create_table "assets", force: :cascade do |t|
     t.integer "type_id"
@@ -116,6 +116,8 @@ ActiveRecord::Schema.define(version: 20181009053333) do
     t.string "last_name"
     t.boolean "intro_quiz_complete", default: false
     t.date "birthday"
+    t.string "remember_digest"
+    t.index ["email"], name: "index_users_on_email"
   end
 
 end
