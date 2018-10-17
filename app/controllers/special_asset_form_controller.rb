@@ -214,6 +214,7 @@ class SpecialAssetFormController < AssetsController
         create_loan_expense(:transfer)
       end
       present_expenses.each do |expense|
+        binding.pry
         create_expense(expense)
       end
     end
@@ -329,6 +330,7 @@ class SpecialAssetFormController < AssetsController
     end
 
     def create_expense(present_expense)
+      binding.pry
       special_asset_name = Asset.find(session[:special_asset_id]).name
       present_expense == :income ? resource = Income.new : resource = Expense.new 
       resource.user = current_user
