@@ -6,9 +6,8 @@ class AccountActivationsController < ApplicationController
       @user.activate
       @user.assets.create(type_id: 1, name: "Cash on Hand", amount: 0.0, liquid: true, primary: true)
       @user.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
-      login @user
       flash[:success] = ["Account activated!"]
-      redirect_to root_url
+      redirect_to login_url
     else
       flash[:error] = ["Invalid activation link"]
       logout
