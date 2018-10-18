@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'account', to: 'users#edit', as: "account"
 
   resources :users, only: [:new, :create, :update, :destroy] 
+  resources :account_activations, only: [:edit]
   
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
