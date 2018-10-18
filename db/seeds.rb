@@ -11,10 +11,34 @@ state_rate_data.each do |arr|
   RealEstateAppreciation.create(name: arr[0], abbreviation: arr[1], appreciation: arr[2])
 end
 
-dan = User.create(first_name: "Daniel", last_name: "Goldberg", birthday: "18-06-1993".to_date, email: "danpaulgo@aol.com", password: "BayShore61893")
-  dan.assets.create(type_id: 1, name: "Personal Wallet", amount: 100.0, liquid: true, primary: true)
-  dan.assets.create(type_id: 2, name: "Checking Account", amount: 0.0, liquid: true, primary: true)
-john = User.create(first_name: "John", last_name: "Doe", birthday: "01-01-2000".to_date, email: "johndoe2000@gmail.com", password: "password")
+dan = User.create(
+  first_name: "Daniel", 
+  last_name: "Goldberg", 
+  birthday: "18-06-1993".to_date, 
+  email: "danpaulgo@aol.com", 
+  password: "BayShore61893",
+  activated: true,
+  activated_at: Time.zone.now)
+  dan.assets.create(
+    type_id: 1, 
+    name: "Personal Wallet", 
+    amount: 100.0, 
+    liquid: true, 
+    primary: true)
+  dan.assets.create(
+    type_id: 2, 
+    name: "Checking Account", 
+    amount: 0.0, 
+    liquid: true, 
+    primary: true)
+john = User.create(
+  first_name: "John", 
+  last_name: "Doe", 
+  birthday: "01-01-2000".to_date, 
+  email: "johndoe2000@gmail.com", 
+  password: "password",
+  activated: true,
+  activated_at: Time.zone.now)
   john.assets.create(type_id: 2, name: "Checking Account", amount: 1000.0, liquid: true, primary: true, interest: 1.1, compound_frequency: "Yearly")
   
   25.times do
