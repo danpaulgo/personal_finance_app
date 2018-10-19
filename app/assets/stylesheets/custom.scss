@@ -376,16 +376,28 @@ form{
   }
 }
 
-
 label.checkbox{
   margin-left: 20px;
   font-weight: normal;
-  font-style: italic;
+  display: inline-block;
+  // font-style: italic;
   // padding-top: 0px !important;
 }
 
+div#forgot-password{
+  display: inline-block;
+  float:right;
+  padding-top:6px;
+  a{
+    font-size: 12px;
+  }
+}
 
-
+p#reset-details{
+  font-style: italic; 
+  font-size:12px;
+  padding-top:8px;
+}
 
 
 // INDEX PAGES

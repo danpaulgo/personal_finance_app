@@ -1,0 +1,15 @@
+<%= render partial: 'forms/form_header', locals: {form_title: "Password Reset", corner_link_path: login_path, corner_link_text: "Login"} %>
+  
+  <p class="form-category">Forgot Password</p>
+
+  <%= form_for(:password_reset, url: password_resets_path, html: {class: "form-horizontal"}) do |f|%>
+
+    <%= render partial: "forms/form_section", locals: {col: true, form_object: f, label_for: :email, label_name: "Email", form_method: form_email(f)} %>
+
+    <p id="reset-details">* Enter your e-mail address and we will send you a link to reset your password</p>
+
+    <%= render partial: "forms/form_submit", locals: {button_text: "Submit"}  %>
+
+  <% end %>
+
+<%= render partial: 'forms/form_footer', locals: {remove_bottom_link: true} %>
